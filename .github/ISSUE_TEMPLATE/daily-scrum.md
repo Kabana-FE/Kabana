@@ -2,7 +2,7 @@
 name: Daily Scrum
 about: 데일리 스크럼 템플릿
 title: "[MM-DD] 데일리 스크럼 - 본인이름"
-labels: ''
+labels: "\U0001F5D3️Daily Scrum"
 assignees: ''
 
 ---

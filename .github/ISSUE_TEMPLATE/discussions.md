@@ -2,7 +2,7 @@
 name: Discussions
 about: 토론 및 논의용 템플릿
 title: 토론 이름
-labels: ''
+labels: "\U0001F4ACDiscuss"
 assignees: ''
 
 ---

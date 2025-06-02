@@ -2,7 +2,7 @@
 name: Trouble Shooting
 about: 트러블 슈팅 템플릿
 title: 주제명
-labels: ''
+labels: "\U0001F3AFTrouble Shooting"
 assignees: ''
 
 ---

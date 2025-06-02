@@ -2,7 +2,7 @@
 name: 'TIL '
 about: TIL 작성 템플릿
 title: "`[TIL]` 주제이름"
-labels: ''
+labels: "\U0001F4A1TIL"
 assignees: ''
 
 ---
