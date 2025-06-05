@@ -1,0 +1,48 @@
+{
+  "include": ["**/*", "**/.server/**/*", "**/.client/**/*", ".react-router/types/**/*", "eslint.config.mjs"], // 모든 코드 파일 + ESLint 설정 포함
+  "exclude": ["node_modules", "dist", "build", ".cache"], // 타입 검사에서 제외할 디렉토리
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["node", "vite/client"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./app/*"],
+      "@/*": ["./app/*"],
+      "@apis/*": ["./app/apis/*"],
+      "@assets/*": ["./app/assets/*"],
+      "@components/*": ["./app/components/*"],
+      "@constants/*": ["./app/constants/*"],
+      "@fonts/*": ["./app/fonts/*"],
+      "@hooks/*": ["./app/hooks/*"],
+      "@layouts/*": ["./app/layouts/*"],
+      "@libs/*": ["./app/libs/*"],
+      "@pages/*": ["./app/pages/*"],
+      "@routes/*": ["./app/routes/*"],
+      "@schemas/*": ["./app/schemas/*"],
+      "@stores/*": ["./app/stores/*"],
+      "@types/*": ["./app/types/*"],
+      "@utils/*": ["./app/utils/*"]
+    },
+
+    // ▶️ 타입 시스템 관련
+    "strict": true, // 엄격한 타입 검사 (null 체크, 타입 추론 등 강화)
+    "noFallthroughCasesInSwitch": true, // switch 문에서 break 누락 방지
+    "forceConsistentCasingInFileNames": true, // import 시 대소문자 구분 일관성 검사
+
+    // ▶️ 모듈 처리 관련
+    "allowJs": true, // JS 파일도 타입 검사에 포함 (JS 혼용 시 유용)
+    "esModuleInterop": true, // CommonJS 모듈도 ESM처럼 import 가능
+    "verbatimModuleSyntax": true, // import/export 구문 그대로 유지
+    "resolveJsonModule": true, // JSON 파일 import 허용
+    "isolatedModules": true, // 각 파일을 독립된 모듈로 취급 (Vite/Next 필수)
+    "noEmit": true, // 실제 JS 코드 출력 안 함 (tsc는 타입 검사 용도)
+    "incremental": true, // 타입 검사 캐시 활성화로 성능 향상
+
+    "skipLibCheck": true
+  }
+}
