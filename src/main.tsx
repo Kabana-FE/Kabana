@@ -9,6 +9,5 @@ import router from './routes/router';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router} />
-    {/* <App router={router} /> */}
   </StrictMode>,
 );

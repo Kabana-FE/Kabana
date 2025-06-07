@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/constants/paths/routes';
 import { Error } from '@/pages';
 
 const { APP, SIGNIN, SIGNUP, MYPAGE, DASHBOARD_LIST, DASHBOARD_DETAIL, DASHBOARD_EDIT, NOT_FOUND } = ROUTES;

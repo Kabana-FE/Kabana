@@ -2,19 +2,21 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 
 import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
+import LandingLayout from '@/components/layouts/LandingLayout';
+import { ROUTES } from '@/constants/paths/routes';
 
-import DashboardLayout from './components/layouts/DashboardLayout';
-import LandingLayout from './components/layouts/LandingLayout';
+const { APP: LANDING, SIGNUP, SIGNIN } = ROUTES;
 
-const Root = () => {
+const APP = () => {
   const { pathname } = useLocation();
   const navigation = useNavigation();
   const [ready, setReady] = useState(false);
   const [minSplashTime, setMinSplashTime] = useState(false);
 
   const isPending = navigation.state !== 'idle';
-  const isLanding = pathname === '/';
-  const isAuthPage = pathname.startsWith('/signup') || pathname.startsWith('/login');
+  const isLanding = pathname === LANDING;
+  const isAuthPage = pathname.startsWith(SIGNUP) || pathname.startsWith(SIGNIN);
 
   // 최소 splash 시간 보장 - 영상 찍을때 필요.
   useEffect(() => {
@@ -37,4 +39,4 @@ const Root = () => {
   return <DashboardLayout />;
 };
 
-export default Root;
+export default APP;
