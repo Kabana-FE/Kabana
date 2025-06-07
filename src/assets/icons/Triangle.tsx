@@ -3,7 +3,7 @@ import { getRotationOffset } from '@/utils/getRotationOffset';
 import type { DirectionIconProps } from './types';
 
 /**
- * Triangle (삼각형 아이콘)
+ * ▼ Triangle (삼각형 아이콘)
  *
  * 기본적으로 아래쪽(bottom)을 향하도록 설계되어 있으며,
  * 다른 방향으로 회전하려면 `direction` prop을 사용하세요.

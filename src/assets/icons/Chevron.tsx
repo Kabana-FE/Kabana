@@ -3,7 +3,7 @@ import { getRotationOffset } from '@/utils/getRotationOffset';
 import type { DirectionIconProps } from './types';
 
 /**
- *  Caret(꺽쇠 아이콘)
+ *  〉 Caret(꺽쇠 아이콘)
  *
  *  기본적으로 오른쪽을 바라보도록 설계되어있으며, 다른 방향으로 사용하시고 싶으면 direction prop을 사용하세요.
  *
