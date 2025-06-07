@@ -6,7 +6,7 @@ import type { ColorIconProps } from './types';
  * 기본적으로 금색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
  * @component
- * @param {number | string} [size=18] - 아이콘의 너비 (height는 자동으로 비율 계산 적용).
+ * @param {number} [size=18] - 아이콘의 너비 (height는 자동으로 비율 계산 적용).
  * @param {string} [color='#FDD448'] - 아이콘 색상 (HEX, CSS 변수 모두 가능)
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성 (예: className, aria-label 등)
  *

@@ -3,10 +3,8 @@ import type { BaseIconProps } from './types';
 /**
  * 🔍 Magnifier (돋보기 아이콘)
  *
- * 기본적으로 검은색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
- *
  * @component
- * @param {number | string} [size=18] - 아이콘의 너비 (상수값으로 입력해야 함.)
+ * @param {number} [size=18] - 아이콘의 너비 (상수값으로 입력해야 함.)
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성 (예: className, aria-label 등)
  *
  * @example

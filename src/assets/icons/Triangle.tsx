@@ -10,7 +10,7 @@ import type { DirectionIconProps } from './types';
  *
  *
  * @component
- * @param {number | string} [size=8] - 아이콘의 너비 (height는 자동으로 size의 절반) (상수값으로 입력해야 함.)
+ * @param {number} [size=8] - 아이콘의 너비 (height는 자동으로 size의 절반) (상수값으로 입력해야 함.)
  * @param {string} [color='var(--color-gray-700)'] - 아이콘 색상 (HEX, CSS 변수 모두 가능)
  * @param {'right' | 'left' | 'top' | 'bottom'} [direction='bottom'] - 아이콘이 바라볼 방향
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성 (예: className, aria-label 등)
