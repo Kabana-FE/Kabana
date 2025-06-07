@@ -26,7 +26,12 @@ import type { DirectionIconProps } from './types';
  * <Caret direction="top" color="var(--color-gray-300)" />
  */
 
-export default function Caret({ size = 18, color = '#333236', direction = 'right', ...props }: DirectionIconProps) {
+export default function Caret({
+  size = 18,
+  color = 'var(--color-gray-700)',
+  direction = 'right',
+  ...props
+}: DirectionIconProps) {
   const baseDirection = 'right';
   const rotation = getRotationOffset(baseDirection, direction);
   return (
