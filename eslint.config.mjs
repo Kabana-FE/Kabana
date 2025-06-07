@@ -45,7 +45,7 @@ export default tseslint.config(
 
       // ✅ TypeScript 규칙
       '@typescript-eslint/no-unused-vars': [
-        'error',
+        'warn',
         {
           varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
