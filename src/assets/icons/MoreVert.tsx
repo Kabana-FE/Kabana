@@ -8,7 +8,7 @@ import type { DirectionIconProps } from './types';
  * 기본적으로 세로(아래쪽)를 향하도록 설계되어있으며, 다른 방향을 사용하고 싶으면 `direction` prop을 사용하세요.
  *
  * @component
- * @param {number} [size=28] - 아이콘의 가로/세로 크기(px 또는 em/rem 등)
+ * @param {number} [size=28] - 아이콘의 가로/세로 크기 (상수값으로 입력해야 함.)
  * @param {string} [color='var(--color-gray-700)'] - 아이콘 색상 HEX 또는 CSS 변수(`var(--color-gray-700)`) 등
  * @param {'right' | 'left' | 'top' | 'bottom'} [direction='bottom'] - 아이콘이 바라볼 방향
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성들 (`className`, `aria-*`, 등)
