@@ -1,10 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { ROUTES } from '@/constants/routes';
 import { Error } from '@/pages';
+
+const { ROOT, SIGNIN, SIGNUP, MYPAGE, DASHBOARD_LIST, DASHBOARD_DETAIL, DASHBOARD_EDIT, NOT_FOUND } = ROUTES;
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: ROOT,
     lazy: async () => {
       const { default: Root } = await import('@/Root');
       return { Component: Root };
@@ -19,7 +22,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'signup',
+        path: SIGNUP,
         lazy: async () => {
           const { default: Component } = await import('@/pages/auth/Signup');
           const { action } = await import('@/actions/Signup.action');
@@ -27,7 +30,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'login',
+        path: SIGNIN,
         lazy: async () => {
           const { default: Component } = await import('@/pages/auth/Signin');
           const { action } = await import('@/actions/Signin.action');
@@ -35,16 +38,16 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'mypage',
+        path: MYPAGE,
         lazy: async () => {
-          const { default: Component } = await import('@/pages/user/Me');
+          const { default: Component } = await import('@/pages/user/Mypage');
           const { loader } = await import('@/loaders/Account.loader');
           const { action } = await import('@/actions/Account.action');
           return { Component, loader, action };
         },
       },
       {
-        path: 'mydashboard',
+        path: DASHBOARD_LIST,
         index: true,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardList');
@@ -54,7 +57,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'dashboard/:dashboardId',
+        path: DASHBOARD_DETAIL,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
           const { loader } = await import('@/loaders/DashboardDetail.loader');
@@ -63,7 +66,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'dashboard/:dashboardId/edit',
+        path: DASHBOARD_EDIT,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
           const { loader } = await import('@/loaders/DashboardEdit.loader');
@@ -72,7 +75,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: '*',
+        path: NOT_FOUND,
         lazy: async () => {
           const { default: Component } = await import('@/pages/error/NotFound');
           return { Component };
