@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { useStore } from 'zustand';
 
-import useDashBoardStore from '@/stores/store';
+import useKabanaStore from '@/stores/store';
 
 import { type DialogProp } from './types';
 /**
@@ -23,8 +23,8 @@ import { type DialogProp } from './types';
  *
  */
 const Root = ({ children }: PropsWithChildren) => {
-  const isOpen = useStore(useDashBoardStore, (state) => state.isOpen);
-  const setIsOpen = useStore(useDashBoardStore, (state) => state.setIsOpen);
+  const isOpen = useStore(useKabanaStore, (state) => state.isOpen);
+  const setIsOpen = useStore(useKabanaStore, (state) => state.setIsOpen);
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as ReactElement[];
   const [title, close] = [
@@ -59,7 +59,8 @@ const Title = ({ children, style }: DialogProp) => {
 };
 
 const Close = () => {
-  return <button>x</button>;
+  const setIsOpen = useStore(useKabanaStore, (state) => state.setIsOpen);
+  return <button onClick={setIsOpen}>x</button>;
 };
 
 const Content = ({ children, style }: DialogProp) => {
