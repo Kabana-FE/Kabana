@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'users',
+        path: 'signup',
         lazy: async () => {
           const { default: Component } = await import('@/pages/auth/Signup');
           const { action } = await import('@/actions/Signup.action');
@@ -35,16 +35,16 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'account',
+        path: 'mypage',
         lazy: async () => {
-          const { default: Component } = await import('@/pages/user/Account');
+          const { default: Component } = await import('@/pages/user/Me');
           const { loader } = await import('@/loaders/Account.loader');
           const { action } = await import('@/actions/Account.action');
           return { Component, loader, action };
         },
       },
       {
-        path: 'dashboards',
+        path: 'mydashboard',
         children: [
           {
             index: true,
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: ':dashboardId',
+            path: 'dashboard/:dashboardId',
             lazy: async () => {
               const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
               const { loader } = await import('@/loaders/DashboardDetail.loader');
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: ':dashboardId/edit',
+            path: 'dashboard/:dashboardId/edit',
             lazy: async () => {
               const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
               const { loader } = await import('@/loaders/DashboardEdit.loader');

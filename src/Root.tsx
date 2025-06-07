@@ -1,37 +1,22 @@
-// import { Outlet, useLocation, useNavigation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 
-// import { Footer } from '@/components/footer';
-// import { Header } from '@/components/header';
-// import { LAYOUT } from '@/constants/layout';
+import { PendingUI } from '@/components/common/loadingStatus';
 
-// import { PendingUI } from './components/loadingStatus';
+import DashboardLayout from './components/layouts/DashboardLayout';
+import LandingLayout from './components/layouts/LandingLayout';
 
-// const Root = () => {
-//   const navigation = useNavigation();
-//   const isLoading = navigation.state !== 'idle';
+const Root = () => {
+  const { pathname } = useLocation();
+  const navigation = useNavigation();
+  const isPending = navigation.state !== 'idle';
+  const isLanding = pathname === '/';
+  const isAuthPage = pathname.startsWith('/signup') || pathname.startsWith('/login');
 
-//   const { pathname } = useLocation();
-//   const isLanding = pathname === '/';
+  if (isPending) return <PendingUI />;
+  if (isLanding) return <LandingLayout />;
+  if (isAuthPage) return <Outlet />;
 
-//   return (
-//     <>
-//       {isLoading ? (
-//         <PendingUI />
-//       ) : (
-//         <>
-//           {!isLanding && <Header />}
-//           <main
-//             style={{
-//               paddingTop: !isLanding ? `${LAYOUT.HEADER_HEIGHT}px` : 0,
-//             }}
-//           >
-//             <Outlet />
-//           </main>
-//           {!isLanding && <Footer />}
-//         </>
-//       )}
-//     </>
-//   );
-// };
+  return <DashboardLayout />;
+};
 
-// export default Root;
+export default Root;
