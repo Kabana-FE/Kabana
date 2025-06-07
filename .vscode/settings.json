@@ -8,5 +8,19 @@
   "json.schemaDownload.enable": false,
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "cSpell.words": [
+    "ampproject",
+    "autoprefixer",
+    "axios",
+    "commitlint",
+    "esbuild",
+    "kabana",
+    "lefthook",
+    "Pretendard",
+    "sunos",
+    "vite",
+    "vitejs",
+    "zustand"
+  ]
 }
