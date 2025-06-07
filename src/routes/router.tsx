@@ -45,43 +45,37 @@ const router = createBrowserRouter([
       },
       {
         path: 'mydashboard',
-        children: [
-          {
-            index: true,
-            lazy: async () => {
-              const { default: Component } = await import('@/pages/dashboards/DashboardList');
-              const { loader } = await import('@/loaders/DashboardList.loader');
-              const { action } = await import('@/actions/DashboardList.action');
-              return { Component, loader, action };
-            },
-          },
-          {
-            path: 'dashboard/:dashboardId',
-            lazy: async () => {
-              const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
-              const { loader } = await import('@/loaders/DashboardDetail.loader');
-              const { action } = await import('@/actions/DashboardDetail.action');
-              return { Component, loader, action };
-            },
-          },
-          {
-            path: 'dashboard/:dashboardId/edit',
-            lazy: async () => {
-              const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
-              const { loader } = await import('@/loaders/DashboardEdit.loader');
-              const { action } = await import('@/actions/DashboardEdit.action');
-              return { Component, loader, action };
-            },
-          },
-        ],
+        index: true,
+        lazy: async () => {
+          const { default: Component } = await import('@/pages/dashboards/DashboardList');
+          const { loader } = await import('@/loaders/DashboardList.loader');
+          const { action } = await import('@/actions/DashboardList.action');
+          return { Component, loader, action };
+        },
+      },
+      {
+        path: 'dashboard/:dashboardId',
+        lazy: async () => {
+          const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
+          const { loader } = await import('@/loaders/DashboardDetail.loader');
+          const { action } = await import('@/actions/DashboardDetail.action');
+          return { Component, loader, action };
+        },
+      },
+      {
+        path: 'dashboard/:dashboardId/edit',
+        lazy: async () => {
+          const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
+          const { loader } = await import('@/loaders/DashboardEdit.loader');
+          const { action } = await import('@/actions/DashboardEdit.action');
+          return { Component, loader, action };
+        },
       },
       {
         path: '*',
         lazy: async () => {
           const { default: Component } = await import('@/pages/error/NotFound');
-          return {
-            Component,
-          };
+          return { Component };
         },
       },
     ],
