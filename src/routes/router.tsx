@@ -3,13 +3,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 import { Error } from '@/pages';
 
-const { ROOT, SIGNIN, SIGNUP, MYPAGE, DASHBOARD_LIST, DASHBOARD_DETAIL, DASHBOARD_EDIT, NOT_FOUND } = ROUTES;
+const { APP, SIGNIN, SIGNUP, MYPAGE, DASHBOARD_LIST, DASHBOARD_DETAIL, DASHBOARD_EDIT, NOT_FOUND } = ROUTES;
 
 const router = createBrowserRouter([
   {
-    path: ROOT,
+    path: APP,
     lazy: async () => {
-      const { default: Root } = await import('@/Root');
+      const { default: Root } = await import('@/App');
       return { Component: Root };
     },
     errorElement: <Error />,

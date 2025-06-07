@@ -1,6 +1,6 @@
 // 라우터 정의용 path 패턴
 export const ROUTES = {
-  ROOT: '/',
+  APP: '/',
   SIGNIN: '/login',
   SIGNUP: '/signup',
   DASHBOARD_LIST: '/dashboards',

@@ -1,25 +1,40 @@
-// import { useEffect, useState } from 'react';
-// import { RouterProvider } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 
-// import { SplashScreen } from './components/loadingStatus';
+import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
 
-// const App = ({ router }) => {
-//   const [showSplashScreen, setShowSplashScreen] = useState(true);
+import DashboardLayout from './components/layouts/DashboardLayout';
+import LandingLayout from './components/layouts/LandingLayout';
 
-//   useEffect(() => {
-//     const splashScreenInterval = setInterval(() => {
-//       const navState = router.state.navigation.state;
+const Root = () => {
+  const { pathname } = useLocation();
+  const navigation = useNavigation();
+  const [ready, setReady] = useState(false);
+  const [minSplashTime, setMinSplashTime] = useState(false);
 
-//       if (navState === 'idle') {
-//         setShowSplashScreen(false);
-//         clearInterval(splashScreenInterval);
-//       }
-//     }, 1000);
+  const isPending = navigation.state !== 'idle';
+  const isLanding = pathname === '/';
+  const isAuthPage = pathname.startsWith('/signup') || pathname.startsWith('/login');
 
-//     return () => clearInterval(splashScreenInterval); // ← return문 빠졌던 부분 보완
-//   }, []);
+  // 최소 splash 시간 보장 - 영상 찍을때 필요.
+  useEffect(() => {
+    const timeout = setTimeout(() => setMinSplashTime(true), 1500);
+    return () => clearTimeout(timeout);
+  }, []);
 
-//   return <>{showSplashScreen ? <SplashScreen /> : <RouterProvider router={router} />}</>;
-// };
+  useEffect(() => {
+    if (navigation.state === 'idle' && minSplashTime) {
+      setReady(true);
+    }
+  }, [navigation.state, minSplashTime]);
 
-// export default App;
+  if (!ready) return <SplashScreen />;
+
+  if (isPending) return <PendingUI />;
+  if (isLanding) return <LandingLayout />;
+  if (isAuthPage) return <Outlet />;
+
+  return <DashboardLayout />;
+};
+
+export default Root;
