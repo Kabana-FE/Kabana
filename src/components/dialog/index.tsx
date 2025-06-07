@@ -1,11 +1,27 @@
 import { Children, type PropsWithChildren, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
+import { twMerge } from 'tailwind-merge';
 import { useStore } from 'zustand';
 
 import useDashBoardStore from '@/stores/store';
 
 import { type DialogProp } from './types';
-
+/**
+ * @property {string} [style] - <Dialog.Close/>를 제외한 나머지 요소에 style prop으로 커스텀이 가능합니다다
+ * // <Dialog.Root>는 필수적으로 들어가야 하고, 나머지 요소는 선택사항입니다
+ * @example
+ * <Dialog.Root>
+ *  <Dialog.Close/> => 이것처럼 처음 쓰셔도 무조건 타이들 옆에 들어가도록 해놨습니다.
+ *  <Dialog.Title> ==> Title과 Close는 style props로 커스텀이 불가능합니다.
+ *  <Dialog.Contents style="ddddd">
+ *    본문 내용이 들어갑니다.
+ *  <Dialog.Contents/>
+ *  <Dialog.ButtonArea>
+ *    버튼들이 들어갑니다
+ *  <Dialog.ButtonArea/>
+ * <Dialog.Root>
+ *
+ */
 const Root = ({ children }: PropsWithChildren) => {
   const isOpen = useStore(useDashBoardStore, (state) => state.isOpen);
   const setIsOpen = useStore(useDashBoardStore, (state) => state.setIsOpen);
@@ -38,9 +54,8 @@ const Root = ({ children }: PropsWithChildren) => {
     modalRoot,
   );
 };
-
 const Title = ({ children, style }: DialogProp) => {
-  return <div className={`text-2xl text-gray-700 ${style}`}>{children}</div>;
+  return <div className={twMerge(`text-2xl text-gray-700 ${style}`)}>{children}</div>;
 };
 
 const Close = () => {
@@ -48,10 +63,10 @@ const Close = () => {
 };
 
 const Content = ({ children, style }: DialogProp) => {
-  return <div className={style}>{children}</div>;
+  return <div className={twMerge(`${style}`)}>{children}</div>;
 };
 const ButtonArea = ({ children, style }: DialogProp) => {
-  return <div className={style}>{children}</div>;
+  return <div className={twMerge(`${style}`)}>{children}</div>;
 };
 
 export default {
