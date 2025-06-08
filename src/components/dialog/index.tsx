@@ -65,10 +65,10 @@ const Close = () => {
 };
 
 const Content = ({ children, style }: DialogProp) => {
-  return <div className={twMerge(`${style}`)}>{children}</div>;
+  return <div className={style}>{children}</div>;
 };
 const ButtonArea = ({ children, style }: DialogProp) => {
-  return <div className={twMerge(`${style}`)}>{children}</div>;
+  return <div className={style}>{children}</div>;
 };
 
 export default {
