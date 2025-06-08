@@ -11,7 +11,9 @@ import { type DialogProp } from './types';
  * @example
  * <Dialog.Root>
  *  <Dialog.Close/> => 이것처럼 처음 쓰셔도 무조건 타이들 옆에 들어가도록 해놨습니다.
- *  <Dialog.Title> ==> Title과 Close는 style props로 커스텀이 불가능합니다.
+ *  <Dialog.Title>
+ *    타이틀이 들어갑니다.
+ *  <Dialog.Title/>
  *  <Dialog.Contents style="ddddd">
  *    본문 내용이 들어갑니다.
  *  <Dialog.Contents/>
