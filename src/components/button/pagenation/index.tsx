@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge';
+
 // icon 수정 예정(임시로 설정)
 import arrowBackward from '@/assets/icons/arrow_backward.svg';
 import arrowForward from '@/assets/icons/arrow_forward.svg';
@@ -10,10 +12,11 @@ import type { PagenationButtonProps } from './types';
  *
  * @param {'left' | 'right'} direction  - 버튼 방향
  * @param {boolean} isDisabled - 버튼 비활성화 여부
+ * @param {string} className - 추가적인 스타일 지정 가능
  * @param {() => void} onButtonClick - 버튼 클릭 시 호출되는 함수
  */
 
-const PagenationButton = ({ direction, isDisabled, onButtonClick }: PagenationButtonProps) => {
+const PagenationButton = ({ direction, isDisabled, className, onButtonClick }: PagenationButtonProps) => {
   const directionMap = {
     left: {
       icon: arrowBackward,
@@ -30,7 +33,11 @@ const PagenationButton = ({ direction, isDisabled, onButtonClick }: PagenationBu
 
   return (
     <button
-      className={`${style} size-36 cursor-pointer border border-gray-300 disabled:cursor-not-allowed tablet:size-40`}
+      className={twMerge(
+        'size-36 cursor-pointer border border-gray-300 disabled:cursor-not-allowed tablet:size-40',
+        style,
+        className,
+      )}
       disabled={isDisabled}
       type='button'
       onClick={onButtonClick}
