@@ -32,6 +32,7 @@ const PagenationButton = ({ direction, isDisabled, onButtonClick }: PagenationBu
     <button
       className={`${style} size-36 cursor-pointer border border-gray-300 disabled:cursor-not-allowed tablet:size-40`}
       disabled={isDisabled}
+      type='button'
       onClick={onButtonClick}
     >
       <img alt={alt} className='m-auto size-16' src={icon} />
