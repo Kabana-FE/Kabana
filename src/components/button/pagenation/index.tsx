@@ -30,7 +30,7 @@ const PagenationButton = ({ direction, isDisabled, onButtonClick }: PagenationBu
 
   return (
     <button
-      className={`${style} size-40 cursor-pointer border border-gray-300 disabled:cursor-not-allowed`}
+      className={`${style} size-36 cursor-pointer border border-gray-300 disabled:cursor-not-allowed tablet:size-40`}
       disabled={isDisabled}
       onClick={onButtonClick}
     >
