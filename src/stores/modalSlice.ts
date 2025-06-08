@@ -1,11 +1,11 @@
 import type { StateCreator } from 'zustand';
 
 export interface ModalSlice {
-  modalToggle: boolean;
-  setModalToggle: () => void;
+  toggleModal: boolean;
+  setToggleModal: () => void;
 }
 
 export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (set) => ({
-  modalToggle: false,
-  setModalToggle: () => set((state) => ({ modalToggle: !state.modalToggle })),
+  toggleModal: false,
+  setToggleModal: () => set((state) => ({ toggleModal: !state.toggleModal })),
 });
