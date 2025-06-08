@@ -1,7 +1,6 @@
 import { Children, type PropsWithChildren, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
-import { useStore } from 'zustand';
 
 import useKabanaStore from '@/stores/store';
 
@@ -23,8 +22,8 @@ import { type DialogProp } from './types';
  *
  */
 const Root = ({ children }: PropsWithChildren) => {
-  const isOpen = useStore(useKabanaStore, (state) => state.isOpen);
-  const setIsOpen = useStore(useKabanaStore, (state) => state.setIsOpen);
+  const isOpen = useKabanaStore((state) => state.isOpen);
+  const setIsOpen = useKabanaStore((state) => state.setIsOpen);
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as ReactElement[];
   const [title, close] = [
@@ -59,7 +58,7 @@ const Title = ({ children, style }: DialogProp) => {
 };
 
 const Close = () => {
-  const setIsOpen = useStore(useKabanaStore, (state) => state.setIsOpen);
+  const setIsOpen = useKabanaStore((state) => state.setIsOpen);
   return <button onClick={setIsOpen}>x</button>;
 };
 
