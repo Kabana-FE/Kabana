@@ -24,8 +24,8 @@ import { type DialogProp } from './types';
  *
  */
 const Root = ({ children }: PropsWithChildren) => {
-  const isOpen = useKabanaStore((state) => state.isOpen);
-  const setIsOpen = useKabanaStore((state) => state.setIsOpen);
+  const modalToggle = useKabanaStore((state) => state.modalToggle);
+  const setModalToggle = useKabanaStore((state) => state.setModalToggle);
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as ReactElement[];
   const [title, close] = [
@@ -33,7 +33,7 @@ const Root = ({ children }: PropsWithChildren) => {
     _children.filter((child) => child.type === Close),
   ];
   const exceptTitleArea = [_children.filter((child) => child.type !== Title && child.type !== Close)];
-  if (!isOpen) {
+  if (!modalToggle) {
     return null;
   }
 
@@ -41,7 +41,7 @@ const Root = ({ children }: PropsWithChildren) => {
     <div
       className='absolute z-50 h-screen w-screen bg-black opacity-50'
       onClick={() => {
-        setIsOpen();
+        setModalToggle();
       }}
     >
       <dialog open className='fixed inset-0 m-auto w-fit bg-white' onClick={(e) => e.stopPropagation()}>
@@ -60,7 +60,7 @@ const Title = ({ children, style }: DialogProp) => {
 };
 
 const Close = () => {
-  const setIsOpen = useKabanaStore((state) => state.setIsOpen);
+  const setIsOpen = useKabanaStore((state) => state.setModalToggle);
   return <button onClick={setIsOpen}>x</button>;
 };
 
