@@ -33,8 +33,10 @@ import type DialogProp from './types';
  */
 
 const Root = ({ children, className }: DialogProp) => {
-  const toggleModal = useKabanaStore((state) => state.toggleModal);
-  const setToggleModal = useKabanaStore((state) => state.setToggleModal);
+  const { toggleModal, setToggleModal } = useKabanaStore((state) => ({
+    toggleModal: state.toggleModal,
+    setToggleModal: state.setToggleModal,
+  }));
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as ReactElement[];
   const [title, close] = [
@@ -53,7 +55,7 @@ const Root = ({ children, className }: DialogProp) => {
         setToggleModal();
       }}
     >
-      <dialog open className={twMerge(`inset-0 m-auto bg-white ${className}`)} onClick={(e) => e.stopPropagation()}>
+      <dialog open className={twMerge('inset-0 m-auto bg-white', className)} onClick={(e) => e.stopPropagation()}>
         <div className='flex justify-between'>
           {title}
           {close}
@@ -65,7 +67,7 @@ const Root = ({ children, className }: DialogProp) => {
   );
 };
 const Title = ({ children, className }: DialogProp) => {
-  return <div className={twMerge(`text-2xl text-gray-700 ${className}`)}>{children}</div>;
+  return <div className={twMerge('text-2xl text-gray-700', className)}>{children}</div>;
 };
 
 const Close = () => {
