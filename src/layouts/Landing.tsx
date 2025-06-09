@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import Footer from '@/components/common/footer/Footer';
-import LandingHeader from '@/components/common/header/LandingHeader';
+import Footer from '@/components/common/footer';
+import LandingHeader from '@/components/common/header/Landing';
 
 const LandingLayout = () => (
   <div className='flex min-h-screen flex-col'>

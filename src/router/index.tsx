@@ -40,15 +40,14 @@ const router = createBrowserRouter([
       {
         path: MYPAGE,
         lazy: async () => {
-          const { default: Component } = await import('@/pages/user/Mypage');
-          const { loader } = await import('@/loaders/Account.loader');
-          const { action } = await import('@/actions/Account.action');
+          const { default: Component } = await import('@/pages/user/MyPage');
+          const { loader } = await import('@/loaders/MyPage.loader');
+          const { action } = await import('@/actions/MyPage.action');
           return { Component, loader, action };
         },
       },
       {
         path: DASHBOARD_LIST,
-        index: true,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardList');
           const { loader } = await import('@/loaders/DashboardList.loader');

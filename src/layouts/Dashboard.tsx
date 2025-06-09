@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import DashboardHeader from '@/components/common/header/DashboardHeader';
+import DashboardHeader from '@/components/common/header/Dashboard';
 
 const DashboardLayout = () => (
   <div className='flex min-h-screen flex-col'>

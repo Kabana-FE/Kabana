@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 
 import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
-import LandingLayout from '@/components/layouts/LandingLayout';
 import { ROUTES } from '@/constants/paths/routes';
+import DashboardLayout from '@/layouts/Dashboard';
+import LandingLayout from '@/layouts/Landing';
 
 const { APP: LANDING, SIGNUP, SIGNIN } = ROUTES;
 
