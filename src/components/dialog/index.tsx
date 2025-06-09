@@ -33,10 +33,8 @@ import type DialogProp from './types';
  */
 
 const Root = ({ children, className }: DialogProp) => {
-  const { toggleModal, setToggleModal } = useKabanaStore((state) => ({
-    toggleModal: state.toggleModal,
-    setToggleModal: state.setToggleModal,
-  }));
+  const toggleModal = useKabanaStore((state) => state.toggleModal);
+  const setToggleModal = useKabanaStore((state) => state.setToggleModal);
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as ReactElement[];
   const [title, close] = [
@@ -50,7 +48,7 @@ const Root = ({ children, className }: DialogProp) => {
 
   return createPortal(
     <div
-      className='absolute z-50 h-screen w-screen bg-black opacity-50'
+      className='absolute z-50 h-screen w-screen bg-black/50'
       onClick={() => {
         setToggleModal();
       }}
@@ -67,12 +65,12 @@ const Root = ({ children, className }: DialogProp) => {
   );
 };
 const Title = ({ children, className }: DialogProp) => {
-  return <div className={twMerge('text-2xl text-gray-700', className)}>{children}</div>;
+  return <div className={twMerge('text-2xl text-gray-700 opacity-100', className)}>{children}</div>;
 };
 
 const Close = () => {
   const setToggleModal = useKabanaStore((state) => state.setToggleModal);
-  return <button onClick={setToggleModal}>x</button>;
+  return <button onClick={() => setToggleModal()}>x</button>;
 };
 
 const Content = ({ children, className }: DialogProp) => {
