@@ -4,10 +4,9 @@ import axiosInstance from './axiosInstance';
 
 /**
  * @description GET 요청을 보내는 함수
- *
  * @template T 서버 응답 타입
  * @template D 요청 데이터 타입
- * @param endpoint - 요청할 API 경로 (예: '/users')
+ * @param endpoint - 요청할 API 경로
  * @param options - Axios 설정 객체 (params, headers 등)
  * @returns 서버 응답 데이터
  */
@@ -18,9 +17,7 @@ export const requestGet = async <T>(endpoint: string, options?: AxiosRequestConf
 
 /**
  * @description DELETE 요청을 보내는 함수
- *
  * @template T 서버 응답 타입
- * @template D 요청 데이터 타입
  * @param endpoint - 요청할 API 경로
  * @param options - Axios 설정 객체 (headers 등)
  * @returns 서버 응답 데이터
@@ -32,7 +29,6 @@ export const requestDelete = async <T>(endpoint: string, options?: AxiosRequestC
 
 /**
  * @description POST 요청을 보내는 함수
- *
  * @template T 서버 응답 타입
  * @template D 요청 데이터 타입
  * @param endpoint - 요청할 API 경로
@@ -40,11 +36,7 @@ export const requestDelete = async <T>(endpoint: string, options?: AxiosRequestC
  * @param options - 추가 설정 (headers 등)
  * @returns 서버 응답 데이터
  */
-export const requestPost = async <T, D = unknown>(
-  endpoint: string,
-  data: D,
-  options?: AxiosRequestConfig,
-): Promise<T> => {
+export const requestPost = async <T, D>(endpoint: string, data: D, options?: AxiosRequestConfig): Promise<T> => {
   const isFormData = data instanceof FormData;
   const headers = isFormData ? undefined : { 'Content-Type': 'application/json' };
 
@@ -61,7 +53,6 @@ export const requestPost = async <T, D = unknown>(
 
 /**
  * @description PUT 요청을 보내는 함수
- *
  * @template T 서버 응답 타입
  * @template D 요청 데이터 타입
  * @param endpoint - 요청할 API 경로
@@ -69,18 +60,13 @@ export const requestPost = async <T, D = unknown>(
  * @param options - 추가 설정
  * @returns 서버 응답 데이터
  */
-export const requestPut = async <T, D = unknown>(
-  endpoint: string,
-  data: D,
-  options?: AxiosRequestConfig,
-): Promise<T> => {
+export const requestPut = async <T, D>(endpoint: string, data: D, options?: AxiosRequestConfig): Promise<T> => {
   const response = await axiosInstance.put<T>(endpoint, data, options);
   return response.data;
 };
 
 /**
  * @description PATCH 요청을 보내는 함수
- *
  * @template T 서버 응답 타입
  * @template D 요청 데이터 타입
  * @param endpoint - 요청할 API 경로
@@ -88,11 +74,7 @@ export const requestPut = async <T, D = unknown>(
  * @param options - 추가 설정
  * @returns 서버 응답 데이터
  */
-export const requestPatch = async <T, D = unknown>(
-  endpoint: string,
-  data: D,
-  options?: AxiosRequestConfig,
-): Promise<T> => {
+export const requestPatch = async <T, D>(endpoint: string, data: D, options?: AxiosRequestConfig): Promise<T> => {
   const response = await axiosInstance.patch<T>(endpoint, data, options);
   return response.data;
 };
