@@ -22,7 +22,13 @@ export default interface ButtonProps {
    */
   onButtonClick?: () => void;
   /**
-   * 버튼 내부에 표시될 콘텐츠입니다. 주로 텍스트를 넣습니다.
+   * 버튼 내부에 표시될 콘텐츠입니다.
    */
   children: React.ReactNode;
+  /**
+   * 버튼을 비활성화할지 여부입니다.
+   * `true`로 설정하면 클릭할 수 없으며, 비활성화된 스타일이 적용됩니다.
+   * JSX에서는 `disabled`만 적어도 `true`로 인식됩니다.
+   */
+  disabled?: boolean;
 }

@@ -15,6 +15,7 @@ const buttonVariants = {
  * @param {'filled'|'outlined'} variant 기본값은 'filled' 입니다.
  * @param {string} className 추가적인 스타일을 받습니다.
  * @param {React.ReactNode} children 버튼의 내용을 받습니다.
+ * @param {boolean} disabled 버튼을 비활성화할지 여부입니다.
  * @param {'button' | 'submit' | 'reset'} type 버튼의 타입을 받습니다. 기본값은 'button' 입니다.
  * @param {function} onButtonClick 버튼이 눌렸을 때 실행될 함수를 받습니다.
  * @example
@@ -23,14 +24,23 @@ const buttonVariants = {
  * </SecondaryButton>
  */
 
-const SecondaryButton = ({ variant = 'filled', className, children, type = 'button', onButtonClick }: ButtonProps) => {
+const SecondaryButton = ({
+  variant = 'filled',
+  className,
+  children,
+  disabled,
+  type = 'button',
+  onButtonClick,
+}: ButtonProps) => {
   return (
     <button
       className={twMerge(
         'flex cursor-pointer items-center justify-center rounded-sm whitespace-nowrap',
+        'disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-400 disabled:text-white',
         buttonVariants[variant],
         className,
       )}
+      disabled={disabled}
       type={type}
       onClick={onButtonClick}
     >
