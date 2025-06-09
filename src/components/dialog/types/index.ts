@@ -1,5 +1,6 @@
-import { type PropsWithChildren } from 'react';
-
-export interface DialogProp extends PropsWithChildren {
+export default interface DialogProp extends React.PropsWithChildren {
+  /**
+   * 추가할 스타일들을 적어줍니다.
+   */
   className?: string;
 }

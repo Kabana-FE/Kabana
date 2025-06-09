@@ -1,29 +1,38 @@
-import { Children, type PropsWithChildren, type ReactElement } from 'react';
+import { Children, type ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
 import useKabanaStore from '@/stores/store';
 
-import { type DialogProp } from './types';
+import type DialogProp from './types';
 /**
- * @property {string} [style] - <Dialog.Close/>를 제외한 나머지 요소에 style prop으로 커스텀이 가능합니다다
- * // <Dialog.Root>는 필수적으로 들어가야 하고, 나머지 요소는 선택사항입니다
- * @example
- * <Dialog.Root>
- *  <Dialog.Close/> => 이것처럼 처음 쓰셔도 무조건 타이들 옆에 들어가도록 해놨습니다.
- *  <Dialog.Title>
- *    타이틀이 들어갑니다.
- *  <Dialog.Title/>
- *  <Dialog.Contents style="ddddd">
- *    본문 내용이 들어갑니다.
- *  <Dialog.Contents/>
- *  <Dialog.ButtonArea>
- *    버튼들이 들어갑니다
- *  <Dialog.ButtonArea/>
- * <Dialog.Root>
+ * Dialog 모달의 루트 컴포넌트입니다.
  *
+ * @component
+ * @param {string} [className] - 모달의 전체 스타일을 커스텀할 때 사용합니다.
+ *
+ * @remarks
+ * - `<Dialog.Root>`는 필수로 포함되어야 합니다.
+ * - 내부에는 최소 하나 이상의 서브 컴포넌트가 포함되거나, 직접 너비와 높이를 지정해야 모달이 올바르게 표시됩니다.
+ * - `<Dialog.Close />`는 항상 `<Dialog.Title />` 오른쪽에 고정되도록 구현되어 있습니다.
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Root>
+ *   <Dialog.Close /> // 항상 Title 오른쪽에 표시됨
+ *   <Dialog.Title>타이틀</Dialog.Title>
+ *   <Dialog.Content className="p-4">
+ *     본문 내용
+ *   </Dialog.Content>
+ *   <Dialog.ButtonArea>
+ *     <button>확인</button>
+ *     <button>취소</button>
+ *   </Dialog.ButtonArea>
+ * </Dialog.Root>
+ * ```
  */
-const Root = ({ children }: PropsWithChildren) => {
+
+const Root = ({ children, className }: DialogProp) => {
   const toggleModal = useKabanaStore((state) => state.toggleModal);
   const setToggleModal = useKabanaStore((state) => state.setToggleModal);
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
@@ -44,7 +53,7 @@ const Root = ({ children }: PropsWithChildren) => {
         setToggleModal();
       }}
     >
-      <dialog open className='fixed inset-0 m-auto w-fit bg-white' onClick={(e) => e.stopPropagation()}>
+      <dialog open className={twMerge(`inset-0 m-auto bg-white ${className}`)} onClick={(e) => e.stopPropagation()}>
         <div className='flex justify-between'>
           {title}
           {close}
