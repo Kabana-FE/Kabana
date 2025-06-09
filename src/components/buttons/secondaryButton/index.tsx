@@ -3,8 +3,9 @@ import { twMerge } from 'tailwind-merge';
 import type ButtonProps from './types';
 
 const buttonVariants = {
-  filled: 'bg-capybara text-white hover:opacity-90',
-  outlined: 'border border-gray-300 bg-white text-capybara hover:border-capybara',
+  filled: 'bg-capybara text-white hover:bg-[#653f3f] active:bg-[#4b2828]',
+  outlined:
+    'border border-gray-300 bg-white text-capybara hover:border-capybara hover:bg-[#f9f5f5] active:bg-[#f1e8e8]',
 };
 
 /**
