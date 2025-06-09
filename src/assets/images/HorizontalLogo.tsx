@@ -5,14 +5,14 @@ import type { BaseIconProps } from '@/assets/icons/types';
  *
  * 카바나 로고 이미지와 텍스트로 구성된 가로 로고 컴포넌트입니다.
  *
- * 기본 크기는 730px이며, 필요에 따라 `size` prop으로 조정할 수 있습니다.
+ * 기본 크기는 855px이며, 필요에 따라 `size` prop으로 조정할 수 있습니다.
  *
  * @component
  * @param {number} [size=855] - 로고의 너비
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성들 (예: className, aria-label 등)
  *
  * @example
- * // 기본 사용 (크기 730px)
+ * // 기본 사용 (크기 855px)
  * <HorizontalLogo />
  *
  * * @example
