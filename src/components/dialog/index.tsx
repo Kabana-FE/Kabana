@@ -55,20 +55,20 @@ const Root = ({ children }: PropsWithChildren) => {
     modalRoot,
   );
 };
-const Title = ({ children, style }: DialogProp) => {
-  return <div className={twMerge(`text-2xl text-gray-700 ${style}`)}>{children}</div>;
+const Title = ({ children, className }: DialogProp) => {
+  return <div className={twMerge(`text-2xl text-gray-700 ${className}`)}>{children}</div>;
 };
 
 const Close = () => {
-  const setIsOpen = useKabanaStore((state) => state.setToggleModal);
-  return <button onClick={setIsOpen}>x</button>;
+  const setToggleModal = useKabanaStore((state) => state.setToggleModal);
+  return <button onClick={setToggleModal}>x</button>;
 };
 
-const Content = ({ children, style }: DialogProp) => {
-  return <div className={style}>{children}</div>;
+const Content = ({ children, className }: DialogProp) => {
+  return <div className={className}>{children}</div>;
 };
-const ButtonArea = ({ children, style }: DialogProp) => {
-  return <div className={style}>{children}</div>;
+const ButtonArea = ({ children, className }: DialogProp) => {
+  return <div className={className}>{children}</div>;
 };
 
 export default {
