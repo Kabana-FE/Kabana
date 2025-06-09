@@ -1,7 +1,7 @@
 import type { ColorIconProps } from './types';
 
 /**
- * ⚙️ Settings (설정 아이콘)
+ * ⚙️ SettingIcon (설정 아이콘)
  *
  * 기본적으로 회색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
@@ -12,13 +12,13 @@ import type { ColorIconProps } from './types';
  *
  * @example
  * // 기본 사용 (회색)
- * <Settings />
+ * <SettingIcon />
  *
  * @example
  * // 커스텀 색상 적용
- * <Settings color="#d2d2d2" size={20} />
+ * <SettingIcon color="#d2d2d2" size={20} />
  */
-export default function Settings({ size = 16, color = 'var(--color-gray-500)', ...props }: ColorIconProps) {
+const SettingIcon = ({ size = 16, color = 'var(--color-gray-500)', ...props }: ColorIconProps) => {
   return (
     <svg fill='none' height={size} viewBox='0 0 16 16' width={size} {...props} xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -27,4 +27,6 @@ export default function Settings({ size = 16, color = 'var(--color-gray-500)', .
       />
     </svg>
   );
-}
+};
+
+export default SettingIcon;

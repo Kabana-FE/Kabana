@@ -1,26 +1,26 @@
 import type { BaseIconProps } from '@/assets/icons/types';
 
 /**
- * 🐾 LogoSymbol (로고 심볼 이미지)
+ * 🐾 LogoImage (이미지 로고)
  *
  * 카바나 로고 이미지 컴포넌트 입니다.
  *
  * 기본적으로 너비 685px로 설정되어 있으며, 필요에 따라 `size` prop을 통해 크기를 조정할 수 있습니다.
  *
  * @component
- * @param {number} [size=685] - 이미지의 너비 (상수값으로 입력해야 함.)
+ * @param {number} [size=685] - 이미지의 너비 (height는 자동으로 size의 0.895배)
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성 (예: className, aria-label 등)
  *
  * @example
  * // 기본 사용 (너비 685px)
- * <LogoSymbol />
+ * <LogoImage />
  *
  * @example
  * // 커스텀 사이즈 적용
- * <LogoSymbol size={500} />
+ * <LogoImage size={500} />
  */
 
-export default function LogoSymbol({ size = 685, ...props }: BaseIconProps) {
+const LogoImage = ({ size = 685, ...props }: BaseIconProps) => {
   return (
     <svg
       fill='none'
@@ -74,4 +74,6 @@ export default function LogoSymbol({ size = 685, ...props }: BaseIconProps) {
       />
     </svg>
   );
-}
+};
+
+export default LogoImage;

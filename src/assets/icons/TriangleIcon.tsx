@@ -3,11 +3,10 @@ import { getRotationOffset } from '@/utils/getRotationOffset';
 import type { DirectionIconProps } from './types';
 
 /**
- * ▼ Triangle (삼각형 아이콘)
+ * ▼ TriangleIcon (삼각형 아이콘)
  *
  * 기본적으로 아래쪽(bottom)을 향하도록 설계되어 있으며,
  * 다른 방향으로 회전하려면 `direction` prop을 사용하세요.
- *
  *
  * @component
  * @param {number} [size=8] - 아이콘의 너비 (height는 자동으로 size의 절반) (상수값으로 입력해야 함.)
@@ -17,27 +16,26 @@ import type { DirectionIconProps } from './types';
  *
  * @example
  * // 기본 사용 (아래 방향, 회색)
- * <Triangle />
+ * <TriangleIcon />
  *
  * @example
  * // 오른쪽 방향으로 회전
- * <Triangle direction="right" />
+ * <TriangleIcon direction="right" />
  *
  * @example
  * // 커스텀 색상 적용
- * <Triangle color="#ff0000" size={10} />
+ * <TriangleIcon color="#ff0000" size={10} />
  *
  * @example
  * // Tailwind에서 설정한 CSS 변수 사용
- * <Triangle color="var(--color-gray-300)" direction="top" />
+ * <TriangleIcon color="var(--color-gray-300)" direction="top" />
  */
-
-export default function Triangle({
+const TriangleIcon = ({
   size = 8,
   color = 'var(--color-gray-700)',
   direction = 'bottom',
   ...props
-}: DirectionIconProps) {
+}: DirectionIconProps) => {
   const baseDirection = 'bottom';
   const rotation = getRotationOffset(baseDirection, direction);
 
@@ -57,4 +55,6 @@ export default function Triangle({
       />
     </svg>
   );
-}
+};
+
+export default TriangleIcon;

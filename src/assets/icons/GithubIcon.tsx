@@ -1,8 +1,7 @@
 import type { BaseIconProps } from './types';
 
 /**
- *
- * 🔗 Github 아이콘
+ * 🔗 GithubIcon 아이콘
  *
  * @component
  * @param {number} [size=48] - 아이콘의 너비 (상수값으로 입력해야 함.)
@@ -10,14 +9,14 @@ import type { BaseIconProps } from './types';
  *
  * @example
  * // 기본 사용 (48px 크기)
- * <Github />
+ * <GithubIcon />
  *
  * @example
  * // 커스텀 크기 적용
- * <Github size={32} />
+ * <GithubIcon size={32} />
  */
 
-export default function Github({ size = 48, ...props }: BaseIconProps) {
+const GithubIcon = ({ size = 48, ...props }: BaseIconProps) => {
   return (
     <svg fill='none' height={size} viewBox='0 0 48 48' width={size} {...props} xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -28,4 +27,6 @@ export default function Github({ size = 48, ...props }: BaseIconProps) {
       />
     </svg>
   );
-}
+};
+
+export default GithubIcon;

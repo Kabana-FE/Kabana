@@ -3,7 +3,7 @@ import { getRotationOffset } from '@/utils/getRotationOffset';
 import type { DirectionIconProps } from './types';
 
 /**
- * ⋮ MoreVert (더보기 아이콘)
+ * ⋮ MoreVertIcon (더보기 아이콘)
  *
  * 기본적으로 세로(아래쪽)를 향하도록 설계되어있으며, 다른 방향을 사용하고 싶으면 `direction` prop을 사용하세요.
  *
@@ -15,27 +15,26 @@ import type { DirectionIconProps } from './types';
  *
  * @example
  * // 기본 사용 (아래 방향)
- * <MoreVert />
+ * <MoreVertIcon />
  *
  * @example
  * // 오른쪽 방향으로 회전
- * <MoreVert direction="right" />
+ * <MoreVertIcon direction="right" />
  *
  * @example
  * // 색상과 크기 커스터마이징
- * <MoreVert color="#999" size={20} />
+ * <MoreVertIcon color="#999" size={20} />
  *
  * @example
  * // Tailwind에서 정의한 CSS 변수 사용
- * <MoreVert color="var(--color-gray-300)" direction="left" />
+ * <MoreVertIcon color="var(--color-gray-300)" direction="left" />
  */
-
-export default function MoreVert({
+const MoreVertIcon = ({
   size = 28,
   color = 'var(--color-gray-700)',
   direction = 'bottom',
   ...props
-}: DirectionIconProps) {
+}: DirectionIconProps) => {
   const baseDirection = 'bottom';
   const rotation = getRotationOffset(baseDirection, direction);
   return (
@@ -54,4 +53,6 @@ export default function MoreVert({
       />
     </svg>
   );
-}
+};
+
+export default MoreVertIcon;

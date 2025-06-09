@@ -1,7 +1,7 @@
 import type { ColorIconProps } from './types';
 
 /**
- * 👑 Crown (왕관 아이콘)
+ * 👑 CrownIcon (왕관 아이콘)
  *
  * 기본적으로 금색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
@@ -12,17 +12,17 @@ import type { ColorIconProps } from './types';
  *
  * @example
  * // 기본 사용 (금색)
- * <Crown />
+ * <CrownIcon />
  *
  * @example
  * // 커스텀 색상 적용
- * <Crown color="#D2D2D2" size={30} />
+ * <CrownIcon color="#D2D2D2" size={30} />
  * @example
  * //Tailwind에서 정의한 CSS 변수 사용
- * <Crown color="var(--color-gray-300)" />
+ * <CrownIcon color="var(--color-gray-300)" />
  */
 
-export default function Crown({ size = 18, color = '#FDD448', ...props }: ColorIconProps) {
+const CrownIcon = ({ size = 18, color = '#FDD448', ...props }: ColorIconProps) => {
   return (
     <svg
       fill='none'
@@ -38,4 +38,6 @@ export default function Crown({ size = 18, color = '#FDD448', ...props }: ColorI
       />
     </svg>
   );
-}
+};
+
+export default CrownIcon;

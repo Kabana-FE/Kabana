@@ -1,26 +1,26 @@
 import type { BaseIconProps } from '@/assets/icons/types';
 
 /**
- * ErrorSymbol 컴포넌트
+ * ErrorImage (에러 페이지용 이미지)
  *
- * 오류 심볼 SVG을 렌더링합니다.
+ * 에러용 이미지 SVG을 렌더링합니다.
  *
  * 기본 크기는 672px이며, 필요에 따라 `size` prop을 통해 조정할 수 있습니다.
  *
  * @component
- * @param {number} [size=672] - 아이콘의 너비 (기본값: 672)
+ * @param {number} [size=672] - 아이콘의 너비 (height는 자동으로 size의 0.759배)
  * @param {BaseIconProps} props - 기타 SVG 속성 (예: className, aria-label 등)
  *
  * @example
  * // 기본 사용 (크기: 672px)
- * <ErrorSymbol />
+ * <ErrorImage />
  *
  * @example
  * // 크기 조정 (크기: 500px)
- * <ErrorSymbol size={500} />
+ * <ErrorImage size={500} />
  */
 
-export default function ErrorSymbol({ size = 672, ...props }: BaseIconProps) {
+const ErrorImage = ({ size = 672, ...props }: BaseIconProps) => {
   return (
     <svg
       fill='none'
@@ -103,4 +103,6 @@ export default function ErrorSymbol({ size = 672, ...props }: BaseIconProps) {
       />
     </svg>
   );
-}
+};
+
+export default ErrorImage;

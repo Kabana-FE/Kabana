@@ -1,7 +1,7 @@
 import type { ColorIconProps } from './types';
 
 /**
- * ➕ AddBox (박스 안에 있는 추가 아이콘)
+ * ➕ AddBoxIcon (박스 안에 있는 추가 아이콘)
  *
  * 기본적으로 회색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
@@ -12,17 +12,17 @@ import type { ColorIconProps } from './types';
  *
  * @example
  * // 기본 사용 (회색)
- * <AddBox />
+ * <AddBoxIcon />
  *
  * @example
  * // 커스텀 색상 적용
- * <AddBox color="#d2d2d2" size={20} />
+ * <AddBoxIcon color="#d2d2d2" size={20} />
  * @example
  * //Tailwind에서 정의한 CSS 변수 사용
- * <AddBox color="var(--color-gray-300)" />
+ * <AddBoxIcon color="var(--color-gray-300)" />
  */
 
-export default function AddBox({ size = 15, color = 'var(--color-gray-500)', ...props }: ColorIconProps) {
+const AddBoxIcon = ({ size = 15, color = 'var(--color-gray-500)', ...props }: ColorIconProps) => {
   return (
     <svg fill='none' height={size} viewBox='0 0 16 15' width={size} xmlns='http://www.w3.org/2000/svg' {...props}>
       <path
@@ -31,4 +31,6 @@ export default function AddBox({ size = 15, color = 'var(--color-gray-500)', ...
       />
     </svg>
   );
-}
+};
+
+export default AddBoxIcon;

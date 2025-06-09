@@ -1,31 +1,31 @@
 import type { ColorIconProps } from '@/assets/icons/types';
 
 /**
- * 로고 텍스트 컴포넌트
+ * LogoTextImage (로고 텍스트 컴포넌트)
  *
  * 카바나 텍스트 로고 컴포넌트 입니다.
  *
- * 사용자가 원하는 크기와 색상을 `size`와 `color` prop으로 조정할 수 있습니다.
+ * 사용자가 원하는 크기를 `size` prop으로 조정할 수 있습니다.
  *
  * @component
- * @param {number} [size=613] - 아이콘의 너비 (상수값으로 입력해야 함.)
+ * @param {number} [size=613] - 아이콘의 너비 (height는 자동으로 size의 0.17배)
  * @param {string} [color='var(--color-capybara)'] - 아이콘 색상 (CSS 변수 사용 가능)
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성들 (`className`, `aria-*`, 등)
  *
  * @example
  * // 기본 사용 (613px 크기, 카피바라 색상)
- * <LogoText />
+ * <LogoTextImage />
  *
  * @example
  * // 크기와 색상 커스터마이징
- * <LogoText size={500} color="#ff5733" />
+ * <LogoTextImage size={500} color="#ff5733" />
  *
  * @example
  * // Tailwind에서 정의한 CSS 변수 사용
- * <LogoText color="var(--color-cream)" />
+ * <LogoTextImage color="var(--color-cream)" />
  */
 
-export default function LogoText({ size = 613, color = 'var(--color-capybara)', ...props }: ColorIconProps) {
+const LogoTextImage = ({ size = 613, color = 'var(--color-capybara)', ...props }: ColorIconProps) => {
   return (
     <svg
       fill='none'
@@ -41,4 +41,6 @@ export default function LogoText({ size = 613, color = 'var(--color-capybara)', 
       />
     </svg>
   );
-}
+};
+
+export default LogoTextImage;

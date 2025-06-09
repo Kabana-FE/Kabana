@@ -1,7 +1,7 @@
 import type { ColorIconProps } from './types';
 
 /**
- * 👁️ EyeOff (눈 감기 아이콘)
+ * 👁️ EyeOffIcon (눈 감기 아이콘)
  *
  * 기본적으로 회색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
@@ -12,18 +12,18 @@ import type { ColorIconProps } from './types';
  *
  * @example
  * // 기본 사용 (회색)
- * <Eye />
+ * <EyeOffIcon />
  *
  * @example
  * // 커스텀 색상 적용
- * <Eye color="#d2d2d2" size={20} />
+ * <EyeOffIcon color="#d2d2d2" size={20} />
  *
  * @example
  * // Tailwind에서 정의한 CSS 변수 사용
- * <Eye color="var(--color-gray-300)" />
+ * <EyeOffIcon color="var(--color-gray-300)" />
  */
 
-export default function EyeOff({ size = 22, color = 'var(--color-gray-400)', ...props }: ColorIconProps) {
+const EyeOffIcon = ({ size = 22, color = 'var(--color-gray-400)', ...props }: ColorIconProps) => {
   return (
     <svg
       fill='none'
@@ -39,4 +39,6 @@ export default function EyeOff({ size = 22, color = 'var(--color-gray-400)', ...
       />
     </svg>
   );
-}
+};
+
+export default EyeOffIcon;

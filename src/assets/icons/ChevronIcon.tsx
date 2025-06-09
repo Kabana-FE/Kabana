@@ -3,35 +3,35 @@ import { getRotationOffset } from '@/utils/getRotationOffset';
 import type { DirectionIconProps } from './types';
 
 /**
- *  〉 Caret(꺽쇠 아이콘)
+ * 〉 ChevronIcon(꺽쇠 아이콘)
  *
  *  기본적으로 오른쪽을 바라보도록 설계되어있으며, 다른 방향으로 사용하시고 싶으면 direction prop을 사용하세요.
  *
  * @component
  * @param {number} [size=18] - 아이콘의 가로/세로 크기 (상수값으로 입력해야 함.)
- * @param {string} [color='#333236'] - 아이콘의 색상 HEX 코드나 CSS 변수(`var(--color-gray-300)`) 가능.
+ * @param {string} [color='var(--color-gray-700)'] - 아이콘의 색상 HEX 코드나 CSS 변수(`var(--color-gray-300)`) 가능.
  * @param {'right' | 'left' | 'top' | 'bottom'} [direction='right'] - 아이콘이 바라볼 방향.
  * @param {React.SVGProps<SVGSVGElement>} props - 기타 SVG 속성들 (`className`, `aria-*`, 등)
  *
  * @example
  * // 기본 사용 (오른쪽 방향, 기본 색상)
- * <Caret />
+ * <ChevronIcon />
  *
  * @example
  * // 아래 방향, 커스텀 색상
- * <Caret direction="bottom" color="#d2d2d2" size={24} />
+ * <ChevronIcon direction="bottom" color="#d2d2d2" size={24} />
  *
  * @example
  * // 위 방향, Tailwind에서 정의한 CSS 변수 사용
- * <Caret direction="top" color="var(--color-gray-300)" />
+ * <ChevronIcon direction="top" color="var(--color-gray-300)" />
  */
 
-export default function Caret({
+const ChevronIcon = ({
   size = 18,
   color = 'var(--color-gray-700)',
   direction = 'right',
   ...props
-}: DirectionIconProps) {
+}: DirectionIconProps) => {
   const baseDirection = 'right';
   const rotation = getRotationOffset(baseDirection, direction);
   return (
@@ -50,4 +50,6 @@ export default function Caret({
       />
     </svg>
   );
-}
+};
+
+export default ChevronIcon;

@@ -1,7 +1,7 @@
 import type { ColorIconProps } from './types';
 
 /**
- * 📅 Calendar (달력 아이콘)
+ * 📅 CalendarIcon (달력 아이콘)
  *
  * 기본적으로 회색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
@@ -12,16 +12,16 @@ import type { ColorIconProps } from './types';
  *
  * @example
  * // 기본 사용 (회색)
- * <Calendar />
+ * <CalendarIcon />
  *
  * @example
  * // 커스텀 색상 적용
- * <Calendar color="#d2d2d2" size={20} />
+ * <CalendarIcon color="#d2d2d2" size={20} />
  * @example
  * //Tailwind에서 정의한 CSS 변수 사용
- * <Calendar color="var(--color-gray-300)" />
+ * <CalendarIcon color="var(--color-gray-300)" />
  */
-export default function Calendar({ size = 16, color = 'var(--color-gray-500)', ...props }: ColorIconProps) {
+const CalendarIcon = ({ size = 16, color = 'var(--color-gray-500)', ...props }: ColorIconProps) => {
   return (
     <svg fill='none' height={size} viewBox='0 0 16 17' width={size} {...props} xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -30,4 +30,6 @@ export default function Calendar({ size = 16, color = 'var(--color-gray-500)', .
       />
     </svg>
   );
-}
+};
+
+export default CalendarIcon;
