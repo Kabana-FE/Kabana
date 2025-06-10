@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         path: SIGNUP,
         lazy: async () => {
           const { default: Component } = await import('@/pages/auth/Signup');
-          const { action } = await import('@/actions/Signup.action');
+          const { action } = await import('@/actions/signupAction');
           return { Component, action };
         },
       },
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         path: SIGNIN,
         lazy: async () => {
           const { default: Component } = await import('@/pages/auth/Signin');
-          const { action } = await import('@/actions/Signin.action');
+          const { action } = await import('@/actions/signinAction');
           return { Component, action };
         },
       },
@@ -41,8 +41,8 @@ const router = createBrowserRouter([
         path: MYPAGE,
         lazy: async () => {
           const { default: Component } = await import('@/pages/user/MyPage');
-          const { loader } = await import('@/loaders/MyPage.loader');
-          const { action } = await import('@/actions/MyPage.action');
+          const { loader } = await import('@/loaders/myPageLoader');
+          const { action } = await import('@/actions/myPageAction');
           return { Component, loader, action };
         },
       },
@@ -50,8 +50,8 @@ const router = createBrowserRouter([
         path: DASHBOARD_LIST,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardList');
-          const { loader } = await import('@/loaders/DashboardList.loader');
-          const { action } = await import('@/actions/DashboardList.action');
+          const { loader } = await import('@/loaders/dashboardListLoader');
+          const { action } = await import('@/actions/dashboardListAction');
           return { Component, loader, action };
         },
       },
@@ -59,8 +59,8 @@ const router = createBrowserRouter([
         path: DASHBOARD_DETAIL,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
-          const { loader } = await import('@/loaders/DashboardDetail.loader');
-          const { action } = await import('@/actions/DashboardDetail.action');
+          const { loader } = await import('@/loaders/dashboardDetailLoader');
+          const { action } = await import('@/actions/dashboardDetailAction');
           return { Component, loader, action };
         },
       },
@@ -68,8 +68,8 @@ const router = createBrowserRouter([
         path: DASHBOARD_EDIT,
         lazy: async () => {
           const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
-          const { loader } = await import('@/loaders/DashboardEdit.loader');
-          const { action } = await import('@/actions/DashboardEdit.action');
+          const { loader } = await import('@/loaders/dashboardEditLoader');
+          const { action } = await import('@/actions/dashboardEditAction');
           return { Component, loader, action };
         },
       },
