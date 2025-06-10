@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
-import type { ModalSlice } from './modalSlice';
-import { createModalSlice } from './modalSlice';
+import { createModalSlice } from './slices/modalSlice';
+import type { ModalSlice } from './types/modalSlice';
 
 const useKabanaStore = create<ModalSlice>()((...args) => ({
   ...createModalSlice(...args),
