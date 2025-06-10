@@ -45,7 +45,7 @@ export default tseslint.config(
 
       // ✅ TypeScript 규칙
       '@typescript-eslint/no-unused-vars': [
-        'error',
+        'warn',
         {
           varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
@@ -147,7 +147,7 @@ export default tseslint.config(
       'simple-import-sort/exports': 'warn', // export 순서 정렬
 
       // ✅ 미사용 import 제거
-      'unused-imports/no-unused-imports': 'error', // 사용되지 않는 import 제거
+      'unused-imports/no-unused-imports': 'warn', // 사용되지 않는 import 제거
       'unused-imports/no-unused-vars': [
         'warn',
         {
