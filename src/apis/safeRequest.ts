@@ -1,4 +1,4 @@
-import THROWN_ERRORS from '@/constants/errors/thrownErrors';
+import THROWN_ERRORS from '@/constants/errors/devErrors';
 import STATUS_CODES from '@/constants/statusCodes';
 
 /**

@@ -1,15 +1,16 @@
 import { z } from 'zod';
 
 /**
- * @description API 서버로부터 받은 대시보드 멤버 데이터의 유효성을 검사하는 스키마
+ * From server
+ * @description 서버로부터 받은 대시보드 멤버 데이터의 유효성을 검사하는 스키마
  * @see src/types/dto.d.ts -> MemberApplicationServiceResponseDto
  */
 export const memberSchema = z.object({
   id: z.number(),
   userId: z.number(),
-  email: z.string().email({ message: '유효한 이메일 형식이 아닙니다.' }),
+  email: z.string().email(),
   nickname: z.string(),
-  profileImageUrl: z.string().url({ message: '유효한 URL이 아닙니다.' }).nullish(),
+  profileImageUrl: z.string().url().nullish(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
   isOwner: z.boolean(),
