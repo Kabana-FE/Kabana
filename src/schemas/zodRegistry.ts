@@ -1,6 +1,7 @@
 import {
   createDashboardSchema,
-  dashboardListSchema,
+  dashboardListParamsSchema,
+  dashboardListResponseSchema,
   dashboardSchema,
   navigationMethodSchema,
   updateDashboardSchema,
@@ -19,7 +20,8 @@ export const zodRegistry = {
 
   // Dashboard
   navigationMethod: navigationMethodSchema,
-  dashboardList: dashboardListSchema,
+  dashboardListParams: dashboardListParamsSchema,
+  dashboardListData: dashboardListResponseSchema,
   dashboard: dashboardSchema,
   createDashboard: createDashboardSchema,
   updateDashboard: updateDashboardSchema,
