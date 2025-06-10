@@ -7,7 +7,7 @@ import {
   updateDashboardSchema,
 } from './dashboard';
 import { errorResponseSchema } from './errorResponse';
-import { memberListSchema, memberSchema } from './member';
+import { memberListResponseSchema, memberListSchema, memberSchema } from './member';
 
 /**
  * Zod 스키마 레지스트리
@@ -29,6 +29,7 @@ export const zodRegistry = {
   // Member
   member: memberSchema,
   memberList: memberListSchema,
+  memberListData: memberListResponseSchema,
 };
 
 /**

@@ -10,8 +10,8 @@ const router = createBrowserRouter([
     path: APP,
     lazy: async () => {
       const { default: Root } = await import('@/App');
-      const { loader } = await import('@/loaders/appLoader');
-      return { Component: Root, loader };
+      const { rootLoader } = await import('@/loaders/rootLoader');
+      return { Component: Root, loader: rootLoader };
     },
     errorElement: <Error />,
     children: [
@@ -38,42 +38,54 @@ const router = createBrowserRouter([
           return { Component, action };
         },
       },
+
       {
-        path: MYPAGE,
         lazy: async () => {
-          const { default: Component } = await import('@/pages/user/MyPage');
-          const { loader } = await import('@/loaders/myPageLoader');
-          const { action } = await import('@/actions/myPageAction');
-          return { Component, loader, action };
+          const { default: DashboardLayout } = await import('@/layouts/Dashboard');
+          const { authGuardLoader } = await import('@/loaders/authGuardLoader');
+          return { Component: DashboardLayout, loader: authGuardLoader };
         },
+        children: [
+          // --- Protected Routes (인증이 필요한 페이지들) ---
+          {
+            path: MYPAGE,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/user/MyPage');
+              const { loader } = await import('@/loaders/myPageLoader');
+              const { action } = await import('@/actions/myPageAction');
+              return { Component, loader, action };
+            },
+          },
+          {
+            path: DASHBOARD_LIST,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/dashboards/DashboardList');
+              const { loader } = await import('@/loaders/dashboardListLoader');
+              const { action } = await import('@/actions/dashboardListAction');
+              return { Component, loader, action };
+            },
+          },
+          {
+            path: DASHBOARD_DETAIL,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
+              const { loader } = await import('@/loaders/dashboardDetailLoader');
+              const { action } = await import('@/actions/dashboardDetailAction');
+              return { Component, loader, action };
+            },
+          },
+          {
+            path: DASHBOARD_EDIT,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
+              const { loader } = await import('@/loaders/dashboardEditLoader');
+              const { action } = await import('@/actions/dashboardEditAction');
+              return { Component, loader, action };
+            },
+          },
+        ],
       },
-      {
-        path: DASHBOARD_LIST,
-        lazy: async () => {
-          const { default: Component } = await import('@/pages/dashboards/DashboardList');
-          const { loader } = await import('@/loaders/dashboardListLoader');
-          const { action } = await import('@/actions/dashboardListAction');
-          return { Component, loader, action };
-        },
-      },
-      {
-        path: DASHBOARD_DETAIL,
-        lazy: async () => {
-          const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
-          const { loader } = await import('@/loaders/dashboardDetailLoader');
-          const { action } = await import('@/actions/dashboardDetailAction');
-          return { Component, loader, action };
-        },
-      },
-      {
-        path: DASHBOARD_EDIT,
-        lazy: async () => {
-          const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
-          const { loader } = await import('@/loaders/dashboardEditLoader');
-          const { action } = await import('@/actions/dashboardEditAction');
-          return { Component, loader, action };
-        },
-      },
+
       {
         path: NOT_FOUND,
         lazy: async () => {
