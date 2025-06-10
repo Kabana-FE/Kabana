@@ -1,15 +1,14 @@
 import { requestDelete, requestGet, requestPost, requestPut } from '@/apis/request';
 import safeRequest from '@/apis/safeRequest';
 import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
-import {
-  type CreateDashboardInput,
-  type Dashboard,
-  type DashboardListData,
-  type DashboardListParams,
-  dashboardListResponseSchema,
-  dashboardSchema,
-  type UpdateDashboardInput,
+import type {
+  CreateDashboardInput,
+  Dashboard,
+  DashboardListData,
+  DashboardListParams,
+  UpdateDashboardInput,
 } from '@/schemas/dashboard';
+import { dashboardListResponseSchema, dashboardSchema } from '@/schemas/dashboard';
 
 /**
  * @description 새 대시보드를 생성합니다.

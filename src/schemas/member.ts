@@ -17,6 +17,15 @@ export const memberSchema = z.object({
 });
 
 /**
+ * From Server
+ * @description 멤버 목록 응답 데이터의 유효성을 검사하는 스키마
+ */
+export const memberListResponseSchema = z.object({
+  members: z.array(memberSchema),
+  totalCount: z.number(),
+});
+
+/**
  * @description 대시보드 멤버 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
  * @see src/types/dto.d.ts -> FindMembersRequestDto
  */
@@ -28,3 +37,4 @@ export const memberListSchema = z.object({
 
 export type Member = z.infer<typeof memberSchema>;
 export type MemberListParams = z.infer<typeof memberListSchema>;
+export type MemberListData = z.infer<typeof memberListResponseSchema>;
