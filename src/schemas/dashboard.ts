@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 /**
- * @description 페이지네이션 방식 유효성 검사를 위한 Zod 스키마
+ * @description 페이지네이션 방식 유효성 검사를 위한 스키마
  * @see src/types/dto.d.ts -> NavigationMethod
  */
 export const navigationMethodSchema = z.union([z.literal('infiniteScroll'), z.literal('pagination')]);
 
 /**
- * @description 대시보드 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 Zod 스키마
+ * @description 대시보드 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
  * @see src/types/dto.d.ts -> FindDashboardsRequestDto
  */
 export const dashboardListSchema = z
@@ -35,7 +35,7 @@ export const dashboardListSchema = z
   );
 
 /**
- * @description 서버로부터 받은 대시보드 데이터의 유효성을 검사하는 Zod 스키마
+ * @description 서버로부터 받은 대시보드 데이터의 유효성을 검사하는 스키마
  * @see src/types/dto.d.ts -> DashboardApplicationServiceResponseDto
  */
 export const dashboardSchema = z.object({
@@ -50,7 +50,7 @@ export const dashboardSchema = z.object({
 });
 
 /**
- * @description 대시보드 생성 폼 유효성 검사를 위한 Zod 스키마
+ * @description 대시보드 생성 폼 유효성 검사를 위한 스키마
  * @see src/types/dto.d.ts -> CreateDashboardRequestDto
  */
 export const createDashboardSchema = z.object({
@@ -64,7 +64,7 @@ export const createDashboardSchema = z.object({
 });
 
 /**
- * @description 대시보드 수정 폼 유효성 검사를 위한 Zod 스키마
+ * @description 대시보드 수정 폼 유효성 검사를 위한 스키마
  * - createDashboardSchema의 모든 필드를 선택적으로(optional) 만듭니다.
  * @see src/types/dto.d.ts -> UpdateDashboardRequestDto
  */

@@ -19,11 +19,11 @@ export const memberSchema = z.object({
  * @description 대시보드 멤버 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
  * @see src/types/dto.d.ts -> FindMembersRequestDto
  */
-export const findMembersSchema = z.object({
+export const memberListSchema = z.object({
   dashboardId: z.number().int().positive(),
   page: z.number().int().positive().optional(),
   size: z.number().int().positive().optional(),
 });
 
-// Zod 스키마로부터 TypeScript 타입을 추론할 수 있습니다.
 export type Member = z.infer<typeof memberSchema>;
+export type MemberListParams = z.infer<typeof memberListSchema>;
