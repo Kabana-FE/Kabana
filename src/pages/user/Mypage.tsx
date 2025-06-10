@@ -3,7 +3,7 @@ import ChevronIcon from '@/assets/icons/ChevronIcon';
 
 const MyPage = () => {
   return (
-    <div className='flex flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
+    <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
       <nav className='flex items-center gap-8'>
         <ChevronIcon direction='left' size={18} />
         <span>돌아가기</span>
