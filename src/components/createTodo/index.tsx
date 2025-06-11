@@ -9,6 +9,7 @@ import useKabanaStore from '@/stores/store';
 
 import Tag from '../tag';
 import colorList from './colorList';
+
 const CreateTodo = () => {
   const { register, handleSubmit } = useForm();
   const modalIsOpen = useKabanaStore((state) => state.createTodo);
@@ -57,7 +58,7 @@ const CreateTodo = () => {
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Content>
-        <form className='flex flex-col' id='createTodo' onSubmit={handleSubmit((data) => console.log(data.imageFile))}>
+        <form className='flex flex-col' id='createTodo'>
           <input
             {...register('title')}
             className='border-1 border-black'
