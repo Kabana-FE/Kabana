@@ -1,6 +1,7 @@
 // import { zodResolver } from '@hookform/resolvers/zod';
 // import { useForm } from 'react-hook-form';
 import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import AddIcon from '@/assets/icons/AddIcon';
 import Dialog from '@/components/dialog';
@@ -9,6 +10,7 @@ import useKabanaStore from '@/stores/store';
 import Tag from '../tag';
 import colorList from './colorList';
 const CreateTodo = () => {
+  const { register, handleSubmit } = useForm();
   const modalIsOpen = useKabanaStore((state) => state.createTodo);
   const toggleModal = useKabanaStore((state) => state.toggleCreateTodo);
   const [tagList, setTagList] = useState<string[]>([]);
@@ -25,14 +27,18 @@ const CreateTodo = () => {
       const randomNum = createRandomNumber();
       if (tagList.includes(e.currentTarget.value)) {
         e.currentTarget.value = '';
+        return;
       }
-
       if (addedColors.indexOf(colorList[randomNum]) === -1) {
         setAddedColors([...addedColors, colorList[randomNum]]);
       }
-      setTagList([...tagList, e.currentTarget.value]);
-      e.currentTarget.value = '';
-      e.currentTarget.focus();
+
+      const trimedWord = e.currentTarget.value.trim();
+      if (trimedWord !== '') {
+        setTagList([...tagList, trimedWord]);
+        e.currentTarget.value = '';
+        e.currentTarget.focus();
+      }
     }
     if (e.key === 'Backspace' && e.currentTarget.value !== null) {
       const copy = [...tagList];
@@ -51,10 +57,32 @@ const CreateTodo = () => {
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Content>
-        <form className='align flex flex-col'>
-          <input className='border-1 border-black' name='title' placeholder='title' type='text' />
-          <input className='border-1 border-black' name='description' placeholder='desc' type='text' />
-          <input className='border-1 border-black' name='dueDate' placeholder='date' type='date' />
+        <form
+          className='align flex flex-col'
+          id='createTodo'
+          onSubmit={handleSubmit((data) => console.log(data.imageFile))}
+        >
+          <input
+            {...register('title')}
+            className='border-1 border-black'
+            name='title'
+            placeholder='title'
+            type='text'
+          />
+          <input
+            {...register('desc')}
+            className='border-1 border-black'
+            name='description'
+            placeholder='desc'
+            type='text'
+          />
+          <input
+            {...register('dueDate')}
+            className='border-1 border-black'
+            name='dueDate'
+            placeholder='date'
+            type='date'
+          />
           <div className='border-1 border-black'>
             <span>
               {tagList?.map((tag, idx) => {
@@ -67,18 +95,17 @@ const CreateTodo = () => {
             </span>
             <input ref={tagRef} className='focus:outline-0' name='tags' type='text' onKeyDown={createDeleteTags} />
           </div>
-          <label htmlFor=''>
+          <label className='flex h-76 w-76 items-center justify-center rounded-[6px] bg-[#F5F5F5]' htmlFor='file'>
             <AddIcon />
-            <input className='h-76 w-76 bg-[#F5F5F5]' type='file' />
           </label>
+          <input {...register('imageFile')} className='hidden' id='file' placeholder='' type='file' />
         </form>
-        <button className='border-1 border-black' type='submit'>
-          폼 제출
-        </button>
       </Dialog.Content>
       <Dialog.ButtonArea className='flex justify-between'>
         <button>취소</button>
-        <button>생성</button>
+        <button form='createTodo' type='submit'>
+          생성
+        </button>
       </Dialog.ButtonArea>
     </Dialog.Root>
   );
