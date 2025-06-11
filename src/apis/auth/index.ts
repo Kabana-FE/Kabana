@@ -4,11 +4,11 @@ import type { LoginRequest, LoginResponse, SignupRequest } from '@/stores/types/
 import type { User as SignupResponse } from '@/stores/types/user';
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-  const respoonse = await axiosInstance.post(AUTH_ENDPOINTS.SIGNIN, data);
-  return respoonse.data;
+  const response = await axiosInstance.post<LoginResponse>(AUTH_ENDPOINTS.SIGNIN, data);
+  return response.data;
 };
 
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
-  const response = await axiosInstance.post(AUTH_ENDPOINTS.SIGNUP, data);
+  const response = await axiosInstance.post<SignupResponse>(AUTH_ENDPOINTS.SIGNUP, data);
   return response.data;
 };
