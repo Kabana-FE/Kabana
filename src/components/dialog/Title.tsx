@@ -1,9 +1,9 @@
 import { twMerge } from 'tailwind-merge';
 
-import { type DialogProp } from './types';
+import type { DialogProp } from './types';
 
 const Title = ({ children, className }: DialogProp) => {
-  return <div className={twMerge('text-2xl text-gray-700', className)}>{children}</div>;
+  return <h1 className={twMerge('text-2xl text-gray-700', className)}>{children}</h1>;
 };
 
 export default Title;

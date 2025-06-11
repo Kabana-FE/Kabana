@@ -1,17 +1,17 @@
-import { Children, type ReactElement } from 'react';
+import { Children } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
 import Close from './Close';
 import Title from './Title';
-import { type DialogRootProp } from './types';
+import type { DialogRootProp } from './types';
 
 const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp) => {
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
-  const _children = Children.toArray(children) as ReactElement[];
+  const _children = Children.toArray(children) as React.ReactElement[];
   const [title, close] = [
-    _children.filter((child) => child.type === Title),
-    _children.filter((child) => child.type === Close),
+    _children.find((child) => child.type === Title),
+    _children.find((child) => child.type === Close),
   ];
   const exceptTitleArea = [_children.filter((child) => child.type !== Title && child.type !== Close)];
   if (!modalIsOpen) {
