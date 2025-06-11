@@ -16,7 +16,7 @@ const MyPage = () => {
           <div className='flex flex-col gap-40 tablet:flex-row tablet:gap-42'>
             {/* button 컴포넌트로 수정 예정 */}
             <button className='flex size-100 items-center justify-center rounded-md bg-[#f5f5f5] tablet:size-182'>
-              <AddIcon size={12} />
+              <AddIcon className='tablet:size-18' size={12} />
             </button>
             <form className='flex flex-1 flex-col gap-24'>
               <div className='flex flex-col gap-16'>
