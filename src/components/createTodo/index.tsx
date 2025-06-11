@@ -59,27 +59,9 @@ const CreateTodo = () => {
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Content>
         <form className='flex flex-col' id='createTodo'>
-          <input
-            {...register('title')}
-            className='border-1 border-black'
-            name='title'
-            placeholder='title'
-            type='text'
-          />
-          <input
-            {...register('desc')}
-            className='border-1 border-black'
-            name='description'
-            placeholder='desc'
-            type='text'
-          />
-          <input
-            {...register('dueDate')}
-            className='border-1 border-black'
-            name='dueDate'
-            placeholder='date'
-            type='date'
-          />
+          <input {...register('title')} className='border-1 border-black' placeholder='title' type='text' />
+          <input {...register('desc')} className='border-1 border-black' placeholder='desc' type='text' />
+          <input {...register('dueDate')} className='border-1 border-black' placeholder='date' type='date' />
           <div className='border-1 border-black'>
             <span>
               {tagList?.map((tag, idx) => {
