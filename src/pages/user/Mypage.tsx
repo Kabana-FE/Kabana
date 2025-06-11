@@ -25,7 +25,7 @@ const MyPage = () => {
                   이메일
                   <input
                     className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                    placeholder='jhondoe@gmail.com'
+                    placeholder='kabana@email.com'
                     type='text'
                   />
                 </label>
@@ -34,7 +34,7 @@ const MyPage = () => {
                   닉네임
                   <input
                     className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                    placeholder='jhondoe@gmail.com'
+                    placeholder='닉네임을 입력해주세요'
                     type='text'
                   />
                 </label>
@@ -73,7 +73,7 @@ const MyPage = () => {
                 새 비밀번호 확인
                 <input
                   className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                  placeholder='새 비밀번호 입력'
+                  placeholder='새 비밀번호 확인'
                   type='password'
                 />
               </label>
