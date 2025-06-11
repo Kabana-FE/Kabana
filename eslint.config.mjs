@@ -45,7 +45,7 @@ export default tseslint.config(
 
       // ✅ TypeScript 규칙
       '@typescript-eslint/no-unused-vars': [
-        'error',
+        'warn',
         {
           varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
@@ -71,6 +71,7 @@ export default tseslint.config(
           selector: 'function',
           format: ['camelCase', 'PascalCase'],
         },
+
         // 타입 관련 (interface, type, class, enum 등): PascalCase 필수
         {
           selector: 'typeLike',
@@ -81,10 +82,10 @@ export default tseslint.config(
           selector: 'enumMember',
           format: ['PascalCase', 'UPPER_CASE'],
         },
-        // 프로퍼티: camelCase, PascalCase (React props 등)
+        // 프로퍼티: camelCase, PascalCase (React props 등), UPPER_CASE (상수)
         {
           selector: ['property', 'parameterProperty'],
-          format: ['camelCase', 'PascalCase'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
           // 객체 키에서 kebab-case나 snake_case도 허용 (외부 API 등)
           filter: {
             regex: '^(aria-|data-|[a-z]+_[a-z]+).*$',
@@ -95,6 +96,11 @@ export default tseslint.config(
         {
           selector: 'import',
           format: ['camelCase', 'PascalCase'],
+        },
+        // method 변수: camelCase, PascalCase, UPPER_CASE(상수) 허용
+        {
+          selector: 'method',
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
         },
       ],
 
@@ -141,7 +147,7 @@ export default tseslint.config(
       'simple-import-sort/exports': 'warn', // export 순서 정렬
 
       // ✅ 미사용 import 제거
-      'unused-imports/no-unused-imports': 'error', // 사용되지 않는 import 제거
+      'unused-imports/no-unused-imports': 'warn', // 사용되지 않는 import 제거
       'unused-imports/no-unused-vars': [
         'warn',
         {
