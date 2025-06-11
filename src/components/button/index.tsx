@@ -51,6 +51,7 @@ const Button = ({
       className={twMerge(
         'inline-flex cursor-pointer items-center justify-center rounded-sm font-medium whitespace-nowrap',
         'disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-white',
+        'transition-colors duration-200 ease-in-out',
         buttonVariants[variant],
         buttonSizes[size],
         className,
