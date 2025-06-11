@@ -57,11 +57,7 @@ const CreateTodo = () => {
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Content>
-        <form
-          className='align flex flex-col'
-          id='createTodo'
-          onSubmit={handleSubmit((data) => console.log(data.imageFile))}
-        >
+        <form className='flex flex-col' id='createTodo' onSubmit={handleSubmit((data) => console.log(data.imageFile))}>
           <input
             {...register('title')}
             className='border-1 border-black'
