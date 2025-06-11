@@ -12,6 +12,7 @@ const buttonSizes = {
   sm: 'text-xs h-32 py-7 px-16',
   md: 'text-2lg h-50 py-12 px-26',
   lg: 'text-lg h-54 py-14 px-30',
+  none: '',
 };
 
 /**
@@ -19,7 +20,7 @@ const buttonSizes = {
  * 'variant'를 통해 스타일을 변경할 수 있고, 'size'로 버튼의 크기를 선택할 수 있습니다.
  *
  * @param {'filled'|'outlined'|'none'} variant 기본값은 'filled' 입니다.
- * @param {'sm'|'md'|'lg'} size 기본값은 'md' 입니다.
+ * @param {'sm'|'md'|'lg'|'none'} size 기본값은 'md' 입니다.
  * @param {string} className 추가적인 스타일을 받습니다.
  * @param {React.ReactNode} children 버튼의 내용을 받습니다.
  * @param {boolean} disabled 버튼을 비활성화할지 여부입니다.

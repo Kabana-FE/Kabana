@@ -12,9 +12,10 @@ export default interface ButtonProps {
    * - 'sm': 작은 크기의 버튼 ex) 수락/거절
    * - 'md': 중간 크기의 버튼 ex) 로그인 버튼
    * - 'lg': 큰 크기의 버튼 ex) 모달 버튼
+   * - 'none': 사이즈 없음
    * @default 'md'
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'none';
   /**
    * 버튼 타입입니다.
    * - 'button' | 'submit' | 'reset'
