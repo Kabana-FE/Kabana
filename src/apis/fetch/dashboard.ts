@@ -19,7 +19,7 @@ export const createDashboard = (dashboardInput: CreateDashboardInput) => {
   return safeRequest(async () => {
     const response = await requestPost<Dashboard, CreateDashboardInput>(DASHBOARD_ENDPOINTS.CREATE, dashboardInput);
     return dashboardSchema.parse(response);
-  }, 'DASHBOARD_CREATE');
+  }, 'DASHBOARD CREATE');
 };
 
 /**
@@ -31,7 +31,7 @@ export const getDashboardList = (params: DashboardListParams) => {
   return safeRequest(async () => {
     const response = await requestGet<DashboardListData>(DASHBOARD_ENDPOINTS.LIST, { params });
     return dashboardListResponseSchema.parse(response);
-  }, 'GET_DASHBOARD_LIST');
+  }, 'GET DASHBOARD LIST');
 };
 
 /**
@@ -43,7 +43,7 @@ export const getDashboardDetail = (dashboardId: number) => {
   return safeRequest(async () => {
     const response = await requestGet<Dashboard>(DASHBOARD_ENDPOINTS.DETAIL(String(dashboardId)));
     return dashboardSchema.parse(response);
-  }, 'GET_DASHBOARD_DETAIL');
+  }, 'GET DASHBOARD DETAIL');
 };
 
 /**
@@ -59,7 +59,7 @@ export const updateDashboard = (dashboardId: number, dashboardInput: UpdateDashb
       dashboardInput,
     );
     return dashboardSchema.parse(response);
-  }, 'DASHBOARD_UPDATE');
+  }, 'DASHBOARD UPDATE');
 };
 
 /**
@@ -67,5 +67,5 @@ export const updateDashboard = (dashboardId: number, dashboardInput: UpdateDashb
  * @param dashboardId 삭제할 대시보드 ID
  */
 export const deleteDashboard = (dashboardId: number) => {
-  return safeRequest(() => requestDelete<void>(DASHBOARD_ENDPOINTS.DELETE(String(dashboardId))), 'DASHBOARD_DELETE');
+  return safeRequest(() => requestDelete<void>(DASHBOARD_ENDPOINTS.DELETE(String(dashboardId))), 'DASHBOARD DELETE');
 };

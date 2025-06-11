@@ -13,7 +13,7 @@ export const getMemberList = (params: MemberListParams) => {
   return safeRequest(async () => {
     const response = await requestGet<MemberListData>(MEMBER_ENDPOINTS.LIST, { params });
     return memberListResponseSchema.parse(response);
-  }, 'GET_MEMBER_LIST');
+  }, 'GET MEMBER LIST');
 };
 
 /**
@@ -21,5 +21,5 @@ export const getMemberList = (params: MemberListParams) => {
  * @param memberId 삭제할 멤버의 ID
  */
 export const deleteMember = (memberId: number) => {
-  return safeRequest(() => requestDelete<void>(MEMBER_ENDPOINTS.DELETE(String(memberId))), 'DELETE_MEMBER');
+  return safeRequest(() => requestDelete<void>(MEMBER_ENDPOINTS.DELETE(String(memberId))), 'DELETE MEMBER');
 };

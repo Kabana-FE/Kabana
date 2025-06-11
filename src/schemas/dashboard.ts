@@ -44,6 +44,7 @@ export const dashboardListResponseSchema = z.object({
   cursorId: z.number().nullable(),
 });
 
+//! 유효성 에러 메시지 처리는 react-hook-form에서 처리할수도 있고 추후 다시 정리
 /**
  * To server
  * @description 대시보드 생성 폼 유효성 검사를 위한 스키마

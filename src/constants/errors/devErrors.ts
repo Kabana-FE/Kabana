@@ -17,7 +17,9 @@ const DEV_ERRORS = {
   VALIDATION: {
     SCHEMA_MISMATCH: '서버 응답 형식이 예상과 다릅니다.',
     TYPE_ERROR: '데이터 타입이 올바르지 않습니다.',
-    PAGINATION_PARAMS: '잘못된 인자: 페이지네이션 방식에는 page와 size 파라미터가 필요합니다.',
+    PARAM_MISSING_IN_URL: (paramName: string) => `URL 파라미터에 '${paramName}'이(가) 누락되었습니다.`,
+    PARAM_INVALID_FORMAT: (paramName: string, value: string) =>
+      `URL 파라미터 '${paramName}'의 형식이 잘못되었습니다: '${value}'`,
   },
 
   GENERAL: {

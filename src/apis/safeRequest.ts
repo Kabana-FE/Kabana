@@ -11,7 +11,9 @@ import STATUS_CODES from '@/constants/statusCodes';
  * - 요청이 성공하면 응답 데이터를 반환합니다.
  * - 예상된 클라이언트 에러 (4xx): 서버가 의도적으로 보낸 에러입니다.(예: 로그인 실패, 중복된 이메일 등)
  * 이 경우, 서버의 응답을 그대로 다시 던져서 각 action에서 개별적으로 처리하도록 합니다.
- * - 예상치 못한 시스템 에러 (5xx, 네트워크 오류 등): 서버 다운, 네트워크 끊김 등 복구 불가능한 에러입니다.
+ * - 서버 에러 (5xx): 서버가 처리할 수 없는 에러입니다. (예: 서버 다운 등)
+ * 이 경우, 앱 전체가 멈추지 않도록 통일된 500 에러를 던져서 전역 errorElement가 처리하도록 합니다.
+ * - 예상치 못한 시스템 에러 (네트워크 오류 등): 네트워크 끊김 등 복구 불가능한 에러입니다.
  * 이 경우, 앱 전체가 멈추지 않도록 통일된 500 에러를 던져서 전역 errorElement가 처리하도록 합니다.
  *
  * @template T 서버 응답 데이터 타입 (단순 추론용, 실제 검증은 호출부에서 수행)
@@ -30,13 +32,18 @@ const safeRequest = async <T>(apiCall: () => Promise<T>, label: string = ''): Pr
       const { status, data } = err.response;
 
       if (status >= 400 && status < 500) {
-        console.warn(`CLIENT_ERROR: ${label}`, data);
+        console.error(`❌ CLIENT ERROR: ${label}`, data);
         // Response 객체로 감싸서 throw하면 react-router의 action/loader에서 잡을 수 있습니다.
+        throw new Response(JSON.stringify(data), { status });
+      }
+
+      if (status >= 500) {
+        console.error(`❌ SERVER ERROR: ${label}`, data);
         throw new Response(JSON.stringify(data), { status });
       }
     }
 
-    console.error(`❌ SERVER_ERROR: ${label} 요청 에러:`, err);
+    console.error(`❌ NETWORK ERROR: ${label} 요청 에러:`, err);
     throw new Response(JSON.stringify({ message: DEV_ERRORS.API.FETCH_FAILED }), {
       status: STATUS_CODES.SERVER_ERROR,
     });
