@@ -26,7 +26,7 @@ const buttonSizes = {
  * @param {'button' | 'submit' | 'reset'} type 버튼의 타입을 받습니다. 기본값은 'button' 입니다.
  * @param {function} onButtonClick 버튼이 눌렸을 때 실행될 함수를 받습니다.
  * @param {React.Ref<HTMLButtonElement>} ref 버튼 요소에 접근하기 위한 React ref입니다.
- * @param {string} 접근성 향상을 위한 라벨 텍스트입니다.
+ * @param {string} ariaLabel 접근성 향상을 위한 라벨 텍스트입니다.
  * @example
  * <SecondaryButton className='h-32 w-100 px-37 py-7 text-sm' variant='outlined'>
  *   버튼 내용이 들어갑니다.
