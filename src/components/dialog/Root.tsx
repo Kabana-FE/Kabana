@@ -13,7 +13,7 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
     _children.find((child) => child.type === Title),
     _children.find((child) => child.type === Close),
   ];
-  const exceptTitleArea = [_children.filter((child) => child.type !== Title && child.type !== Close)];
+  const exceptTitleArea = _children.filter((child) => child.type !== Title && child.type !== Close);
   if (!modalIsOpen) {
     return null;
   }
