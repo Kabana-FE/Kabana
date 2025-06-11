@@ -1,7 +1,7 @@
 import type { DialogCloseProp } from './types';
 
-const Close = ({ setToggleModal }: DialogCloseProp) => {
-  return <button onClick={() => setToggleModal()}>x</button>;
+const Close = ({ toggleModal }: DialogCloseProp) => {
+  return <button onClick={() => toggleModal()}>x</button>;
 };
 
 export default Close;

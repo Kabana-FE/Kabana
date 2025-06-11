@@ -6,7 +6,7 @@ import Close from './Close';
 import Title from './Title';
 import { type DialogRootProp } from './types';
 
-const Root = ({ children, className, toggleModal, setToggleModal }: DialogRootProp) => {
+const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp) => {
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as ReactElement[];
   const [title, close] = [
@@ -14,7 +14,7 @@ const Root = ({ children, className, toggleModal, setToggleModal }: DialogRootPr
     _children.filter((child) => child.type === Close),
   ];
   const exceptTitleArea = [_children.filter((child) => child.type !== Title && child.type !== Close)];
-  if (!toggleModal) {
+  if (!modalIsOpen) {
     return null;
   }
 
@@ -22,7 +22,7 @@ const Root = ({ children, className, toggleModal, setToggleModal }: DialogRootPr
     <div
       className='absolute z-50 h-screen w-screen bg-black/50'
       onClick={() => {
-        setToggleModal();
+        toggleModal();
       }}
     >
       <dialog open className={twMerge('inset-0 m-auto bg-white', className)} onClick={(e) => e.stopPropagation()}>

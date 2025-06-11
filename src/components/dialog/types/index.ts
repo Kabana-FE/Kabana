@@ -9,10 +9,10 @@ export interface DialogProp extends React.PropsWithChildren {
  *
  * */
 export interface DialogRootProp extends DialogProp {
-  setToggleModal: () => void;
-  toggleModal: boolean;
+  toggleModal: () => void;
+  modalIsOpen: boolean;
 }
 
 export interface DialogCloseProp {
-  setToggleModal: () => void;
+  toggleModal: () => void;
 }

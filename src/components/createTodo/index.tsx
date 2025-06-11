@@ -2,24 +2,19 @@
 // import { useForm } from 'react-hook-form';
 import { useRef, useState } from 'react';
 
+import AddIcon from '@/assets/icons/AddIcon';
 import Dialog from '@/components/dialog';
 import useKabanaStore from '@/stores/store';
 
 import Tag from '../tag';
 import colorList from './colorList';
 const CreateTodo = () => {
-  const createTodo = useKabanaStore((state) => state.createTodo);
-  const toggleCreateTodo = useKabanaStore((state) => state.toggleCreateTodo);
+  const modalIsOpen = useKabanaStore((state) => state.createTodo);
+  const toggleModal = useKabanaStore((state) => state.toggleCreateTodo);
   const [tagList, setTagList] = useState<string[]>([]);
   const [addedColors, setAddedColors] = useState<string[]>([]);
   const tagRef = useRef<HTMLInputElement>(null);
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm({
-  //   resolver: zodResolver(createTodoSchema),
-  // });
+
   const createRandomNumber = () => {
     const result = Math.floor(Math.random() * colorList.length);
     return result;
@@ -49,10 +44,10 @@ const CreateTodo = () => {
   return (
     <Dialog.Root
       className='w-327 rounded-2xl px-16 py-24 tablet:w-584'
-      setToggleModal={() => {
-        toggleCreateTodo();
+      modalIsOpen={modalIsOpen}
+      toggleModal={() => {
+        toggleModal();
       }}
-      toggleModal={createTodo}
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Content>
@@ -72,14 +67,17 @@ const CreateTodo = () => {
             </span>
             <input ref={tagRef} className='focus:outline-0' name='tags' type='text' onKeyDown={createDeleteTags} />
           </div>
-          <input type='file' />
+          <label htmlFor=''>
+            <AddIcon />
+            <input className='h-76 w-76 bg-[#F5F5F5]' type='file' />
+          </label>
         </form>
         <button className='border-1 border-black' type='submit'>
           폼 제출
         </button>
       </Dialog.Content>
       <Dialog.ButtonArea className='flex justify-between'>
-        <button onClick={() => toggleCreateTodo()}>취소</button>
+        <button>취소</button>
         <button>생성</button>
       </Dialog.ButtonArea>
     </Dialog.Root>

@@ -12,7 +12,7 @@ import Title from './Title';
  * title을 제외한 서브 컴포넌트에 className prop을 통해 커스텀이 가능합니다.
  * @example
  * ```tsx
- * <Dialog.Root toggleModal={true} setToggleModal={toggleFn}>
+ * <Dialog.Root modalIsOpen={state값} ToggleModal={toggleFn}>
  *   <Dialog.Title>제목</Dialog.Title>
  *   <Dialog.Close />
  *   <Dialog.Content>본문</Dialog.Content>
@@ -27,8 +27,8 @@ export default {
    * 모달의 최상위 래퍼 컴포넌트입니다.
    *
    * @param {string} [className] - 모달 스타일을 커스텀할 때 사용합니다.
-   * @param {boolean} toggleModal - 모달의 표시 여부를 제어합니다.
-   * @param {() => void} setToggleModal - 모달 표시 상태를 토글하는 함수입니다.
+   * @param {boolean} ModalIsOpen - 모달의 표시 여부를 제어합니다.
+   * @param {() => void} toggleModal - 모달 표시 상태를 토글하는 함수입니다.
    *
    * @remarks
    * - `<Dialog.Root>`는 반드시 포함되어야 합니다.
@@ -48,7 +48,7 @@ export default {
    * 모달을 닫는 버튼입니다.
    *
    * @component
-   * @param {() => void} setToggleModal - 모달을 닫기 위한 토글 함수
+   * @param {() => void} toggleModal - 모달을 닫기 위한 토글 함수
    */
   Close,
 
