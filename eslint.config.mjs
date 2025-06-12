@@ -92,10 +92,10 @@ export default tseslint.config(
             match: false,
           },
         },
-        // Import 변수: camelCase 또는 PascalCase 허용
+        // Import 변수: camelCase 또는 PascalCase, UPPER_CASE(상수) 허용
         {
           selector: 'import',
-          format: ['camelCase', 'PascalCase'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
         },
         // method 변수: camelCase, PascalCase, UPPER_CASE(상수) 허용
         {
