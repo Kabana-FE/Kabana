@@ -1,0 +1,55 @@
+{
+  "members": [
+    {
+      "id": 20806,
+      "email": "jihyun@naver.com",
+      "nickname": "jihyun",
+      "profileImageUrl": "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/taskify/profile_image/15-1_5778_1749627302435.jpeg",
+      "createdAt": "2025-06-04T15:07:18.348Z",
+      "updatedAt": "2025-06-04T15:07:18.348Z",
+      "isOwner": false,
+      "userId": 5778
+    },
+    {
+      "id": 20807,
+      "email": "jihyun@naver.com",
+      "nickname": "kabana",
+      "profileImageUrl": null,
+      "createdAt": "2025-06-04T15:07:18.348Z",
+      "updatedAt": "2025-06-04T15:07:18.348Z",
+      "isOwner": false,
+      "userId": 5774
+    },
+    {
+      "id": 20808,
+      "email": "jihyun@naver.com",
+      "nickname": "hello",
+      "profileImageUrl": null,
+      "createdAt": "2025-06-04T15:07:18.348Z",
+      "updatedAt": "2025-06-04T15:07:18.348Z",
+      "isOwner": false,
+      "userId": 5777
+    },
+    {
+      "id": 20809,
+      "email": "jihyun@naver.com",
+      "nickname": "test",
+      "profileImageUrl": null,
+      "createdAt": "2025-06-04T15:07:18.348Z",
+      "updatedAt": "2025-06-04T15:07:18.348Z",
+      "isOwner": true,
+      "userId": 5776
+    },
+    {
+      "id": 20810,
+      "email": "jihyun@naver.com",
+      "nickname": "test2",
+      "profileImageUrl": null,
+      "createdAt": "2025-06-04T15:07:18.348Z",
+      "updatedAt": "2025-06-04T15:07:18.348Z",
+      "isOwner": false,
+      "userId": 5779
+    }
+  ],
+  "totalCount": 4
+}

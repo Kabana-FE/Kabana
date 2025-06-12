@@ -1,0 +1,110 @@
+{
+  "invitations": [
+    {
+      "id": 16300,
+      "inviter": {
+        "id": 5778,
+        "email": "jihyun@naver.com",
+        "nickname": "jihyun"
+      },
+      "teamId": "15-1",
+      "dashboard": {
+        "id": 15131,
+        "title": "JihyunTest"
+      },
+      "invitee": {
+        "id": 5777,
+        "email": "sujin@gmail.com",
+        "nickname": "sujin"
+      },
+      "inviteAccepted": null,
+      "createdAt": "2025-06-12T14:38:44.360Z",
+      "updatedAt": "2025-06-12T14:38:44.360Z"
+    },
+    {
+      "id": 16299,
+      "inviter": {
+        "id": 5778,
+        "email": "jihyun@naver.com",
+        "nickname": "jihyun"
+      },
+      "teamId": "15-1",
+      "dashboard": {
+        "id": 15131,
+        "title": "JihyunTest"
+      },
+      "invitee": {
+        "id": 5776,
+        "email": "lts@naver.com",
+        "nickname": "leetaesik"
+      },
+      "inviteAccepted": null,
+      "createdAt": "2025-06-12T14:31:33.556Z",
+      "updatedAt": "2025-06-12T14:31:33.556Z"
+    },
+    {
+      "id": 16299,
+      "inviter": {
+        "id": 5778,
+        "email": "jihyun@naver.com",
+        "nickname": "jihyun"
+      },
+      "teamId": "15-1",
+      "dashboard": {
+        "id": 15131,
+        "title": "JihyunTest"
+      },
+      "invitee": {
+        "id": 5776,
+        "email": "lts@naver.com",
+        "nickname": "leetaesik"
+      },
+      "inviteAccepted": null,
+      "createdAt": "2025-06-12T14:31:33.556Z",
+      "updatedAt": "2025-06-12T14:31:33.556Z"
+    },
+    {
+      "id": 16299,
+      "inviter": {
+        "id": 5778,
+        "email": "jihyun@naver.com",
+        "nickname": "jihyun"
+      },
+      "teamId": "15-1",
+      "dashboard": {
+        "id": 15131,
+        "title": "JihyunTest"
+      },
+      "invitee": {
+        "id": 5776,
+        "email": "lts@naver.com",
+        "nickname": "leetaesik"
+      },
+      "inviteAccepted": null,
+      "createdAt": "2025-06-12T14:31:33.556Z",
+      "updatedAt": "2025-06-12T14:31:33.556Z"
+    },
+    {
+      "id": 16299,
+      "inviter": {
+        "id": 5778,
+        "email": "jihyun@naver.com",
+        "nickname": "jihyun"
+      },
+      "teamId": "15-1",
+      "dashboard": {
+        "id": 15131,
+        "title": "JihyunTest"
+      },
+      "invitee": {
+        "id": 5776,
+        "email": "lts@naver.com",
+        "nickname": "leetaesik"
+      },
+      "inviteAccepted": null,
+      "createdAt": "2025-06-12T14:31:33.556Z",
+      "updatedAt": "2025-06-12T14:31:33.556Z"
+    }
+  ],
+  "totalCount": 5
+}
