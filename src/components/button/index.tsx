@@ -18,14 +18,15 @@ const buttonSizes = {
 /**
  * 공통 버튼 컴포넌트입니다.
  * 'variant'를 통해 스타일을 변경할 수 있고, 'size'로 버튼의 크기를 선택할 수 있습니다.
+ * 'as'를 통해 렌더링될 HTML요소를 변경할 수 있으며, 기본적으로 'button'입니다.
+ * 버튼인 경우 type의 기본값은 'button'입니다.
  *
  * @param {'filled'|'outlined'|'none'} variant 기본값은 'filled' 입니다.
  * @param {'sm'|'md'|'lg'|'none'} size 기본값은 'md' 입니다.
  * @param {React.ReactNode} children 버튼의 내용을 받습니다.
- * @param {boolean} disabled 버튼을 비활성화할지 여부입니다.
- * @param
+ * @param {React.ElementType} as 기본값은 'button'입니다.
  * @example
- * <Button className='h-32 w-100 px-37 py-7 text-sm' variant='outlined'>
+ * <Button size='sm' variant='outlined'>
  *   버튼 내용이 들어갑니다.
  * </Button>
  */
