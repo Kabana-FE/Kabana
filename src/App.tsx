@@ -8,7 +8,7 @@ import LandingLayout from '@/layouts/Landing';
 
 const { APP: LANDING, SIGNUP, SIGNIN } = ROUTES;
 
-const APP = () => {
+const App = () => {
   const { pathname } = useLocation();
   const navigation = useNavigation();
   const [ready, setReady] = useState(false);
@@ -39,4 +39,4 @@ const APP = () => {
   return <DashboardLayout />;
 };
 
-export default APP;
+export default App;
