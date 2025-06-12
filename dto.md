@@ -1,18 +1,18 @@
-/**
- * Data Transfer Object:
- * 서버와 클라이언트 간에 주고받는 데이터의 구조를 정의한 객체(어떤 속성들이 있고 각 속성의 타입은 무엇인지)
- *
- * 백엔드 명세를 기반으로 정의한 타입들입니다.
- *
- * 작성 목적:
- * 1. 백엔드에서 받은 명세(raw)를 보기 편하게 기록/보존합니다.
- * 2. API 요청/응답 타입 설계 참고용으로 사용합니다.
- * 3. Zod schema 정의 시 참고용으로 사용합니다.
- *
- * ⚠️ 실제 런타임 유효성 검사는 Zod schema에서 수행되며,
- * 이 파일은 TypeScript의 타입 검사를 위한 참고 용도로만 사용됩니다.
- */
+Data Transfer Object:
+서버와 클라이언트 간에 주고받는 데이터의 구조를 정의한 객체(어떤 속성들이 있고 각 속성의 타입은 무엇인지)
 
+백엔드 명세를 기반으로 정의한 타입들입니다.
+
+작성 목적:
+
+1.  백엔드에서 받은 명세(raw)를 보기 편하게 기록/보존합니다.
+2.  API 요청/응답 타입 설계 참고용으로 사용합니다.
+3.  Zod schema 정의 시 참고용으로 사용합니다.
+
+⚠️ 실제 런타임 유효성 검사는 Zod schema에서 수행되며,
+이 파일은 TypeScript의 타입 검사를 위한 참고 용도로만 사용됩니다.
+
+```ts
 // 🗂️ 사용자 정보
 /** From Server 사용자 데이터 구조입니다.*/
 export interface UserServiceResponseDto {
@@ -279,3 +279,4 @@ export interface FindMembersRequestDto {
 export interface ErrorResponsePayload {
   message: string;
 }
+```
