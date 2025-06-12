@@ -1,5 +1,6 @@
 import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
+import Button from '@/components/button';
 
 const MyPage = () => {
   return (
@@ -14,7 +15,7 @@ const MyPage = () => {
             <h2 className='text-2lg font-bold tablet:text-2xl'>프로필</h2>
           </header>
           <div className='flex flex-col gap-40 tablet:flex-row tablet:gap-42'>
-            {/* button 컴포넌트로 수정 예정 */}
+            {/* input 컴포넌트로 수정 예정 */}
             <button className='flex size-100 items-center justify-center rounded-md bg-[#f5f5f5] tablet:size-182'>
               <AddIcon className='tablet:size-18' size={12} />
             </button>
@@ -39,8 +40,9 @@ const MyPage = () => {
                   />
                 </label>
               </div>
-              {/* button 컴포넌트로 수정 예정 */}
-              <button className='rounded-lg bg-capybara py-14 text-lg text-white'>저장</button>
+              <Button className='rounded-lg' size='lg' type='button' variant='filled'>
+                저장
+              </Button>
             </form>
           </div>
         </section>
@@ -78,8 +80,9 @@ const MyPage = () => {
                 />
               </label>
             </div>
-            {/* button 컴포넌트로 수정 예정 */}
-            <button className='rounded-lg bg-capybara py-14 text-lg text-white'>변경</button>
+            <Button className='rounded-lg' size='lg' type='button' variant='filled'>
+              변경
+            </Button>
           </form>
         </section>
       </div>
