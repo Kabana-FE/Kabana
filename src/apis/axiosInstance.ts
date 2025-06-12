@@ -13,7 +13,7 @@ import axios from 'axios';
  *   .then(response => console.log(response.data));
  */
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 export default axiosInstance;
