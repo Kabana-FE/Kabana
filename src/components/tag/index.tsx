@@ -1,6 +1,9 @@
+import { twMerge } from 'tailwind-merge';
+
 import type TagType from './types';
+
 const Tag = ({ children, className }: TagType) => {
-  return <span className={className}>{children}</span>;
+  return <span className={twMerge('px-10 py-2 text-[12px]', className)}>{children}</span>;
 };
 
 export default Tag;
