@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import axios from 'axios';
+
+import { useAuthStore } from '@/stores/useAuthStore';
 
 /**
  * 현재 .env 파일에서 설정한 VITE_BASE_URL을 기준으로 Axios 인스턴스를 생성하여 반환합니다.
@@ -14,6 +17,22 @@ import axios from 'axios';
  */
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = useAuthStore.getState().accessToken;
+    if (token && config.headers) {
+      config.headers.set('Authorization', `Bearer ${token}`);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export default axiosInstance;
