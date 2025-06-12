@@ -11,7 +11,7 @@ export const useAuth = () => {
       const { accessToken, user } = response;
 
       if (!accessToken || !user) {
-        throw new Error('유효하지 않은 응답입니다.');
+        throw new Error('로그인 응답에 토큰 또는 사용자 정보가 누락되었습니다.');
       }
 
       setAccessToken(accessToken);
