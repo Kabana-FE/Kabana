@@ -34,7 +34,7 @@ export const useAuth = () => {
 
   const logout = () => {
     clearAuth();
-    localStorage.removeItem('auth-storage');
+    useAuthStore.persist.clearStorage();
   };
 
   return {
