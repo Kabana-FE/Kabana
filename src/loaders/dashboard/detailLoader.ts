@@ -1,8 +1,8 @@
 import { HttpStatusCode } from 'axios';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
-import { getDashboardDetail } from '@/apis/fetch/dashboard';
-import { getMemberList } from '@/apis/fetch/member';
+import { getDashboardDetail } from '@/apis/dashboard';
+import { getMemberList } from '@/apis/member';
 import DEV_ERRORS from '@/constants/errors/devErrors';
 import type { Dashboard } from '@/schemas/dashboard';
 import type { MemberListData } from '@/schemas/member';
@@ -61,7 +61,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
     if (rejectedPromises.length > 0) {
       rejectedPromises.forEach((promise, index) => {
         const apiName = index === 0 ? 'getDashboardDetail' : 'getMemberList';
-        console.error(`🩺[${apiName}] failed with reason:`, (promise as PromiseRejectedResult).reason);
+        console.error(`🩺${apiName} failed with reason:`, (promise as PromiseRejectedResult).reason);
       });
       // 첫 번째 에러를 ErrorBoundary로 던져서 UI를 중단시킵니다.
       throw rejectedPromises[0].reason;

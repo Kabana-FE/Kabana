@@ -1,16 +1,23 @@
-import { getDashboardList } from '@/apis/fetch/dashboard';
+import { HttpStatusCode } from 'axios';
+
+import { getDashboardList } from '@/apis/dashboard';
 import type { DashboardListData } from '@/schemas/dashboard';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { handleLoaderError } from '@/utils/handleLoaderError';
 
 import type { RootLoaderData } from './types';
 
-//! 토큰 받는건 추후 수정 필요
-const getAuthToken = () => localStorage.getItem('accessToken');
-
+/**
+ * @description
+ * 앱의 최상위 로더. 앱이 로드될 때 가장 먼저 실행됩니다.
+ * - 사용자의 로그인 상태를 확인합니다.
+ * - 로그인 상태일 경우, 모든 페이지에서 공통으로 필요한 데이터(예: 사이드바의 대시보드 목록)를 불러옵니다.
+ * - 이 과정에서 API 호출을 통해 토큰의 유효성을 암묵적으로 검증하고, 401 에러 발생 시 사용자를 자동으로 로그아웃 처리합니다.
+ */
 export const rootLoader = async (): Promise<RootLoaderData> => {
-  const token: string | null = getAuthToken();
+  const { isLoggedIn, clearAuth } = useAuthStore.getState();
 
-  // 로그인 상태가 아니면, 대시보드 목록을 불러오지 않습니다.
-  if (!token) {
+  if (!isLoggedIn) {
     return { dashboards: [] };
   }
 
@@ -21,7 +28,14 @@ export const rootLoader = async (): Promise<RootLoaderData> => {
     });
     return { dashboards: dashboardListResponse.dashboards };
   } catch (error: unknown) {
-    console.error(error);
-    return { dashboards: [] };
+    if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {
+      console.warn('⚠️ Token is invalid or expired. Logging out.');
+      clearAuth();
+      useAuthStore.persist.clearStorage();
+      // 로그아웃 후 앱이 깨지지 않도록 비어있는 데이터를 반환합니다.
+      return { dashboards: [] };
+    }
+
+    handleLoaderError(error);
   }
 };

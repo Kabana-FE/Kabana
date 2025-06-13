@@ -1,4 +1,4 @@
-import { requestDelete, requestGet, requestPost, requestPut } from '@/apis/request';
+import { requestDelete, requestGet, requestPost, requestPut } from '@/apis/base/request';
 import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
 import type {
   CreateDashboardInput,
