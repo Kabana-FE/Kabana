@@ -11,7 +11,11 @@ const DEV_ERRORS = {
   API: {
     FETCH_FAILED: '데이터 요청 중 에러가 발생했습니다.',
     DATA_NOT_FOUND: '요청한 데이터를 찾을 수 없습니다.',
-    SERVER_ERROR: '서버 응답에 오류가 발생했습니다.',
+    SERVER_ERROR: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    BAD_REQUEST: '잘못된 요청입니다. 입력 내용을 다시 확인해주세요.',
+    UNAUTHORIZED: '해당 요청에 대한 접근 권한이 없습니다.',
+    REQUEST_SETUP_FAILED: '요청을 준비하는 중 오류가 발생했습니다.',
+    CONNECTION_FAILED: '서버와의 연결에 실패했습니다. 네트워크 상태를 확인해주세요.',
   },
   // 데이터 유효성 및 타입 관련 에러
   VALIDATION: {
@@ -24,6 +28,7 @@ const DEV_ERRORS = {
 
   GENERAL: {
     UNEXPECTED: '예상치 못한 내부 오류가 발생했습니다.',
+    UNKNOWN: '알 수 없는 오류가 발생했습니다.',
   },
 };
 

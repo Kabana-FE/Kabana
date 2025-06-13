@@ -1,5 +1,4 @@
 import { requestDelete, requestGet, requestPost, requestPut } from '@/apis/request';
-import safeRequest from '@/apis/safeRequest';
 import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
 import type {
   CreateDashboardInput,
@@ -15,11 +14,9 @@ import { dashboardListResponseSchema, dashboardSchema } from '@/schemas/dashboar
  * @param dashboardInput 생성할 대시보드 데이터 (title, color)
  * @returns 생성된 대시보드 정보 (서버 응답을 dashboardSchema로 검증합니다.)
  */
-export const createDashboard = (dashboardInput: CreateDashboardInput) => {
-  return safeRequest(async () => {
-    const response = await requestPost<Dashboard, CreateDashboardInput>(DASHBOARD_ENDPOINTS.CREATE, dashboardInput);
-    return dashboardSchema.parse(response);
-  }, 'DASHBOARD CREATE');
+export const createDashboard = async (dashboardInput: CreateDashboardInput) => {
+  const response = await requestPost<Dashboard, CreateDashboardInput>(DASHBOARD_ENDPOINTS.CREATE, dashboardInput);
+  return dashboardSchema.parse(response);
 };
 
 /**
@@ -27,11 +24,9 @@ export const createDashboard = (dashboardInput: CreateDashboardInput) => {
  * @param params 쿼리 파라미터 (navigationMethod, cursorId, page, size)3
  * @returns 대시보드 목록과 커서 ID (서버 응답을 dashboardListResponseSchema로 검증합니다.)
  */
-export const getDashboardList = (params: DashboardListParams) => {
-  return safeRequest(async () => {
-    const response = await requestGet<DashboardListData>(DASHBOARD_ENDPOINTS.LIST, { params });
-    return dashboardListResponseSchema.parse(response);
-  }, 'GET DASHBOARD LIST');
+export const getDashboardList = async (params: DashboardListParams) => {
+  const response = await requestGet<DashboardListData>(DASHBOARD_ENDPOINTS.LIST, { params });
+  return dashboardListResponseSchema.parse(response);
 };
 
 /**
@@ -39,11 +34,9 @@ export const getDashboardList = (params: DashboardListParams) => {
  * @param dashboardId 조회할 대시보드 ID
  * @returns 대시보드 상세 정보 (서버 응답을 dashboardSchema로 검증합니다.)
  */
-export const getDashboardDetail = (dashboardId: number) => {
-  return safeRequest(async () => {
-    const response = await requestGet<Dashboard>(DASHBOARD_ENDPOINTS.DETAIL(String(dashboardId)));
-    return dashboardSchema.parse(response);
-  }, 'GET DASHBOARD DETAIL');
+export const getDashboardDetail = async (dashboardId: number) => {
+  const response = await requestGet<Dashboard>(DASHBOARD_ENDPOINTS.DETAIL(String(dashboardId)));
+  return dashboardSchema.parse(response);
 };
 
 /**
@@ -52,20 +45,19 @@ export const getDashboardDetail = (dashboardId: number) => {
  * @param dashboardInput 수정할 대시보드 데이터
  * @returns 수정된 대시보드 정보 (서버 응답을 dashboardSchema로 검증합니다.)
  */
-export const updateDashboard = (dashboardId: number, dashboardInput: UpdateDashboardInput) => {
-  return safeRequest(async () => {
-    const response = await requestPut<Dashboard, UpdateDashboardInput>(
-      DASHBOARD_ENDPOINTS.UPDATE(String(dashboardId)),
-      dashboardInput,
-    );
-    return dashboardSchema.parse(response);
-  }, 'DASHBOARD UPDATE');
+export const updateDashboard = async (dashboardId: number, dashboardInput: UpdateDashboardInput) => {
+  const response = await requestPut<Dashboard, UpdateDashboardInput>(
+    DASHBOARD_ENDPOINTS.UPDATE(String(dashboardId)),
+    dashboardInput,
+  );
+  return dashboardSchema.parse(response);
 };
 
 /**
  * @description 특정 대시보드를 삭제합니다.
  * @param dashboardId 삭제할 대시보드 ID
  */
-export const deleteDashboard = (dashboardId: number) => {
-  return safeRequest(() => requestDelete<void>(DASHBOARD_ENDPOINTS.DELETE(String(dashboardId))), 'DASHBOARD DELETE');
+export const deleteDashboard = async (dashboardId: number) => {
+  const response = await requestDelete<void>(DASHBOARD_ENDPOINTS.DELETE(String(dashboardId)));
+  return response;
 };

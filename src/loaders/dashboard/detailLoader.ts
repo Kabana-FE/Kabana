@@ -24,14 +24,13 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
 
   const dashboardId: number = Number(dashboardIdString);
   if (isNaN(dashboardId)) {
-    console.error(`❌ Invalid Dashboard ID: "${dashboardIdString}" is not a number.`);
+    console.error(`🩺Invalid Dashboard ID: "${dashboardIdString}" is not a number.`);
     throw new Response(DEV_ERRORS.VALIDATION.PARAM_INVALID_FORMAT('dashboardId', 'dashboardId'), {
       status: STATUS_CODES.BAD_REQUEST,
     });
   }
 
   try {
-    // 이 try 블록이 safeRequest가 던진 Response를 잡습니다.
     const [dashboardDetail, memberListResponse]: [Dashboard, MemberListData] = await Promise.all([
       getDashboardDetail(dashboardId),
       getMemberList({ dashboardId, size: 4 }),
@@ -39,13 +38,11 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
 
     return { dashboardDetail, memberListResponse };
   } catch (error: unknown) {
-    console.error('❌ Failed to load dashboard detail or member list:', error);
+    console.error('🩺Failed to load dashboard detail or member list:', error);
 
-    // safeRequest에서 던진 Response 객체인 경우
     if (error instanceof Response) {
-      throw error; // 그대로 다시 던져서 React Router의 errorElement로 전달
+      throw error;
     } else {
-      // safeRequest가 던지지 않은 예상치 못한 에러 (거의 없을 가능성이 높지만 방어적 코드)
       throw new Response(DEV_ERRORS.API.FETCH_FAILED, { status: STATUS_CODES.SERVER_ERROR });
     }
   }
