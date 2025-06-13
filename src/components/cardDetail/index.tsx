@@ -1,6 +1,6 @@
 import Badge from '@/components/badge';
-import Button from '@/components/button';
-import Dialog from '@/components/dialog';
+import Button from '@/components/common/button';
+import Dialog from '@/components/common/dialog';
 import Tag from '@/components/tag';
 import useKabanaStore from '@/stores/store';
 

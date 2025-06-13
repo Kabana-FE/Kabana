@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import AddIcon from '@/assets/icons/AddIcon';
-import Dialog from '@/components/dialog';
+import Dialog from '@/components/common/dialog';
 import Tag from '@/components/tag';
 import { type CreateTodoType } from '@/schemas/dashboard';
 import { createTodoSchema } from '@/schemas/dashboard';
