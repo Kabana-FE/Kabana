@@ -54,13 +54,6 @@ const router = createBrowserRouter([
               return { Component, action };
             },
           },
-          {
-            path: NOT_FOUND,
-            lazy: async () => {
-              const { default: Component } = await import('@/pages/error/NotFound');
-              return { Component };
-            },
-          },
         ],
       },
 
@@ -121,6 +114,13 @@ const router = createBrowserRouter([
       {
         path: 'test-global-error',
         loader: errorTestLoader,
+      },
+      {
+        path: NOT_FOUND,
+        lazy: async () => {
+          const { default: Component } = await import('@/pages/error/NotFound');
+          return { Component };
+        },
       },
     ],
   },
