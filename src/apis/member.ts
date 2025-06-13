@@ -1,4 +1,4 @@
-import { requestDelete, requestGet } from '@/apis/request';
+import { requestDelete, requestGet } from '@/apis/base/request';
 import { MEMBER_ENDPOINTS } from '@/constants/paths';
 import type { MemberListData, MemberListParams } from '@/schemas/member';
 import { memberListResponseSchema } from '@/schemas/member';
