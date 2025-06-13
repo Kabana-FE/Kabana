@@ -24,7 +24,7 @@ import type PaginationProps from './types';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
   const paginationBtnStyle =
-    'size-36 border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40';
+    'size-36 border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
   return (
     <>
       <Button
