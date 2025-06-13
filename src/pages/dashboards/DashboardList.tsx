@@ -4,7 +4,7 @@ import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import CrownIcon from '@/assets/icons/CrownIcon';
 import DotIcon from '@/assets/icons/DotIcon';
-import Button from '@/components/button';
+import Button from '@/components/common/button';
 import Pagination from '@/components/pagination';
 
 // my dashboard
