@@ -53,7 +53,7 @@ const DashboardEdit = () => {
               </header>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>1 페이지 중 1</span>
               {/* props 필수라 임의 값 지정 */}
-              <Pagination currentPage={1} totalPages={5} onPageChange={() => 'hi'} />
+              <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
             </div>
             <div className='px-20 text-md text-gray-400 tablet:px-28 tablet:text-lg'>이름</div>
             <ul>
@@ -70,7 +70,7 @@ const DashboardEdit = () => {
                   삭제
                 </Button>
               </li>
-              <div className='border-b border-gray-200' />
+              <li aria-hidden='true' className='border-b border-gray-200' role='presentation' />
             </ul>
           </section>
           <section className='h-406 max-w-620 rounded-lg bg-white tablet:h-477'>
@@ -80,7 +80,7 @@ const DashboardEdit = () => {
               </header>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>1 페이지 중 1</span>
               {/* props 필수라 임의 값 지정 */}
-              <Pagination currentPage={1} totalPages={5} onPageChange={() => 'hi'} />
+              <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
             </div>
             <div className='flex justify-between px-20 pb-10 tablet:px-28'>
               <div className='text-gray-400'>이메일</div>
@@ -100,7 +100,7 @@ const DashboardEdit = () => {
                   취소
                 </Button>
               </li>
-              <div className='border-b border-gray-200' />
+              <li aria-hidden='true' className='border-b border-gray-200' role='presentation' />
             </ul>
           </section>
         </div>
