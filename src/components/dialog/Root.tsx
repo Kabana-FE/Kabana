@@ -1,4 +1,4 @@
-import { Children } from 'react';
+import { Children, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
@@ -14,6 +14,13 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
     _children.find((child) => child.type === Close),
   ];
   const exceptTitleArea = _children.filter((child) => child.type !== Title && child.type !== Close);
+  useEffect(() => {
+    document.body.style.overflow = modalIsOpen ? 'hidden' : 'auto';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [modalIsOpen]);
+
   if (!modalIsOpen) {
     return null;
   }
