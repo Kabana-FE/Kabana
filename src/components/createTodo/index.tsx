@@ -113,13 +113,13 @@ const CreateTodo = () => {
           <input {...register('imageUrl')} className='hidden' id='file' placeholder='imageUrl' type='file' />
         </form>
       </Dialog.Content>
-      <Dialog.ButtonArea className='mt-32 flex justify-between'>
-        <Button className='tablet:w-256' variant='outlined' onButtonClick={toggleModal}>
+      <Dialog.ButtonArea className='mt-32 flex justify-between gap-8'>
+        <Button aria-label='취소' className='w-1/2' variant='outlined' onClick={toggleModal}>
           취소
         </Button>
-        <button form='createTodo' type='submit'>
+        <Button className='w-1/2' form='createTodo' type='submit'>
           생성
-        </button>
+        </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>
   );
