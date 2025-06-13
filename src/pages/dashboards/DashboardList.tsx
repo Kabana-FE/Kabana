@@ -1,4 +1,4 @@
-import CardDetail from '@/components/cardDetail/Detail';
+import CardDetail from '@/components/cardDetail';
 import CreateTodo from '@/components/createTodo';
 import useKabanaStore from '@/stores/store';
 // my dashboard
