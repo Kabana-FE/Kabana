@@ -28,20 +28,20 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
   return (
     <>
       <Button
-        ariaLabel='이전 페이지'
+        aria-label='이전 페이지'
         className={`${paginationBtnStyle} rounded-r-none`}
         disabled={currentPage === 1}
         variant='none'
-        onButtonClick={() => onPageChange(currentPage - 1)}
+        onClick={() => onPageChange(currentPage - 1)}
       >
         <ChevronIcon direction='left' size={16} />
       </Button>
       <Button
-        ariaLabel='다음 페이지'
+        aria-label='다음 페이지'
         className={`${paginationBtnStyle} rounded-l-none`}
         disabled={currentPage === totalPages}
         variant='none'
-        onButtonClick={() => onPageChange(currentPage + 1)}
+        onClick={() => onPageChange(currentPage + 1)}
       >
         <ChevronIcon direction='right' size={16} />
       </Button>
