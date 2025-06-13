@@ -1,5 +1,5 @@
 import ChevronIcon from '@/assets/icons/ChevronIcon';
-import Button from '@/components/button';
+import Button from '@/components/common/button';
 
 import type PaginationProps from './types';
 
@@ -24,24 +24,24 @@ import type PaginationProps from './types';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
   const paginationBtnStyle =
-    'size-36 border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40';
+    'size-36 border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
   return (
     <>
       <Button
-        ariaLabel='이전 페이지'
+        aria-label='이전 페이지'
         className={`${paginationBtnStyle} rounded-r-none`}
         disabled={currentPage === 1}
         variant='none'
-        onButtonClick={() => onPageChange(currentPage - 1)}
+        onClick={() => onPageChange(currentPage - 1)}
       >
         <ChevronIcon direction='left' size={16} />
       </Button>
       <Button
-        ariaLabel='다음 페이지'
+        aria-label='다음 페이지'
         className={`${paginationBtnStyle} rounded-l-none`}
         disabled={currentPage === totalPages}
         variant='none'
-        onButtonClick={() => onPageChange(currentPage + 1)}
+        onClick={() => onPageChange(currentPage + 1)}
       >
         <ChevronIcon direction='right' size={16} />
       </Button>
