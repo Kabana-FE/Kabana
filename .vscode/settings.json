@@ -8,5 +8,20 @@
   "json.schemaDownload.enable": false,
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "cSpell.enabled": true,
+  "cSpell.language": "en",
+  "cSpell.allowCompoundWords": true,
+  "cSpell.words": ["tailwindcss", "eslint", "vite", "pnpm", "tsconfig"],
+  "cSpell.ignorePaths": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.next/**",
+    "**/.turbo/**",
+    "pnpm-lock.yaml",
+    ".vscode",
+    "**/*.d.ts"
+  ],
+  "cSpell.files": ["src/**/*.{ts,tsx,js,jsx}", "public/**/*.html"]
 }
