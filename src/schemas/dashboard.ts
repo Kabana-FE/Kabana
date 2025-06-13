@@ -65,9 +65,21 @@ export const createDashboardSchema = z.object({
  */
 export const updateDashboardSchema = createDashboardSchema.partial();
 
+export const createTodoSchema = z.object({
+  assigneeUserId: z.coerce.number(),
+  dashboardId: z.coerce.number(),
+  columnId: z.coerce.number(),
+  title: z.string().trim().min(1),
+  description: z.string().trim().min(1),
+  dueDate: z.string(),
+  tags: z.array(z.string()),
+  imageUrl: z.any().optional(),
+});
+
 export type NavigationMethod = z.infer<typeof navigationMethodSchema>;
 export type CreateDashboardInput = z.infer<typeof createDashboardSchema>;
 export type UpdateDashboardInput = z.infer<typeof updateDashboardSchema>;
 export type DashboardListParams = z.infer<typeof dashboardListParamsSchema>;
 export type DashboardListData = z.infer<typeof dashboardListResponseSchema>;
 export type Dashboard = z.infer<typeof dashboardSchema>;
+export type CreateTodoType = z.infer<typeof createTodoSchema>;

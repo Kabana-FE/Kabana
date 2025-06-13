@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 
 import AddIcon from '@/assets/icons/AddIcon';
 import Dialog from '@/components/dialog';
-import type { CreateTodoType } from '@/schemas/modalSchema';
-import { createTodoSchema } from '@/schemas/modalSchema';
+import type { CreateTodoType } from '@/schemas/dashboard';
+import { createTodoSchema } from '@/schemas/dashboard';
 import useKabanaStore from '@/stores/store';
 
 import Button from '../button';
