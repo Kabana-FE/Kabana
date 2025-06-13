@@ -26,7 +26,7 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
       }}
     >
       <dialog open className={twMerge('inset-0 m-auto bg-white', className)} onClick={(e) => e.stopPropagation()}>
-        <div className='flex justify-between'>
+        <div className='flex items-center justify-between'>
           {title}
           {close}
         </div>
