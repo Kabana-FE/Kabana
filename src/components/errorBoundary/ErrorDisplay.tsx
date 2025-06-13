@@ -11,14 +11,15 @@ import type { ErrorDisplayProps } from './types';
  * @param {number} status - 표시할 HTTP 상태 코드 (옵션)
  * @param {string} title - 에러의 주 제목
  * @param {string} message - 에러의 상세 메시지
- * @param {boolean} showBackButton - '이전 페이지로' 버튼 표시 여부 (기본값: true)
+ * @param {'back' | 'retry' | 'back-and-retry'} variant - 표시할 버튼 종류
+ * @param {() => void} onRetry - '다시 시도' 버튼 클릭 시 실행될 함수
  */
 /** */
-const ErrorDisplay = ({ status, title, message, showBackButton = true }: ErrorDisplayProps) => {
+const ErrorDisplay = ({ status, title, message, variant, onRetry }: ErrorDisplayProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex h-screen w-full flex-col items-center justify-center gap-10 bg-Magnolia' role='alert'>
+    <div className='flex flex-1 flex-col items-center justify-center gap-10 bg-Magnolia' role='alert'>
       <ErrorImage className='h-auto w-[20rem]' />
       <h1 className='text-xl font-bold text-gray-black'>{title}</h1>
 
@@ -28,9 +29,14 @@ const ErrorDisplay = ({ status, title, message, showBackButton = true }: ErrorDi
           <p className='text-md text-gray-500'>{message}</p>
         </div>
         <div className='mt-4 flex gap-x-3'>
-          {showBackButton && (
+          {variant === 'back' && (
             <Button variant='outlined' onButtonClick={() => navigate(-1)}>
               이전 페이지로
+            </Button>
+          )}
+          {variant === 'retry' && onRetry && (
+            <Button variant='outlined' onButtonClick={onRetry}>
+              다시 시도
             </Button>
           )}
           <Button onButtonClick={() => navigate(ROUTES.APP, { replace: true })}>홈으로 가기</Button>
