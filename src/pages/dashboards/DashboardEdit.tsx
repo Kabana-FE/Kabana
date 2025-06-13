@@ -1,7 +1,7 @@
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import DotIcon from '@/assets/icons/DotIcon';
-import Button from '@/components/button';
+import Button from '@/components/common/button';
 import Pagination from '@/components/pagination';
 
 const DashboardEdit = () => {
@@ -10,7 +10,7 @@ const DashboardEdit = () => {
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16'>
       <nav className='flex items-center gap-8'>
-        <Button size='none' variant='none'>
+        <Button aria-label='돌아가기' size='none' variant='none'>
           <ChevronIcon className='tablet:size-20' direction='left' size={18} />
         </Button>
         <span className='text-md tablet:text-lg'>돌아가기</span>
