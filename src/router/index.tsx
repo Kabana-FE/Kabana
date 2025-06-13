@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { ApiErrorBoundary } from '@/components/errorBoundary/ApiErrorBoundary';
-import { GlobalErrorBoundary } from '@/components/errorBoundary/GlobalErrorBoundary';
+import GlobalErrorBoundary from '@/components/errorBoundary/GlobalErrorBoundary';
 import { ROUTES } from '@/constants/paths/routes';
+import errorTestLoader from '@/loaders/test/errorTestLoader';
 
 const { APP, SIGNIN, SIGNUP, MYPAGE, DASHBOARD_LIST, DASHBOARD_DETAIL, DASHBOARD_EDIT, NOT_FOUND } = ROUTES;
 
@@ -17,27 +18,50 @@ const router = createBrowserRouter([
     errorElement: <GlobalErrorBoundary />,
     children: [
       {
-        index: true,
         lazy: async () => {
-          const { default: Component } = await import('@/pages/landing/Landing');
-          return { Component };
+          const { default: LandingLayout } = await import('@/layouts/Landing');
+          return { Component: LandingLayout };
         },
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/landing/Landing');
+              return { Component };
+            },
+          },
+        ],
       },
       {
-        path: SIGNUP,
         lazy: async () => {
-          const { default: Component } = await import('@/pages/auth/Signup');
-          const { action } = await import('@/actions/auth/signupAction');
-          return { Component, action };
+          const { default: SimpleLayout } = await import('@/layouts/Simple');
+          return { Component: SimpleLayout };
         },
-      },
-      {
-        path: SIGNIN,
-        lazy: async () => {
-          const { default: Component } = await import('@/pages/auth/Signin');
-          const { action } = await import('@/actions/auth/signinAction');
-          return { Component, action };
-        },
+        children: [
+          {
+            path: SIGNUP,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/auth/Signup');
+              const { action } = await import('@/actions/auth/signupAction');
+              return { Component, action };
+            },
+          },
+          {
+            path: SIGNIN,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/auth/Signin');
+              const { action } = await import('@/actions/auth/signinAction');
+              return { Component, action };
+            },
+          },
+          {
+            path: NOT_FOUND,
+            lazy: async () => {
+              const { default: Component } = await import('@/pages/error/NotFound');
+              return { Component };
+            },
+          },
+        ],
       },
 
       {
@@ -86,17 +110,17 @@ const router = createBrowserRouter([
                   return { Component, loader, action };
                 },
               },
+              {
+                path: 'test-api-error',
+                loader: errorTestLoader,
+              },
             ],
           },
         ],
       },
-
       {
-        path: NOT_FOUND,
-        lazy: async () => {
-          const { default: Component } = await import('@/pages/error/NotFound');
-          return { Component };
-        },
+        path: 'test-global-error',
+        loader: errorTestLoader,
       },
     ],
   },

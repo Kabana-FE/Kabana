@@ -3,10 +3,9 @@ import type { LoaderFunctionArgs } from 'react-router-dom';
 
 import { getDashboardDetail } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
-import DEV_ERRORS from '@/constants/errors/devErrors';
 import type { Dashboard } from '@/schemas/dashboard';
 import type { MemberListData } from '@/schemas/member';
-import { handleLoaderError } from '@/utils/handleLoaderError';
+import handleLoaderError from '@/utils/error/handleLoaderError';
 
 import type { DashboardDetailLoaderData } from './types';
 
@@ -37,17 +36,22 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
   const dashboardIdString: string | undefined = params.dashboardId;
 
   if (!dashboardIdString) {
-    throw new Response(DEV_ERRORS.VALIDATION.PARAM_MISSING_IN_URL('dashboardId'), {
+    throw new Response(JSON.stringify({ message: 'URL 파라미터에 dashboardId가 누락되었습니다.' }), {
       status: HttpStatusCode.BadRequest,
     });
   }
 
   const dashboardId: number = Number(dashboardIdString);
   if (isNaN(dashboardId)) {
-    console.error(`🩺Invalid Dashboard ID: "${dashboardIdString}" is not a number.`);
-    throw new Response(DEV_ERRORS.VALIDATION.PARAM_INVALID_FORMAT('dashboardId', 'dashboardId'), {
-      status: HttpStatusCode.BadRequest,
-    });
+    console.error(`🩺 Invalid Dashboard ID: "${dashboardIdString}" is not a number.`);
+    throw new Response(
+      JSON.stringify({
+        message: `URL 파라미터 dashboardId가 유효한 숫자가 아닙니다: "${dashboardIdString}"`,
+      }),
+      {
+        status: HttpStatusCode.BadRequest,
+      },
+    );
   }
 
   try {
@@ -61,7 +65,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
     if (rejectedPromises.length > 0) {
       rejectedPromises.forEach((promise, index) => {
         const apiName = index === 0 ? 'getDashboardDetail' : 'getMemberList';
-        console.error(`🩺${apiName} failed with reason:`, (promise as PromiseRejectedResult).reason);
+        console.error(`🩺 ${apiName} API 호출 실패:`, (promise as PromiseRejectedResult).reason);
       });
       // 첫 번째 에러를 ErrorBoundary로 던져서 UI를 중단시킵니다.
       throw rejectedPromises[0].reason;
@@ -74,6 +78,6 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
 
     return { dashboardDetail, memberListResponse };
   } catch (error: unknown) {
-    handleLoaderError(error);
+    return handleLoaderError(error);
   }
 };

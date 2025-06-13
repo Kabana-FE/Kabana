@@ -3,7 +3,7 @@ import { HttpStatusCode } from 'axios';
 import { getDashboardList } from '@/apis/dashboard';
 import type { DashboardListData } from '@/schemas/dashboard';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { handleLoaderError } from '@/utils/handleLoaderError';
+import handleLoaderError from '@/utils/error/handleLoaderError';
 
 import type { RootLoaderData } from './types';
 
@@ -36,6 +36,6 @@ export const rootLoader = async (): Promise<RootLoaderData> => {
       return { dashboards: [] };
     }
 
-    handleLoaderError(error);
+    return handleLoaderError(error);
   }
 };
