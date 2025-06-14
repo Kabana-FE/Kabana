@@ -13,7 +13,7 @@ import type { ErrorDisplayProps, RenderErrorBoundaryProps } from './types';
  */
 const RenderErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const displayProps: ErrorDisplayProps = {
-    message: error.message,
+    message: UI_ERRORS.CLIENT,
     title: UI_ERRORS.BOUNDARY_TITLES.RENDER,
     variant: 'retry',
     onRetry: resetErrorBoundary,

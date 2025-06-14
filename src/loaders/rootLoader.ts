@@ -1,6 +1,8 @@
 import { HttpStatusCode } from 'axios';
+import { redirect } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import { ROUTES } from '@/constants/paths';
 import type { DashboardListData } from '@/schemas/dashboard';
 import { useAuthStore } from '@/stores/useAuthStore';
 import handleLoaderError from '@/utils/error/handleLoaderError';
@@ -32,8 +34,7 @@ export const rootLoader = async (): Promise<RootLoaderData> => {
       console.warn('⚠️ Token is invalid or expired. Logging out.');
       clearAuth();
       useAuthStore.persist.clearStorage();
-      // 로그아웃 후 앱이 깨지지 않도록 비어있는 데이터를 반환합니다.
-      return { dashboards: [] };
+      throw redirect(ROUTES.SIGNIN);
     }
 
     return handleLoaderError(error);

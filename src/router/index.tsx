@@ -103,18 +103,26 @@ const router = createBrowserRouter([
                   return { Component, loader, action };
                 },
               },
-              {
-                path: 'test-api-error',
-                loader: errorTestLoader,
-              },
+              ...(import.meta.env.DEV
+                ? [
+                    {
+                      path: 'test-api-error',
+                      loader: errorTestLoader,
+                    },
+                  ]
+                : []),
             ],
           },
         ],
       },
-      {
-        path: 'test-global-error',
-        loader: errorTestLoader,
-      },
+      ...(import.meta.env.DEV
+        ? [
+            {
+              path: 'test-global-error',
+              loader: errorTestLoader,
+            },
+          ]
+        : []),
       {
         path: NOT_FOUND,
         lazy: async () => {

@@ -20,7 +20,7 @@ const ErrorDisplay = ({ status, title, message, variant, onRetry }: ErrorDisplay
 
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-10 bg-Magnolia' role='alert'>
-      <ErrorImage className='h-auto w-[20rem]' />
+      <ErrorImage className='h-auto w-320' />
       <h1 className='text-xl font-bold text-gray-black'>{title}</h1>
 
       <div className='flex max-w-md flex-col items-center justify-center gap-y-6 rounded-2xl bg-gray-100 p-10 text-center shadow-xl'>
