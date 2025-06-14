@@ -15,9 +15,10 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
   ];
   const exceptTitleArea = _children.filter((child) => child.type !== Title && child.type !== Close);
   useEffect(() => {
-    document.body.style.overflow = modalIsOpen ? 'hidden' : 'auto';
+    const preOverflow = document.body.style.overflow;
+    document.body.style.overflow = modalIsOpen ? 'hidden' : preOverflow;
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = preOverflow;
     };
   }, [modalIsOpen]);
 

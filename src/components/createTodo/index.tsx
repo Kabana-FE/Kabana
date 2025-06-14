@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import AddIcon from '@/assets/icons/AddIcon';
+import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Tag from '@/components/tag';
 import { type CreateTodoType } from '@/schemas/dashboard';
 import { createTodoSchema } from '@/schemas/dashboard';
 import useKabanaStore from '@/stores/store';
 
-import Button from '../button';
 import colorList from './colorList';
 import { type TagListType } from './types';
+
 const CreateTodo = () => {
   const defaultValues: CreateTodoType = {
     assigneeUserId: 0,
@@ -27,9 +28,8 @@ const CreateTodo = () => {
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors },
-  } = useForm({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
+  } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
 
   const modalIsOpen = useKabanaStore((state) => state.createTodo);
   const toggleModal = useKabanaStore((state) => state.toggleCreateTodo);
@@ -53,9 +53,9 @@ const CreateTodo = () => {
 
       const trimedWord = e.currentTarget.value.trim();
       if (trimedWord !== '') {
-        if (colors.indexOf(colorList[randomNum]) === -1) {
-          setTagList([...tagList, { label: e.currentTarget.value, color: colorList[randomNum] }]);
-        }
+        const availableColors = colorList.filter((color) => !colors.includes(color));
+        const selectedColor = availableColors[randomNum];
+        setTagList([...tagList, { label: trimedWord, color: selectedColor }]);
         e.currentTarget.value = '';
         e.currentTarget.focus();
       }
@@ -70,7 +70,6 @@ const CreateTodo = () => {
   useEffect(() => {
     const tags = tagList.map((tag) => tag.label);
     setValue('tags', tags);
-    console.log('values', getValues('tags'), `tagList:`, tagList);
   }, [tagList]);
 
   return (
@@ -99,30 +98,29 @@ const CreateTodo = () => {
                 dashboardId: 1,
                 columnId: 1,
               };
-              console.log(collectedData);
             },
-            (error) => console.log(error),
+            (error) => console.error(error),
           )}
         >
-          <input {...register('title')} className='border-1 border-black' placeholder='title' type='text' />
-          <textarea {...register('description')} className='border-1 border-black' placeholder='설명을 입력해주세요' />
+          <input {...register('title')} className='border border-black' placeholder='title' type='text' />
+          <textarea {...register('description')} className='border border-black' placeholder='설명을 입력해주세요' />
           <input {...register('dueDate')} className='border-1 border-black' type='date' />
-          <div className='flex flex-nowrap items-center gap-2 border-1 border-black p-2'>
+          <div className='flex flex-nowrap items-center gap-2 border border-black p-2'>
             {tagList.map((tag, idx) => (
               <Tag key={tag.label ?? idx} className={`${tag.color ?? 'bg-gray-200'}`}>
                 {tag.label ?? '빈값'}
               </Tag>
             ))}
-            <input className='w-fit focus:outline-0' name='tags' type='text' onKeyDown={createDeleteTags} />
+            <input className='flex-1 focus:outline-0' name='tags' type='text' onKeyDown={createDeleteTags} />
           </div>
-          <label className='mt-5 flex h-76 w-76 items-center justify-center rounded-[6px] bg-[#F5F5F5]' htmlFor='file'>
+          <label className='mt-5 flex h-76 w-76 items-center justify-center rounded-md bg-[#F5F5F5]' htmlFor='file'>
             <AddIcon />
           </label>
           <input {...register('imageUrl')} className='hidden' id='file' placeholder='imageUrl' type='file' />
         </form>
       </Dialog.Content>
       <Dialog.ButtonArea className='mt-32 flex justify-between gap-8'>
-        <Button aria-label='취소' className='w-1/2' variant='outlined' onClick={toggleModal}>
+        <Button className='w-1/2' variant='outlined' onClick={toggleModal}>
           취소
         </Button>
         <Button className='w-1/2' form='createTodo' type='submit'>

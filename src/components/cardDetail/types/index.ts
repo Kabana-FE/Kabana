@@ -3,6 +3,6 @@ export default interface DetailType {
   description?: string;
   tagList?: string[];
   column?: string;
-  asignee?: string;
-  duedate?: string;
+  assignee?: string;
+  dueDate?: string;
 }

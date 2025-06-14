@@ -4,7 +4,7 @@ import type TagType from './types';
 
 const Tag = ({ children, className, ...props }: TagType) => {
   return (
-    <span className={twMerge('px-10 py-2 text-[12px]', className)} {...props}>
+    <span className={twMerge('inline-flex w-auto px-10 py-2 text-[12px]', className)} {...props}>
       {children}
     </span>
   );

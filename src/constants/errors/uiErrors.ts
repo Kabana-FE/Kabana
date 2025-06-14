@@ -20,6 +20,7 @@ const UI_ERRORS = {
   VALIDATION: {
     REQUIRED: (fieldName: string) => `${fieldName}은(는) 필수 항목입니다.`,
     STRING_MAX: (max: number) => `최대 ${max}자 이내로 작성해주세요.`,
+    STRING_MIN: (min: number) => `최소 ${min}자 이상 작성해주세요.`,
   },
 
   UNKNOWN: '예상치 못한 문제가 발생했습니다. \n잠시 후 다시 시도해주세요.',

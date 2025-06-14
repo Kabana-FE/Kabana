@@ -2,10 +2,18 @@ import CloseIcon from '@/assets/icons/CloseIcon';
 
 import type { DialogCloseProp } from './types';
 
-const Close = ({ toggleModal }: DialogCloseProp) => {
+const Close = ({ toggleModal, resetContent }: DialogCloseProp) => {
   return (
-    <button onClick={() => toggleModal()}>
-      <CloseIcon size={12.9} />
+    <button
+      aria-label='닫기'
+      onClick={() => {
+        toggleModal();
+        if (resetContent) {
+          resetContent();
+        }
+      }}
+    >
+      <CloseIcon className='w-13 tablet:w-14' />
     </button>
   );
 };
