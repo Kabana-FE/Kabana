@@ -13,7 +13,6 @@ export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 
 export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'autoComplete'> {
   type: 'textarea';
-  name: string;
 }
 
 export interface FileUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
