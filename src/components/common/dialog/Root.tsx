@@ -1,4 +1,4 @@
-import { Children } from 'react';
+import { Children, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
@@ -14,6 +14,14 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
     _children.find((child) => child.type === Close),
   ];
   const exceptTitleArea = _children.filter((child) => child.type !== Title && child.type !== Close);
+  useEffect(() => {
+    const preOverflow = document.body.style.overflow;
+    document.body.style.overflow = modalIsOpen ? 'hidden' : preOverflow;
+    return () => {
+      document.body.style.overflow = preOverflow;
+    };
+  }, [modalIsOpen]);
+
   if (!modalIsOpen) {
     return null;
   }
@@ -26,7 +34,7 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
       }}
     >
       <dialog open className={twMerge('inset-0 m-auto bg-white', className)} onClick={(e) => e.stopPropagation()}>
-        <div className='flex justify-between'>
+        <div className='flex items-center justify-between'>
           {title}
           {close}
         </div>

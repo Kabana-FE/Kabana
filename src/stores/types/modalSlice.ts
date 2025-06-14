@@ -4,10 +4,12 @@ export interface ModalSlice {
   createColumn: boolean;
   editColumn: boolean;
   createDashboard: boolean;
+  cardDetail: boolean;
 
   toggleCreateTodo: () => void;
   toggleEditTodo: () => void;
   toggleCreateColumn: () => void;
   toggleEditColumn: () => void;
   toggleCreateDashboard: () => void;
+  toggleCardDetail: () => void;
 }

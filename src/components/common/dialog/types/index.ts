@@ -15,4 +15,5 @@ export interface DialogRootProp extends DialogProp {
 
 export interface DialogCloseProp {
   toggleModal: () => void;
+  resetContent?: () => void;
 }
