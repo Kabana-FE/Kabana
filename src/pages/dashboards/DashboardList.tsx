@@ -17,17 +17,17 @@ const DashboardList = () => {
           <ul className='grid gap-8 tablet:grid-cols-2 tablet:gap-10 pc:grid-cols-3 pc:gap-13'>
             <li>
               <Button
-                className='h-58 w-full gap-12 rounded-lg text-md font-semibold text-black tablet:h-68 tablet:text-lg'
+                className='h-58 w-full gap-12 rounded-lg text-md font-semibold text-gray-700 tablet:h-68 tablet:text-lg'
                 size='none'
                 variant='outlined'
               >
-                새로운 대시보드 <AddIcon className='size-20 rounded-sm bg-[#FEF8E5] p-5 tablet:size-22 tablet:p-6' />
+                새로운 대시보드 <AddIcon className='size-20 rounded-sm bg-cream p-5 tablet:size-22 tablet:p-6' />
               </Button>
             </li>
             <li>
               <Button
                 as={Link}
-                className='h-58 w-full justify-between gap-12 rounded-lg px-20 text-md font-semibold text-black tablet:h-68 tablet:text-lg'
+                className='h-58 w-full justify-between gap-12 rounded-lg px-20 text-md font-semibold text-gray-700 tablet:h-68 tablet:text-lg'
                 size='none'
                 to='./'
                 variant='outlined'
