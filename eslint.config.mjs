@@ -180,19 +180,7 @@ export default tseslint.config(
       },
     },
   },
-  // 5. tailwind.config.ts 타입 체크 안 하도록 설정
-  {
-    files: ['tailwind.config.ts'],
-    languageOptions: {
-      parserOptions: {
-        project: null,
-      },
-    },
-    rules: {
-      '@typescript-eslint/naming-convention': 'off',
-    },
-  },
 
-  // 6. Prettier 설정: 포맷팅 충돌 방지
+  // 5. Prettier 설정: 포맷팅 충돌 방지
   eslintConfigPrettier,
 );

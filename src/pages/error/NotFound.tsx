@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import VerticalLogo from '@/assets/images/VerticalLogo';
-import Button from '@/components/button';
+import Button from '@/components/common/button';
 import UI_ERRORS from '@/constants/errors/uiErrors';
 import { ROUTES } from '@/constants/paths';
 
@@ -12,6 +12,7 @@ import { ROUTES } from '@/constants/paths';
  */
 const NotFound = () => {
   const { TITLE, MESSAGE } = UI_ERRORS.NOT_FOUND;
+  const navigate = useNavigate();
 
   return (
     <div className='flex h-screen w-full flex-col items-center justify-center gap-y-16 bg-gray-100 text-center'>
@@ -30,9 +31,7 @@ const NotFound = () => {
       </main>
 
       <footer className='mt-8'>
-        <Button className='px-10 py-4' size='lg' onButtonClick={() => (window.location.href = ROUTES.APP)}>
-          홈으로 돌아가기
-        </Button>
+        <Button onClick={() => navigate(ROUTES.APP, { replace: true })}>홈으로 돌아가기</Button>
       </footer>
     </div>
   );

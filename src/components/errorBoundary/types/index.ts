@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 /**
  * @description
  * ErrorDisplay 컴포넌트에 전달되는 props입니다.
@@ -17,7 +15,7 @@ export interface ErrorDisplayProps {
   status?: number;
   title: string;
   message: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
   variant?: 'back' | 'retry';
   onRetry?: () => void;
 }

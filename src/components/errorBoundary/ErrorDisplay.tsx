@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import ErrorImage from '@/assets/images/ErrorImage';
-import Button from '@/components/button';
+import Button from '@/components/common/button';
 import { ROUTES } from '@/constants/paths';
 
 import type { ErrorDisplayProps } from './types';
@@ -11,7 +11,7 @@ import type { ErrorDisplayProps } from './types';
  * @param {number} status - 표시할 HTTP 상태 코드 (옵션)
  * @param {string} title - 에러의 주 제목
  * @param {string} message - 에러의 상세 메시지
- * @param {'back' | 'retry' | 'back-and-retry'} variant - 표시할 버튼 종류
+ * @param {'back' | 'retry' } variant - 표시할 버튼 종류
  * @param {() => void} onRetry - '다시 시도' 버튼 클릭 시 실행될 함수
  */
 /** */
@@ -30,16 +30,16 @@ const ErrorDisplay = ({ status, title, message, variant, onRetry }: ErrorDisplay
         </div>
         <div className='mt-4 flex gap-x-3'>
           {variant === 'back' && (
-            <Button variant='outlined' onButtonClick={() => navigate(-1)}>
+            <Button variant='outlined' onClick={() => navigate(-1)}>
               이전 페이지로
             </Button>
           )}
           {variant === 'retry' && onRetry && (
-            <Button variant='outlined' onButtonClick={onRetry}>
+            <Button variant='outlined' onClick={onRetry}>
               다시 시도
             </Button>
           )}
-          <Button onButtonClick={() => navigate(ROUTES.APP, { replace: true })}>홈으로 가기</Button>
+          <Button onClick={() => navigate(ROUTES.APP, { replace: true })}>홈으로 가기</Button>
         </div>
       </div>
     </div>
