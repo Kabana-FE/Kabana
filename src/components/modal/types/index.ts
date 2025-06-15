@@ -1,3 +1,7 @@
+export interface CreateColumnProps {
+  dashboardId: number;
+}
+
 export interface EditColumnProps {
   columnId: number;
   initialTitle: string;

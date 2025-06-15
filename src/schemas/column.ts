@@ -5,7 +5,6 @@ import { z } from 'zod';
  */
 export const createColumnSchema = z.object({
   title: z.string(),
-  dashboardId: z.number(),
 });
 /**
  * From server
