@@ -83,6 +83,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
     const dashboardRaw = (results[0] as PromiseFulfilledResult<unknown>).value;
     const memberListRaw = (results[1] as PromiseFulfilledResult<unknown>).value;
 
+    // zod 검사
     const dashboardDetail = dashboardSchema.parse(dashboardRaw);
     const memberListResponse = memberListResponseSchema.parse(memberListRaw);
 
