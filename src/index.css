@@ -58,5 +58,6 @@
 
   html {
     font-family: 'Pretendard', system-ui, sans-serif;
+    word-break: keep-all;
   }
 }
