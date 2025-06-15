@@ -9,6 +9,10 @@ export interface ErrorMessageProps {
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  isInvalid?: boolean;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'autoComplete'> {
