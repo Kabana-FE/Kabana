@@ -17,5 +17,5 @@ export const getInvitationList = async (params: InvitationListParams) => {
  * @param dashboardInput 수정할 대시보드 데이터
  */
 export const respondInvitation = async (invitationId: number, respond: RespondInvitationParams) => {
-  return requestPut<Invitation, RespondInvitationParams>(`${INVITATION_ENDPOINTS.RESPOND}/${invitationId}`, respond);
+  return requestPut<Invitation, RespondInvitationParams>(INVITATION_ENDPOINTS.RESPOND(String(invitationId)), respond);
 };
