@@ -6,6 +6,7 @@ export interface ModalSlice {
   createDashboard: boolean;
   cardDetail: boolean;
   deleteAlert: boolean;
+  inviteMember: boolean;
 
   toggleCreateTodo: () => void;
   toggleEditTodo: () => void;
@@ -14,4 +15,5 @@ export interface ModalSlice {
   toggleCreateDashboard: () => void;
   toggleCardDetail: () => void;
   toggleDeleteAlert: () => void;
+  toggleInviteMember: () => void;
 }

@@ -10,6 +10,7 @@ export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (s
   createDashboard: false,
   cardDetail: false,
   deleteAlert: false,
+  inviteMember: false,
 
   toggleCreateTodo: () => set((state) => ({ createTodo: !state.createTodo })),
   toggleEditTodo: () => set((state) => ({ editTodo: !state.editTodo })),
@@ -18,4 +19,5 @@ export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (s
   toggleCreateDashboard: () => set((state) => ({ createDashboard: !state.createDashboard })),
   toggleCardDetail: () => set((state) => ({ cardDetail: !state.cardDetail })),
   toggleDeleteAlert: () => set((state) => ({ deleteAlert: !state.deleteAlert })),
+  toggleInviteMember: () => set((state) => ({ inviteMember: !state.inviteMember })),
 });
