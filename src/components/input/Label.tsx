@@ -2,9 +2,9 @@ import { twMerge } from 'tailwind-merge';
 
 import type { LabelProps } from './types';
 
-const Label = ({ children, className, htmlFor }: LabelProps) => {
+const Label = ({ children, className, htmlFor, ...props }: LabelProps) => {
   return (
-    <label className={twMerge('text-lg text-gray-700', className)} htmlFor={htmlFor}>
+    <label className={twMerge('text-lg text-gray-700', className)} htmlFor={htmlFor} {...props}>
       {children}
     </label>
   );
