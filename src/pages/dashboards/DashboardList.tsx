@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
 
 import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
@@ -6,9 +7,16 @@ import CrownIcon from '@/assets/icons/CrownIcon';
 import DotIcon from '@/assets/icons/DotIcon';
 import Button from '@/components/common/button';
 import Pagination from '@/components/pagination';
+import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
+import type { Dashboard } from '@/schemas/dashboard';
+import type { Invitation } from '@/schemas/invitation';
 
 // my dashboard
 const DashboardList = () => {
+  const initialData = useLoaderData() as DashboardListLoaderData;
+  const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialData.dashboardList.dashboards);
+  const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+
   return (
     <div className='flex w-full'>
       <div className='w-67 bg-white tablet:w-160 pc:w-300' />
