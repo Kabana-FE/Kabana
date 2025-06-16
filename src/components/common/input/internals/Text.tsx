@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-import type { TextInputProps } from '@/components/input/types';
+import type { TextInputProps } from '@/components/common/input/types';
 
 const Text = ({ type = 'text', className, leftIcon, rightIcon, isInvalid, ref, ...props }: TextInputProps) => {
   return (

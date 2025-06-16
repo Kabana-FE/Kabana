@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-import type { TextAreaProps } from '@/components/input/types';
+import type { TextAreaProps } from '@/components/common/input/types';
 
 const TextArea = ({ className, type: _ignored, ...props }: TextAreaProps) => {
   return (
