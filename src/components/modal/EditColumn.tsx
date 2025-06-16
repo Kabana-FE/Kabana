@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { updateColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
-import { type UpdateColumnInput, updateColumnSchema } from '@/schemas/column';
+import type { EditColumnProps } from '@/components/modal/types';
+import type { UpdateColumnInput } from '@/schemas/column';
+import { updateColumnSchema } from '@/schemas/column';
 import useKabanaStore from '@/stores/store';
-
-import type { EditColumnProps } from './types';
 /**
  * @description 컬럼 제목을 수정하거나 컬럼을 삭제할 수 있는 모달 컴포넌트입니다.
  *

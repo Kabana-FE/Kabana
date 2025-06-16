@@ -6,7 +6,8 @@ import { createDashboard } from '@/apis/dashboard';
 import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
-import { type CreateDashboardInput, createDashboardSchema } from '@/schemas/dashboard';
+import type { CreateDashboardInput } from '@/schemas/dashboard';
+import { createDashboardSchema } from '@/schemas/dashboard';
 import useKabanaStore from '@/stores/store';
 /**
  * @description 새로운 대시보드를 생성할 수 있는 모달 컴포넌트입니다.

@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { createColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
-import { type CreateColumnInput, createColumnSchema } from '@/schemas/column';
+import type { CreateColumnProps } from '@/components/modal/types';
+import type { CreateColumnInput } from '@/schemas/column';
+import { createColumnSchema } from '@/schemas/column';
 import useKabanaStore from '@/stores/store';
-
-import type { CreateColumnProps } from './types';
 /**
  * @description 새로운 컬럼을 생성하는 모달 컴포넌트입니다.
  *

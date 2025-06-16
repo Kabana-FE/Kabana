@@ -5,7 +5,8 @@ import { inviteMember } from '@/apis/invitation';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import type { InviteMemberProps } from '@/components/modal/types';
-import { type InviteMemberInput, inviteMemberSchema } from '@/schemas/invitation';
+import type { InviteMemberInput } from '@/schemas/invitation';
+import { inviteMemberSchema } from '@/schemas/invitation';
 import useKabanaStore from '@/stores/store';
 /**
  * 구성원 초대 모달 컴포넌트

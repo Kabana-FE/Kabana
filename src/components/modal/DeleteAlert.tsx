@@ -1,9 +1,8 @@
 import { deleteColumn } from '@/apis/column';
+import Button from '@/components/common/button';
+import Dialog from '@/components/common/dialog';
+import type { DeleteAlertProps } from '@/components/modal/types';
 import useKabanaStore from '@/stores/store';
-
-import Button from '../common/button';
-import Dialog from '../common/dialog';
-import type { DeleteAlertProps } from './types';
 /**
  * @description 컬럼 삭제를 확인하는 모달 컴포넌트입니다.
  *
