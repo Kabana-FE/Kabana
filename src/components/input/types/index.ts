@@ -8,7 +8,7 @@ export interface ErrorMessageProps {
 }
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  type: string;
+  type?: Exclude<string, 'file' | 'textarea'>;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   isInvalid?: boolean;
