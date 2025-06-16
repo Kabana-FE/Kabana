@@ -4,7 +4,7 @@ export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> 
 
 export interface ErrorMessageProps {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -21,6 +21,7 @@ export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
 
 export interface FileUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: 'file';
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 export type FieldProps = TextInputProps | TextAreaProps | FileUploadProps;
