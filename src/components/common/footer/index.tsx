@@ -16,7 +16,7 @@ const Footer = () => {
       <Button
         aria-label='Kabana Github'
         as='a'
-        href='https://github.com/Kabana-FE/Kabana.git'
+        href='https://github.com/Kabana-FE/Kabana'
         rel='noopener noreferrer'
         size='none'
         target='_blank'
