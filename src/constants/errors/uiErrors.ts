@@ -16,9 +16,13 @@ export const UI_ERRORS = {
     [HttpStatusCode.NotFound]: '요청하신 정보를 찾을 수 없습니다.',
     [HttpStatusCode.Conflict]: '입력하신 정보가 이미 존재하거나 충돌이 발생했습니다.',
     [HttpStatusCode.InternalServerError]: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
-    [HttpStatusCode.ServiceUnavailable]:
-      '네트워크에 문제가 발생했거나 서비스가 현재 사용 불가능합니다. 잠시 후 다시 시도해 주세요.',
+    [HttpStatusCode.ServiceUnavailable]: '서비스가 현재 사용 불가능합니다. 잠시 후 다시 시도해 주세요.',
   },
+
+  /**
+   * 네트워크 연결 관련 에러 메시지 (HTTP 상태 코드와 무관하게 처리).
+   */
+  NETWORK_CONNECTION: '인터넷 연결을 확인해주세요. 서비스를 이용할 수 없습니다.',
 
   /**
    * 클라이언트 측(렌더링 등)에서 발생하는 일반적인 에러 메시지.
