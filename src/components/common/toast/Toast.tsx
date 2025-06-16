@@ -62,6 +62,12 @@ const typeStyles = {
     title: 'Warning',
     icon: <WarningIcon />,
   },
+  default: {
+    border: 'border-l-capybara',
+    color: 'bg-capybara',
+    title: 'Notice',
+    icon: <InfoIcon />,
+  },
 };
 
 const Toast = ({ toast }: ToastProps) => {

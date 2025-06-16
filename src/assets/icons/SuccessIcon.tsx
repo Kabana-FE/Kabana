@@ -18,7 +18,7 @@ import type { ColorIconProps } from './types'; //
 const SuccessIcon = (
   { size = 20, color = '#00cc99', ...props }: ColorIconProps, // Changed type to ColorIconProps to correctly infer the 'color' property from type definition
 ) => (
-  <svg fill='none' height={size} viewBox='0 0 24 24' width={size} xmlns='http://www.w3.org/2000/svg'>
+  <svg fill='none' height={size} viewBox='0 0 24 24' width={size} xmlns='http://www.w3.org/2000/svg' {...props}>
     <circle cx='12' cy='12' r='10' stroke={color} strokeWidth='2' />
     <path d='M8 12.5L11 15.5L16 9.5' stroke={color} strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' />
   </svg>

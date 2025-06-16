@@ -12,9 +12,9 @@
  * <ErrorIcon />
  * <ErrorIcon color="#ff0000" size={18} />
  */
-const ErrorIcon = ({ size = 20, color = '#ef4444' }: { size?: number; color?: string }) => {
+const ErrorIcon = ({ size = 20, color = '#ef4444', ...props }: { size?: number; color?: string }) => {
   return (
-    <svg fill='none' height={size} viewBox='0 0 24 24' width='64' xmlns='http://www.w3.org/2000/svg'>
+    <svg fill='none' height={size} viewBox='0 0 24 24' width={size} xmlns='http://www.w3.org/2000/svg' {...props}>
       <circle cx='12' cy='12' r='10' stroke={color} strokeWidth='2' />
       <line stroke={color} strokeLinecap='round' strokeWidth='2' x1='8' x2='16' y1='8' y2='16' />
       <line stroke={color} strokeLinecap='round' strokeWidth='2' x1='16' x2='8' y1='8' y2='16' />

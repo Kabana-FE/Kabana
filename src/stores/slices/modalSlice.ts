@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 
-import type { ModalSlice } from '../types/modalSlice';
+import type ModalSlice from '@/stores/types/modalSlice';
 
 const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (set) => ({
   createTodo: false,

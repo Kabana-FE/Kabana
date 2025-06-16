@@ -15,8 +15,9 @@
 const WarningIcon = ({
   size = 20,
   color = '#f97316',
+  ...props
 }: { size?: number; color?: string } & React.SVGProps<SVGSVGElement>) => (
-  <svg fill='none' height={size} viewBox='0 0 24 24' width='64' xmlns='http://www.w3.org/2000/svg'>
+  <svg fill='none' height={size} viewBox='0 0 24 24' width={size} xmlns='http://www.w3.org/2000/svg' {...props}>
     <circle cx='12' cy='12' r='10' stroke={color} strokeWidth='2' />
     <line stroke={color} strokeLinecap='round' strokeWidth='2' x1='12' x2='12' y1='7' y2='13' />
     <circle cx='12' cy='17' fill={color} r='1.5' />
