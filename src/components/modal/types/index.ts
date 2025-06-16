@@ -10,3 +10,7 @@ export interface EditColumnProps {
 export interface DeleteAlertProps {
   columnId: number;
 }
+
+export interface InviteMemberProps {
+  dashboardId: number;
+}
