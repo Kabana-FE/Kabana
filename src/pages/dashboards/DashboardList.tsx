@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import AddIcon from '@/assets/icons/AddIcon';
-import ChevronIcon from '@/assets/icons/ChevronIcon';
-import CrownIcon from '@/assets/icons/CrownIcon';
-import DotIcon from '@/assets/icons/DotIcon';
 import Button from '@/components/common/button';
+import DashboardItem from '@/components/dashboardItem';
 import Pagination from '@/components/pagination';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
 import type { Dashboard } from '@/schemas/dashboard';
@@ -32,22 +30,13 @@ const DashboardList = () => {
                 새로운 대시보드 <AddIcon className='size-20 rounded-sm bg-cream p-5 tablet:size-22 tablet:p-6' />
               </Button>
             </li>
-            <li>
-              <Button
-                as={Link}
-                className='h-58 w-full justify-between gap-12 rounded-lg px-20 text-md font-semibold text-gray-700 tablet:h-68 tablet:text-lg'
-                size='none'
-                to='./'
-                variant='outlined'
-              >
-                <div className='flex items-center'>
-                  <DotIcon className='mr-12 pc:mr-16' color='var(--color-green)' size={8} />
-                  비브리지
-                  <CrownIcon className='ml-4 w-15 tablet:ml-6 tablet:w-18 pc:ml-8 pc:w-20' />
-                </div>
-                <ChevronIcon />
-              </Button>
-            </li>
+            {dashboardList.map((item) => {
+              return (
+                <li key={item.id}>
+                  <DashboardItem {...item} />
+                </li>
+              );
+            })}
           </ul>
 
           <div className='mt-16 mb-24 flex items-center justify-end tablet:mb-48'>
