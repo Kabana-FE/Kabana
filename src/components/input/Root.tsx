@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import { Children } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import ErrorMessage from './ErrorMessage';
@@ -16,7 +16,7 @@ const Root = ({ children, className }: RootProps) => {
   ];
 
   return (
-    <div className={twMerge('flex flex-col gap-8', className)}>
+    <div className={twMerge('flex flex-col gap-8', className)} role='group'>
       {label}
       {field}
       {errorMessage}
