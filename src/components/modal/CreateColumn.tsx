@@ -29,9 +29,6 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
     watch,
   } = useForm<CreateColumnInput>({
     resolver: zodResolver(createColumnSchema),
-    // defaultValues: {
-    //   title: initialTitle,
-    // },
   });
   const title = watch('title');
   const onSubmit = async (data: CreateColumnInput) => {
