@@ -4,7 +4,9 @@ import { dashboardListResponseSchema } from '@/schemas/dashboard';
 import { invitationListSchema } from '@/schemas/invitation';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
-export const loader = async () => {
+import type { DashboardListLoaderData } from './types';
+
+export const loader = async (): Promise<DashboardListLoaderData> => {
   try {
     const results = await Promise.allSettled([
       getDashboardList({ navigationMethod: 'pagination', size: 5 }),
