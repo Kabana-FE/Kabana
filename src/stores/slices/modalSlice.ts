@@ -2,7 +2,7 @@ import type { StateCreator } from 'zustand';
 
 import type { ModalSlice } from '../types/modalSlice';
 
-export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (set) => ({
+const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (set) => ({
   createTodo: false,
   editTodo: false,
   createColumn: false,
@@ -17,3 +17,5 @@ export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (s
   toggleCreateDashboard: () => set((state) => ({ createDashboard: !state.createDashboard })),
   toggleCardDetail: () => set((state) => ({ cardDetail: !state.cardDetail })),
 });
+
+export default createModalSlice;

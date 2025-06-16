@@ -1,10 +1,13 @@
 import { create } from 'zustand';
 
-import { createModalSlice } from './slices/modalSlice';
-import type { ModalSlice } from './types/modalSlice';
+import { createModalSlice, createToastSlice } from './slices';
+import type { ModalSlice, ToastSlice } from './types';
 
-const useKabanaStore = create<ModalSlice>()((...args) => ({
+type CombinedSlices = ModalSlice & ToastSlice;
+
+const useKabanaStore = create<CombinedSlices>()((...args) => ({
   ...createModalSlice(...args),
+  ...createToastSlice(...args),
 }));
 
 export default useKabanaStore;
