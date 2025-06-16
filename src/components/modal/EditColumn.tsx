@@ -31,9 +31,9 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
     reset,
   } = useForm<UpdateColumnInput>({
     resolver: zodResolver(updateColumnSchema),
-    // defaultValues: {
-    //   title: initialTitle,
-    // },
+    defaultValues: {
+      title: initialTitle,
+    },
   });
 
   const onSubmit = async (data: UpdateColumnInput) => {
@@ -60,6 +60,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
           <input
             {...register('title')}
             className='rounded-lg border border-gray-300 px-16 py-12 text-md'
+            defaultValue={initialTitle}
             placeholder={initialTitle}
             type='text'
           />
