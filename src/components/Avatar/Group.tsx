@@ -1,4 +1,4 @@
-import { Children } from 'react';
+import { Children, isValidElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import Avatar from '@/components/Avatar';
@@ -15,8 +15,10 @@ import type { GroupProps } from '@/components/Avatar/types';
  */
 const Group = ({ children, className, max }: GroupProps) => {
   const _children = Children.toArray(children).filter(
-    (child) => (child as React.ReactElement).type === Avatar,
-  ) as React.ReactElement[];
+    (child) =>
+      isValidElement(child) &&
+      (child.type === Avatar || (child.type as { displayName?: string })?.displayName === 'Avatar'),
+  );
 
   const visibleAvatars = max ? _children.slice(0, max) : _children;
   const extraCount = max && _children.length > max ? _children.length - max : 0;

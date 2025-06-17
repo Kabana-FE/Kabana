@@ -33,11 +33,7 @@ const getColor = (nickname: string) => {
  * @returns 이니셜 문자열
  */
 const getInitials = (nickname: string) => {
-  return nickname
-    .split(' ')
-    .filter(Boolean)
-    .map((word) => word[0].toUpperCase())
-    .join('');
+  return nickname.trim()[0].toUpperCase();
 };
 /**
  * Avatar 컴포넌트
@@ -51,8 +47,7 @@ const getInitials = (nickname: string) => {
  */
 const Avatar = ({ src, nickname, className }: AvatarProps) => {
   const bgColor = getColor(nickname);
-  const Initial = getInitials(nickname);
-
+  const initial = getInitials(nickname);
   return (
     <div
       aria-label='프로필 이미지'
@@ -61,9 +56,10 @@ const Avatar = ({ src, nickname, className }: AvatarProps) => {
         className,
       )}
     >
-      {src ? <img alt='프로필 이미지' className='rounded-full' src={src} /> : <span>{Initial}</span>}
+      {src ? <img alt='프로필 이미지' className='rounded-full' src={src} /> : <span>{initial}</span>}
     </div>
   );
 };
+Avatar.displayName = 'Avatar';
 
 export default Avatar;
