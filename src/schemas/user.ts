@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import UI_ERRORS from '@/constants/errors/uiErrors';
+import { UI_ERRORS } from '@/constants/errors/uiErrors';
 
 /**
  * From server
@@ -19,8 +19,8 @@ export const userInfoSchema = z.object({
  * @description 내 정보 수정 폼 유효성 검사를 위한 스키마
  */
 export const updateUserInfoSchema = z.object({
-  nickname: z.string(),
-  profileImageUrl: z.string().url().nullable(),
+  nickname: z.string().optional(),
+  profileImageUrl: z.string().url().nullable().optional(),
 });
 /**
  * To server
@@ -43,5 +43,5 @@ export const ProfileImageSchema = z.object({
 
 export type UserInfo = z.infer<typeof userInfoSchema>;
 export type UpdateUser = z.infer<typeof updateUserInfoSchema>;
-export type UploadProfileImage = z.infer<typeof updateUserInfoSchema>;
+export type UploadProfileImage = z.infer<typeof uploadProfileImageSchema>;
 export type ProfileImage = z.infer<typeof ProfileImageSchema>;
