@@ -1,9 +1,17 @@
+import { useState } from 'react';
+import { useLoaderData } from 'react-router';
+
 import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import type { MypageLoaderData } from '@/loaders/myPage/types';
+import type { UserInfo } from '@/schemas/user';
 
 const MyPage = () => {
+  const initialData = useLoaderData() as MypageLoaderData;
+  const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
+
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
       <nav className='flex items-center gap-8'>
@@ -33,9 +41,9 @@ const MyPage = () => {
                   </Input.Label>
                   <Input.Field
                     readOnly
-                    className='cursor-default p-11 focus:border-1 focus:border-gray-300 focus:ring-0 focus:outline-none'
+                    className='cursor-default focus:border-1 focus:border-gray-300 focus:ring-0 focus:outline-none'
                     id='email'
-                    placeholder='user@email.com'
+                    placeholder={myProfile.email}
                     type='text'
                   />
                 </Input.Root>
@@ -43,7 +51,7 @@ const MyPage = () => {
                   <Input.Label className='text-md tablet:text-lg' htmlFor='nickname'>
                     닉네임
                   </Input.Label>
-                  <Input.Field className='p-11' id='nickname' placeholder='닉네임을 입력해주세요' type='text' />
+                  <Input.Field id='nickname' placeholder={myProfile.nickname} type='text' />
                 </Input.Root>
               </div>
               <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
@@ -62,19 +70,19 @@ const MyPage = () => {
                 <Input.Label className='text-md tablet:text-lg' htmlFor='currentPassword'>
                   현재 비밀번호
                 </Input.Label>
-                <Input.Field className='p-11' id='currentPassword' placeholder='현재 비밀번호 입력' type='password' />
+                <Input.Field id='currentPassword' placeholder='현재 비밀번호 입력' type='password' />
               </Input.Root>
               <Input.Root>
                 <Input.Label className='text-md tablet:text-lg' htmlFor='newPassword'>
                   새 비밀번호
                 </Input.Label>
-                <Input.Field className='p-11' id='newPassword' placeholder='새 비밀번호 입력' type='password' />
+                <Input.Field id='newPassword' placeholder='새 비밀번호 입력' type='password' />
               </Input.Root>
               <Input.Root>
                 <Input.Label className='text-md tablet:text-lg' htmlFor='checkPassword'>
                   새 비밀번호 확인
                 </Input.Label>
-                <Input.Field className='p-11' id='checkPassword' placeholder='새 비밀번호 입력' type='password' />
+                <Input.Field id='checkPassword' placeholder='새 비밀번호 입력' type='password' />
               </Input.Root>
             </div>
             <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
