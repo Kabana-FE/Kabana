@@ -20,7 +20,9 @@ const colors = [
  * @returns 색상 클래스 문자열
  */
 const getColor = (nickname: string) => {
-  const firstChar = nickname.trim().charAt(0).toUpperCase();
+  const trimmed = nickname.trim();
+  if (!trimmed) return colors[0];
+  const firstChar = trimmed.charAt(0).toUpperCase();
   const index = firstChar.charCodeAt(0) % 10;
   return colors[index];
 };
@@ -33,6 +35,7 @@ const getColor = (nickname: string) => {
 const getInitials = (nickname: string) => {
   return nickname
     .split(' ')
+    .filter(Boolean)
     .map((word) => word[0].toUpperCase())
     .join('');
 };
