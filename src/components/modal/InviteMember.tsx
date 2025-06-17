@@ -37,7 +37,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
       toggleModal();
       reset();
     } catch (err) {
-      console.error('구성원 초대 실패:', err);
+      console.error('🩺구성원 초대 실패:', err);
     }
   };
 
@@ -58,8 +58,8 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
             placeholder='user@email.com'
             type='email'
           />
+          {errors.email && <span className='text-sm text-red-500'>{errors.email.message}</span>}
         </form>
-        {errors.email && <span className='text-sm text-red-500'>{errors.email.message}</span>}
       </Dialog.Content>
       <Dialog.ButtonArea>
         <Button className='w-full rounded-lg' disabled={!email?.trim()} size='lg' type='submit' variant='filled'>

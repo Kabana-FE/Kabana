@@ -44,7 +44,7 @@ const CreateDashboard = () => {
       reset();
       navigate(`/dashboard/${dashboard.id}`);
     } catch (err) {
-      console.error('대시보드 생성 실패:', err);
+      console.error('🩺대시보드 생성 실패:', err);
     }
   };
 
@@ -66,8 +66,8 @@ const CreateDashboard = () => {
             type='text'
           />
           <ColorSelector value={color} onChange={(hex) => setValue('color', hex, { shouldValidate: true })} />
+          {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
         </form>
-        {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
       </Dialog.Content>
       <Dialog.ButtonArea>
         <Button

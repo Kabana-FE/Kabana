@@ -23,7 +23,7 @@ const DeleteAlert = ({ columnId }: DeleteAlertProps) => {
       await deleteColumn(columnId);
       toggleModal();
     } catch (error) {
-      console.error('컬럼 삭제 실패:', error);
+      console.error('🩺컬럼 삭제 실패:', error);
     }
   };
 
@@ -34,13 +34,13 @@ const DeleteAlert = ({ columnId }: DeleteAlertProps) => {
       toggleModal={toggleModal}
     >
       <Dialog.Content className='pb-32 text-center text-lg font-medium tablet:pb-40 tablet:text-xl'>
-        컬럼의 모든 카드가 삭제됩니다.
+        컬럼의 모든 카드가 삭제됩니다. 정말 삭제할까요?
       </Dialog.Content>
       <Dialog.ButtonArea className='flex gap-8'>
         <Button className='w-full rounded-lg' size='lg' variant='outlined' onClick={toggleModal}>
           취소
         </Button>
-        <Button className='w-full rounded-lg' size='lg' type='submit' variant='filled' onClick={handleDelete}>
+        <Button className='w-full rounded-lg' size='lg' variant='filled' onClick={handleDelete}>
           삭제
         </Button>
       </Dialog.ButtonArea>

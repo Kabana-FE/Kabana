@@ -38,7 +38,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
       toggleModal();
       reset();
     } catch (err) {
-      console.error('컬럼 생성 실패:', err);
+      console.error('🩺컬럼 생성 실패:', err);
     }
   };
 
@@ -59,8 +59,8 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
             placeholder='새 컬럼 이름'
             type='text'
           />
+          {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
         </form>
-        {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
       </Dialog.Content>
       <Dialog.ButtonArea>
         <Button className='w-full rounded-lg' disabled={!title?.trim()} size='lg' type='submit' variant='filled'>

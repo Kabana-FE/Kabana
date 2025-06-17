@@ -42,7 +42,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
       toggleEditColumn();
       reset();
     } catch (err) {
-      console.error('컬럼 수정 실패:', err);
+      console.error('🩺컬럼 수정 실패:', err);
     }
   };
 
@@ -60,12 +60,11 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
           <input
             {...register('title')}
             className='rounded-lg border border-gray-300 px-16 py-12 text-md'
-            defaultValue={initialTitle}
             placeholder={initialTitle}
             type='text'
           />
+          {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
         </form>
-        {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
       </Dialog.Content>
       <Dialog.ButtonArea className='flex gap-8'>
         <Button
@@ -73,8 +72,8 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
           size='lg'
           variant='outlined'
           onClick={() => {
-            toggleDeleteAlert();
             toggleEditColumn();
+            toggleDeleteAlert();
           }}
         >
           삭제
