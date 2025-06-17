@@ -6,6 +6,7 @@ import { createDashboard } from '@/apis/dashboard';
 import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Input from '@/components/common/input';
 import type { CreateDashboardInput } from '@/schemas/dashboard';
 import { createDashboardSchema } from '@/schemas/dashboard';
 import useKabanaStore from '@/stores/store';
@@ -58,15 +59,14 @@ const CreateDashboard = () => {
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>새로운 대시보드</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
         <form className='flex flex-col gap-8' id='createDashboard' onSubmit={handleSubmit(onSubmit)}>
-          <label className='text-lg tablet:text-2lg'>대시보드 이름</label>
-          <input
-            {...register('title')}
-            className='rounded-lg border border-gray-300 px-16 py-12 text-md'
-            placeholder='뉴프로젝트'
-            type='text'
-          />
+          <Input.Root>
+            <Input.Label className='tablet:text-2lg' htmlFor='title'>
+              대시보드 이름
+            </Input.Label>
+            <Input.Field {...register('title')} id='title' placeholder='뉴프로젝트' type='text' />
+            <Input.ErrorMessage>{errors.title?.message}</Input.ErrorMessage>
+          </Input.Root>
           <ColorSelector value={color} onChange={(hex) => setValue('color', hex, { shouldValidate: true })} />
-          {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
         </form>
       </Dialog.Content>
       <Dialog.ButtonArea>

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { updateColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Input from '@/components/common/input';
 import type { EditColumnProps } from '@/components/modal/types';
 import type { UpdateColumnInput } from '@/schemas/column';
 import { updateColumnSchema } from '@/schemas/column';
@@ -56,14 +57,13 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>컬럼 관리</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
         <form className='flex flex-col gap-8' id='editColumn' onSubmit={handleSubmit(onSubmit)}>
-          <label className='text-lg tablet:text-2lg'>이름</label>
-          <input
-            {...register('title')}
-            className='rounded-lg border border-gray-300 px-16 py-12 text-md'
-            placeholder={initialTitle}
-            type='text'
-          />
-          {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
+          <Input.Root>
+            <Input.Label className='tablet:text-2lg' htmlFor='title'>
+              이름
+            </Input.Label>
+            <Input.Field id='title' {...register('title')} placeholder={initialTitle} type='text' />
+            <Input.ErrorMessage>{errors.title?.message}</Input.ErrorMessage>
+          </Input.Root>
         </form>
       </Dialog.Content>
       <Dialog.ButtonArea className='flex gap-8'>

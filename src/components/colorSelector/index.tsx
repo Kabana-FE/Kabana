@@ -28,6 +28,7 @@ const ColorSelector = ({ value, onChange }: ColorSelectorProps) => {
         return (
           <Button
             key={color.hex}
+            aria-label={color.name}
             className={`size-30 rounded-full p-0 bg-${color.name}`}
             variant='none'
             onClick={() => onChange(color.hex)}

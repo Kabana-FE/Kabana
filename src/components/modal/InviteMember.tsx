@@ -4,6 +4,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { inviteMember } from '@/apis/invitation';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Input from '@/components/common/input';
 import type { InviteMemberProps } from '@/components/modal/types';
 import type { InviteMemberInput } from '@/schemas/invitation';
 import { inviteMemberSchema } from '@/schemas/invitation';
@@ -51,15 +52,13 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>초대하기</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
         <form className='flex flex-col gap-8' id='inviteMember' onSubmit={handleSubmit(onSubmit)}>
-          <label className='text-lg tablet:text-2lg'>이메일</label>
-          <input
-            {...register('email')}
-            className='rounded-lg border border-gray-300 px-16 py-12 text-md'
-            placeholder='user@email.com'
-            type='email'
-          />
-          <label className='text-lg tablet:text-2lg'>이름</label>
-          {errors.email && <span className='text-sm text-red-500'>{errors.email.message}</span>}
+          <Input.Root>
+            <Input.Label className='tablet:text-2lg' htmlFor='email'>
+              이메일
+            </Input.Label>
+            <Input.Field id='email' type='email' {...register('email')} placeholder='user@email.com' />
+            <Input.ErrorMessage>{errors.email?.message}</Input.ErrorMessage>
+          </Input.Root>
         </form>
       </Dialog.Content>
       <Dialog.ButtonArea>
