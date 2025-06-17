@@ -1,14 +1,13 @@
 import { HttpStatusCode } from 'axios';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
-import { getDashboardDetail } from '@/apis/dashboard';
+import { getColumns } from '@/apis/column';
 import { getMemberList } from '@/apis/member';
-import { dashboardSchema } from '@/schemas/dashboard';
+import { columnsSchema } from '@/schemas/column';
 import { memberListResponseSchema } from '@/schemas/member';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
 import type { DashboardDetailLoaderData } from './types';
-
 /**
  * @description
  * 대시보드 상세 페이지에 필요한 모든 데이터를 병렬로 요청합니다.
@@ -62,10 +61,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
   }
 
   try {
-    const results = await Promise.allSettled([
-      getDashboardDetail(dashboardId),
-      getMemberList({ dashboardId, size: 4 }),
-    ]);
+    const results = await Promise.allSettled([getColumns(dashboardId), getMemberList({ dashboardId, size: 4 })]);
 
     const rejectedPromises = results.filter((result) => result.status === 'rejected');
 
@@ -80,14 +76,12 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
 
     // 모든 Promise가 성공했을 때만 데이터를 추출합니다.
     // 주의: 타입 단언이 필요할 수 있습니다.
-    const dashboardRaw = (results[0] as PromiseFulfilledResult<unknown>).value;
+    const columnsRaw = (results[0] as PromiseFulfilledResult<unknown>).value;
     const memberListRaw = (results[1] as PromiseFulfilledResult<unknown>).value;
-
     // zod 검사
-    const dashboardDetail = dashboardSchema.parse(dashboardRaw);
+    const columns = columnsSchema.parse(columnsRaw);
     const memberListResponse = memberListResponseSchema.parse(memberListRaw);
-
-    return { dashboardDetail, memberListResponse };
+    return { columns, memberListResponse };
   } catch (error: unknown) {
     return handleLoaderError(error);
   }
