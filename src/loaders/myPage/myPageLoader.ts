@@ -16,7 +16,7 @@ import handleLoaderError from '@/utils/error/handleLoaderError';
  * - API 응답을 Zod 스키마 (`userInfoSchema`)로 검증하여
  *   서버 응답 구조가 예상과 다를 경우 에러를 발생시킵니다.
  *
- * @returns {Promise<MyPageLoaderData>} 마이페이지 렌더링에 필요한 데이터
+ * @returns {Promise<MypageLoaderData>} 마이페이지 렌더링에 필요한 데이터
  *
  * @throws {Response}
  * - API 응답이 Zod 스키마와 맞지 않으면 ZodError를 throw
@@ -29,6 +29,6 @@ export const loader = async (): Promise<MypageLoaderData> => {
 
     return { myInfo };
   } catch (error: unknown) {
-    return handleLoaderError(error);
+    throw handleLoaderError(error);
   }
 };
