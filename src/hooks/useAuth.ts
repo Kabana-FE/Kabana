@@ -1,10 +1,11 @@
 import { login as loginApi, signup as signupApi } from '@/apis/auth';
-import type { LoginRequest, SignupRequest } from '@/stores/types/auth';
-import { useAuthStore } from '@/stores/useAuthStore';
+import type { LoginRequest, SignupRequest } from '@/schemas/auth';
+import { useKabanaStore } from '@/stores';
 
 export const useAuth = () => {
-  const { setAccessToken, setUser, clearAuth } = useAuthStore();
-
+  const setAccessToken = useKabanaStore((state) => state.setAccessToken);
+  const setUser = useKabanaStore((state) => state.setUser);
+  const clearAuth = useKabanaStore((state) => state.clearAuth);
   const login = async (data: LoginRequest) => {
     try {
       const response = await loginApi(data);
@@ -34,7 +35,7 @@ export const useAuth = () => {
 
   const logout = () => {
     clearAuth();
-    useAuthStore.persist.clearStorage();
+    useKabanaStore.persist.clearStorage();
   };
 
   return {
