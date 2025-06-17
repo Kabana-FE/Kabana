@@ -50,7 +50,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>초대하기</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
-        <form className='flex flex-col gap-8' id='invite-member' onSubmit={handleSubmit(onSubmit)}>
+        <form className='flex flex-col gap-8' id='inviteMember' onSubmit={handleSubmit(onSubmit)}>
           <label className='text-lg tablet:text-2lg'>이메일</label>
           <input
             {...register('email')}
@@ -65,7 +65,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
         <Button
           className='w-full rounded-lg'
           disabled={!email?.trim()}
-          form='invite-member'
+          form='inviteMember'
           size='lg'
           type='submit'
           variant='filled'

@@ -55,7 +55,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
       <Dialog.Close resetContent={reset} toggleModal={toggleEditColumn} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>컬럼 관리</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
-        <form className='flex flex-col gap-8' id='edit-column' onSubmit={handleSubmit(onSubmit)}>
+        <form className='flex flex-col gap-8' id='editColumn' onSubmit={handleSubmit(onSubmit)}>
           <label className='text-lg tablet:text-2lg'>이름</label>
           <input
             {...register('title')}
@@ -78,7 +78,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
         >
           삭제
         </Button>
-        <Button className='w-full rounded-lg' form='edit-column' size='lg' type='submit' variant='filled'>
+        <Button className='w-full rounded-lg' form='editColumn' size='lg' type='submit' variant='filled'>
           변경
         </Button>
       </Dialog.ButtonArea>

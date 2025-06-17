@@ -51,7 +51,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>새 컬럼 생성</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
-        <form className='flex flex-col gap-8' id='create-column' onSubmit={handleSubmit(onSubmit)}>
+        <form className='flex flex-col gap-8' id='createColumn' onSubmit={handleSubmit(onSubmit)}>
           <label className='text-lg tablet:text-2lg'>이름</label>
           <input
             {...register('title')}
@@ -66,7 +66,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
         <Button
           className='w-full rounded-lg'
           disabled={!title?.trim()}
-          form='create-column'
+          form='createColumn'
           size='lg'
           type='submit'
           variant='filled'
