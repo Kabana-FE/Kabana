@@ -22,13 +22,13 @@ import handleLoaderError from '@/utils/error/handleLoaderError';
  * - API 응답이 Zod 스키마와 맞지 않으면 ZodError를 throw
  * - API 요청 실패 시 해당 에러를 그대로 전파
  */
-export const loader = async (): Promise<MypageLoaderData> => {
+export const loader = async (): Promise<MypageLoaderData | undefined> => {
   try {
     const myInfoRaw = await getMyInfo();
     const myInfo = userInfoSchema.parse(myInfoRaw);
 
     return { myInfo };
   } catch (error: unknown) {
-    throw handleLoaderError(error);
+    handleLoaderError(error);
   }
 };
