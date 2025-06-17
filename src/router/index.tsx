@@ -26,7 +26,7 @@ const router = createBrowserRouter([
           {
             index: true,
             lazy: async () => {
-              const { default: Component } = await import('@/pages/landing/Landing');
+              const { default: Component } = await import('@/pages/landing');
               return { Component };
             },
           },
@@ -37,6 +37,7 @@ const router = createBrowserRouter([
           const { default: SimpleLayout } = await import('@/layouts/Simple');
           return { Component: SimpleLayout };
         },
+        errorElement: <ApiErrorBoundary />,
         children: [
           {
             path: SIGNUP,

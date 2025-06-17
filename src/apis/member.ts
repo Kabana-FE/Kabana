@@ -1,7 +1,6 @@
 import { requestDelete, requestGet } from '@/apis/base/request';
 import { MEMBER_ENDPOINTS } from '@/constants/paths';
 import type { MemberListData, MemberListParams } from '@/schemas/member';
-import { memberListResponseSchema } from '@/schemas/member';
 
 /**
  * @description 특정 대시보드의 멤버 목록을 페이지네이션으로 조회합니다.
@@ -9,8 +8,7 @@ import { memberListResponseSchema } from '@/schemas/member';
  * @returns 멤버 목록과 전체 멤버 수
  */
 export const getMemberList = async (params: MemberListParams) => {
-  const response = await requestGet<MemberListData>(MEMBER_ENDPOINTS.LIST, { params });
-  return memberListResponseSchema.parse(response);
+  return requestGet<MemberListData>(MEMBER_ENDPOINTS.LIST, { params });
 };
 
 /**
