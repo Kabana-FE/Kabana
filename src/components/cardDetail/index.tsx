@@ -2,14 +2,11 @@ import Badge from '@/components/badge';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Tag from '@/components/tag';
-import useKabanaStore from '@/stores/store';
 
 import Comment from './Comment';
-import type DetailType from './types';
+import type { DetailType } from './types';
 
-const Detail = ({ title, description, tagList, column, assignee, dueDate }: DetailType) => {
-  const modalIsOpen = useKabanaStore((state) => state.cardDetail);
-  const toggleModal = useKabanaStore((state) => state.toggleCardDetail);
+const Detail = ({ title, description, tagList, column, assignee, dueDate, modalIsOpen, toggleModal }: DetailType) => {
   const tagList1: string[] = ['tag1', 'tag2', 'tagtag3', 'tag2'];
   return (
     <Dialog.Root
