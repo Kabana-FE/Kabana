@@ -1,8 +1,8 @@
 import type { StateCreator } from 'zustand';
 
-import type { ModalSlice } from '../types/modalSlice';
+import type ModalSlice from '@/stores/types/modalSlice';
 
-export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (set) => ({
+const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (set) => ({
   createTodo: false,
   editTodo: false,
   createColumn: false,
@@ -21,3 +21,5 @@ export const createModalSlice: StateCreator<ModalSlice, [], [], ModalSlice> = (s
   toggleDeleteAlert: () => set((state) => ({ deleteAlert: !state.deleteAlert })),
   toggleInviteMember: () => set((state) => ({ inviteMember: !state.inviteMember })),
 });
+
+export default createModalSlice;

@@ -1,4 +1,4 @@
-export interface ModalSlice {
+export default interface ModalSlice {
   createTodo: boolean;
   editTodo: boolean;
   createColumn: boolean;
