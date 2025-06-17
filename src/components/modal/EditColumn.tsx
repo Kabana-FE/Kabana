@@ -79,7 +79,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
         >
           삭제
         </Button>
-        <Button className='w-full rounded-lg' size='lg' type='submit' variant='filled' onClick={handleSubmit(onSubmit)}>
+        <Button className='w-full rounded-lg' size='lg' type='submit' variant='filled'>
           변경
         </Button>
       </Dialog.ButtonArea>

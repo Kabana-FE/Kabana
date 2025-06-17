@@ -76,7 +76,6 @@ const CreateDashboard = () => {
           size='lg'
           type='submit'
           variant='filled'
-          onClick={handleSubmit(onSubmit)}
         >
           생성
         </Button>

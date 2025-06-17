@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const userSchema = z.object({
   nickname: z.string(),
-  email: z.string(),
+  email: z.string().email(),
   id: z.number(),
 });
 /**
@@ -10,7 +10,7 @@ export const userSchema = z.object({
  * @description 구성원 초대 폼 유효성 검사를 위한 스키마
  */
 export const inviteMemberSchema = z.object({
-  email: z.string(),
+  email: z.string().email(),
 });
 /**
  * From server

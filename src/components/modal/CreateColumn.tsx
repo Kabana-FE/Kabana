@@ -63,14 +63,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
         {errors.title && <span className='text-sm text-red-500'>{errors.title.message}</span>}
       </Dialog.Content>
       <Dialog.ButtonArea>
-        <Button
-          className='w-full rounded-lg'
-          disabled={!title?.trim()}
-          size='lg'
-          type='submit'
-          variant='filled'
-          onClick={handleSubmit(onSubmit)}
-        >
+        <Button className='w-full rounded-lg' disabled={!title?.trim()} size='lg' type='submit' variant='filled'>
           생성
         </Button>
       </Dialog.ButtonArea>

@@ -62,14 +62,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
         {errors.email && <span className='text-sm text-red-500'>{errors.email.message}</span>}
       </Dialog.Content>
       <Dialog.ButtonArea>
-        <Button
-          className='w-full rounded-lg'
-          disabled={!email?.trim()}
-          size='lg'
-          type='submit'
-          variant='filled'
-          onClick={handleSubmit(onSubmit)}
-        >
+        <Button className='w-full rounded-lg' disabled={!email?.trim()} size='lg' type='submit' variant='filled'>
           생성
         </Button>
       </Dialog.ButtonArea>
