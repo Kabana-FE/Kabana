@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 import { createDashboard } from '@/apis/dashboard';
@@ -29,14 +29,14 @@ const CreateDashboard = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
+    control,
     setValue,
   } = useForm<CreateDashboardInput>({
     resolver: zodResolver(createDashboardSchema),
     mode: 'onChange',
   });
-  const title = watch('title');
-  const color = watch('color');
+  const title = useWatch({ control, name: 'title' });
+  const color = useWatch({ control, name: 'color' });
   const onSubmit = async (data: CreateDashboardInput) => {
     try {
       const dashboard = await createDashboard(data);

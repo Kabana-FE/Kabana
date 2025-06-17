@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { createColumn } from '@/apis/column';
 import Button from '@/components/common/button';
@@ -26,11 +26,11 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
+    control,
   } = useForm<CreateColumnInput>({
     resolver: zodResolver(createColumnSchema),
   });
-  const title = watch('title');
+  const title = useWatch({ control, name: 'title' });
   const onSubmit = async (data: CreateColumnInput) => {
     const payload = { ...data, dashboardId };
     try {

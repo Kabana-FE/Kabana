@@ -1,6 +1,13 @@
 import AddIcon from '@/assets/icons/AddIcon';
 import type ColorSelectorProps from '@/components/colorSelector/types';
 import Button from '@/components/common/button';
+const COLOR_OPTIONS = [
+  { name: 'green', hex: '#7ac555' },
+  { name: 'purple', hex: '#760dde' },
+  { name: 'orange', hex: '#ffa500' },
+  { name: 'blue', hex: '#76a5ea' },
+  { name: 'pink', hex: '#e876ea' },
+];
 /**
  * ColorSelector 컴포넌트
  *
@@ -13,14 +20,6 @@ import Button from '@/components/common/button';
  * @param {string} props.value - 현재 선택된 색상의 hex 코드 (예: '#7ac555')
  * @param {(hex: string) => void} props.onChange - 색상 변경 시 호출되는 콜백 함수
  */
-const COLOR_OPTIONS = [
-  { name: 'green', hex: '#7ac555' },
-  { name: 'purple', hex: '#760dde' },
-  { name: 'orange', hex: '#ffa500' },
-  { name: 'blue', hex: '#76a5ea' },
-  { name: 'pink', hex: '#e876ea' },
-];
-
 const ColorSelector = ({ value, onChange }: ColorSelectorProps) => {
   return (
     <div className='flex gap-10 py-8'>

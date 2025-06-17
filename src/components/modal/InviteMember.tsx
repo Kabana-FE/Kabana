@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { inviteMember } from '@/apis/invitation';
 import Button from '@/components/common/button';
@@ -26,11 +26,11 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
+    control,
   } = useForm<InviteMemberInput>({
     resolver: zodResolver(inviteMemberSchema),
   });
-  const email = watch('email');
+  const email = useWatch({ control, name: 'email' });
   const onSubmit = async (data: InviteMemberInput) => {
     try {
       await inviteMember(dashboardId, data);
@@ -58,6 +58,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
             placeholder='user@email.com'
             type='email'
           />
+          <label className='text-lg tablet:text-2lg'>이름</label>
           {errors.email && <span className='text-sm text-red-500'>{errors.email.message}</span>}
         </form>
       </Dialog.Content>
