@@ -1,12 +1,6 @@
 import { requestDelete, requestGet, requestPost, requestPut } from '@/apis/base/request';
 import { COLUMN_ENDPOINTS } from '@/constants/paths';
-import {
-  type Column,
-  type ColumnListData,
-  type ColumnListParams,
-  type CreateColumnInput,
-  type UpdateColumnInput,
-} from '@/schemas/column';
+import type { Column, ColumnListData, ColumnListParams, CreateColumnInput, UpdateColumnInput } from '@/schemas/column';
 import { columnListResponseSchema, columnSchema } from '@/schemas/column';
 /**
  * @description 새 컬럼을 생성합니다.

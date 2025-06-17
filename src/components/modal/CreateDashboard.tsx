@@ -57,7 +57,7 @@ const CreateDashboard = () => {
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>새로운 대시보드</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
-        <form className='flex flex-col gap-8' onSubmit={handleSubmit(onSubmit)}>
+        <form className='flex flex-col gap-8' id='create-dashboard' onSubmit={handleSubmit(onSubmit)}>
           <label className='text-lg tablet:text-2lg'>대시보드 이름</label>
           <input
             {...register('title')}
@@ -73,6 +73,7 @@ const CreateDashboard = () => {
         <Button
           className='w-full rounded-lg'
           disabled={!title?.trim() || !color}
+          form='create-dashboard'
           size='lg'
           type='submit'
           variant='filled'
