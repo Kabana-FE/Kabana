@@ -1,6 +1,7 @@
 import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
-import Button from '@/components/button';
+import Button from '@/components/common/button';
+import Input from '@/components/common/input';
 
 const MyPage = () => {
   return (
@@ -15,32 +16,37 @@ const MyPage = () => {
             <h2 className='text-2lg font-bold tablet:text-2xl'>프로필</h2>
           </header>
           <div className='flex flex-col gap-40 tablet:flex-row tablet:gap-42'>
-            {/* input 컴포넌트로 수정 예정 */}
-            <button className='flex size-100 items-center justify-center rounded-md bg-[#f5f5f5] tablet:size-182'>
-              <AddIcon className='tablet:size-18' size={12} />
-            </button>
+            <Input.Root>
+              <Input.Label
+                className='flex size-100 cursor-pointer items-center justify-center rounded-md bg-[#f5f5f5] tablet:size-182'
+                htmlFor='fileUpload'
+              >
+                <AddIcon className='tablet:size-18' size={12} />
+              </Input.Label>
+              <Input.Field id='fileUpload' type='file' />
+            </Input.Root>
             <form className='flex flex-1 flex-col gap-24'>
               <div className='flex flex-col gap-16'>
-                {/* input 컴포넌트로 수정 예정 */}
-                <label className='flex flex-col gap-8 text-md tablet:text-lg'>
-                  이메일
-                  <input
-                    className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                    placeholder='kabana@email.com'
+                <Input.Root>
+                  <Input.Label className='text-md tablet:text-lg' htmlFor='email'>
+                    이메일
+                  </Input.Label>
+                  <Input.Field
+                    readOnly
+                    className='cursor-default p-11 focus:border-1 focus:border-gray-300 focus:ring-0 focus:outline-none'
+                    id='email'
+                    placeholder='user@email.com'
                     type='text'
                   />
-                </label>
-                {/* input 컴포넌트로 수정 예정 */}
-                <label className='flex flex-col gap-8 text-md tablet:text-lg'>
-                  닉네임
-                  <input
-                    className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                    placeholder='닉네임을 입력해주세요'
-                    type='text'
-                  />
-                </label>
+                </Input.Root>
+                <Input.Root>
+                  <Input.Label className='text-md tablet:text-lg' htmlFor='nickname'>
+                    닉네임
+                  </Input.Label>
+                  <Input.Field className='p-11' id='nickname' placeholder='닉네임을 입력해주세요' type='text' />
+                </Input.Root>
               </div>
-              <Button className='rounded-lg' size='lg' type='button' variant='filled'>
+              <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
                 저장
               </Button>
             </form>
@@ -52,35 +58,26 @@ const MyPage = () => {
           </header>
           <form className='flex flex-col gap-24'>
             <div className='flex flex-col gap-16'>
-              {/* input 컴포넌트로 수정 예정 */}
-              <label className='flex flex-col gap-8 text-md tablet:text-lg'>
-                현재 비밀번호
-                <input
-                  className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                  placeholder='현재 비밀번호 입력'
-                  type='password'
-                />
-              </label>
-              {/* input 컴포넌트로 수정 예정 */}
-              <label className='flex flex-col gap-8 text-md tablet:text-lg'>
-                새 비밀번호
-                <input
-                  className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                  placeholder='새 비밀번호 입력'
-                  type='password'
-                />
-              </label>
-              {/* input 컴포넌트로 수정 예정 */}
-              <label className='flex flex-col gap-8 text-md tablet:text-lg'>
-                새 비밀번호 확인
-                <input
-                  className='rounded-lg border border-gray-300 p-11 text-lg text-gray-400'
-                  placeholder='새 비밀번호 확인'
-                  type='password'
-                />
-              </label>
+              <Input.Root>
+                <Input.Label className='text-md tablet:text-lg' htmlFor='currentPassword'>
+                  현재 비밀번호
+                </Input.Label>
+                <Input.Field className='p-11' id='currentPassword' placeholder='현재 비밀번호 입력' type='password' />
+              </Input.Root>
+              <Input.Root>
+                <Input.Label className='text-md tablet:text-lg' htmlFor='newPassword'>
+                  새 비밀번호
+                </Input.Label>
+                <Input.Field className='p-11' id='newPassword' placeholder='새 비밀번호 입력' type='password' />
+              </Input.Root>
+              <Input.Root>
+                <Input.Label className='text-md tablet:text-lg' htmlFor='checkPassword'>
+                  새 비밀번호 확인
+                </Input.Label>
+                <Input.Field className='p-11' id='checkPassword' placeholder='새 비밀번호 입력' type='password' />
+              </Input.Root>
             </div>
-            <Button className='rounded-lg' size='lg' type='button' variant='filled'>
+            <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
               변경
             </Button>
           </form>
