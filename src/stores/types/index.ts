@@ -1,4 +1,14 @@
-export * from './auth';
-export type { default as ModalSlice } from './modalSlice';
-export type { ToastSlice, ToastState } from './toastSlice';
-export type { default as User } from './user';
+import type { User } from '@/schemas/user';
+
+/**
+ * Zustand 상태 관리를 위한 Auth Slice 정의
+ */
+export interface AuthSlice {
+  accessToken: string | null;
+  user: User | null;
+  isLoggedIn: boolean;
+
+  setAccessToken: (token: string) => void;
+  setUser: (user: User) => void;
+  clearAuth: () => void;
+}
