@@ -8,12 +8,11 @@ import Dialog from '@/components/common/dialog';
 import Tag from '@/components/tag';
 import { type CreateTodoType } from '@/schemas/dashboard';
 import { createTodoSchema } from '@/schemas/dashboard';
-import useKabanaStore from '@/stores/store';
 
 import colorList from './colorList';
-import { type TagListType } from './types';
+import { type ModalType, type TagListType } from './types';
 
-const CreateTodo = () => {
+const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
   const defaultValues: CreateTodoType = {
     assigneeUserId: 0,
     dashboardId: 0,
@@ -31,8 +30,6 @@ const CreateTodo = () => {
     formState: { errors },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
 
-  const modalIsOpen = useKabanaStore((state) => state.createTodo);
-  const toggleModal = useKabanaStore((state) => state.toggleCreateTodo);
   const [tagList, setTagList] = useState<TagListType[]>([]);
 
   const createRandomNumber = () => {
