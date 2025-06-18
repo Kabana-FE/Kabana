@@ -29,7 +29,7 @@ export interface PopoverState {
  * 팝오버를 구성하는 하위 요소로, `Popover.Trigger`와 `Popover.Content` 등을 포함해야 합니다.
  */
 export interface PopoverProps {
-  /** n - 팝오버를 구성하는 자식 요소입니다. Trigger와 Content 컴포넌트를 포함합니다. */
+  /** - 팝오버를 구성하는 자식 요소입니다. Trigger와 Content 컴포넌트를 포함합니다. */
   children: React.ReactNode;
 }
 
@@ -105,7 +105,7 @@ export interface PopoverTriggerProps {
    * 트리거 요소의 DOM 참조입니다.
    * `Popover.Root`에서 자동으로 전달되므로 사용자가 수동으로 지정할 필요는 없습니다.
    */
-  triggerRef?: React.RefObject<HTMLElement>;
+  triggerRef?: React.RefObject<HTMLElement | null>;
   /** 트리거로 사용할 요소의 타입을 지정합니다. 기본값은 `'button'`입니다. */
   as?: React.ElementType;
   /**  트리거 요소에 추가할 사용자 정의 CSS 클래스입니다. (Tailwind 등 유틸리티 클래스 적용 시 사용) */
