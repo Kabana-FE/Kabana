@@ -19,4 +19,33 @@ export const createTodoSchema = z.object({
   imageUrl: z.instanceof(FileList, { message: '파일을 선택해주세요' }),
 });
 
+export const cardSchema = z.object({
+  id: z.coerce.number(),
+  title: z.string(),
+  description: z.string(),
+  tags: z.array(z.string()),
+  dueDate: z.string(),
+  assignee: z.object({
+    profileImageUrl: z.string(),
+    nickname: z.string(),
+    id: z.coerce.number(),
+  }),
+  imageUrl: z.string(),
+  teamId: z.string(),
+  columnId: z.coerce.number(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+});
+
+export const getCardListSchema = z.object({
+  cursorId: z.number().nullable(),
+  totalCount: z.number(),
+  cards: z.array(cardSchema).optional(),
+});
+
+export const cardListValidateSchema = z.array(getCardListSchema);
+
 export type CreateTodoType = z.infer<typeof createTodoSchema>;
+export type GetCardListType = z.infer<typeof getCardListSchema>;
+export type CardListValidateType = z.infer<typeof cardListValidateSchema>;
+export type CardType = z.infer<typeof cardSchema>;

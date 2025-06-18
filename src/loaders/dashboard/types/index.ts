@@ -1,3 +1,4 @@
+import type { CardListValidateType } from '@/schemas/card';
 import type { ColumnsType } from '@/schemas/column';
 import type { MemberListData } from '@/schemas/member';
 
@@ -9,4 +10,5 @@ import type { MemberListData } from '@/schemas/member';
 export interface DashboardDetailLoaderData {
   columns: ColumnsType;
   memberListResponse: MemberListData;
+  cardList: CardListValidateType;
 }
