@@ -6,6 +6,14 @@ import { HttpStatusCode } from 'axios';
  */
 export const UI_ERRORS = {
   /**
+   * 로그인 상태 및 접근 제어 관련 메시지입니다.
+   */
+  AUTH_GUARD: {
+    NEED_SIGNIN: '이 페이지를 보려면 로그인해야 합니다.',
+    NEED_SIGNOUT: '로그인 상태에서는 접근할 수 없는 페이지입니다. 로그아웃 후 다시 시도해 주세요.',
+  },
+
+  /**
    * API 관련 에러 메시지.
    * HTTP 상태 코드를 키로 직접 사용하여, 어떤 상태에 어떤 메시지가 매핑되는지 명확하게 보여줍니다.
    */
