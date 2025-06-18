@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
@@ -28,7 +28,14 @@ const DashboardList = () => {
   const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
   const [cursorId, setCursorId] = useState<number | null>(initialData.invitationList.cursorId);
 
+  const isInitialRender = useRef(true);
+
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
     const fetchDashboard = async () => {
       if (isDashboardLoading) return;
       setIsDashboardLoading(true);
