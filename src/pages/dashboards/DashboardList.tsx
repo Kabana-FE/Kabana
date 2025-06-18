@@ -58,7 +58,7 @@ const DashboardList = () => {
           </ul>
 
           {totalDashboardPage > 1 && (
-            <div className='mt-16 mb-24 flex items-center justify-end tablet:mb-48'>
+            <div className='mt-16 mb-24 flex items-center justify-end tablet:mb-48 pc:-mb-34'>
               <span className='mr-16 text-xs font-normal tablet:text-md'>
                 {page} 페이지 중 {totalDashboardPage}
               </span>
@@ -66,7 +66,7 @@ const DashboardList = () => {
             </div>
           )}
         </div>
-        <div className='flex flex-col rounded-lg bg-white'>
+        <div className='mt-32 flex flex-col rounded-lg bg-white tablet:mt-40 pc:mt-74'>
           <div className='flex flex-col gap-16 px-16 py-24 tablet:px-28 tablet:py-32'>
             <h2 className='text-xl font-bold tablet:text-2xl'>초대받은 대시보드</h2>
             <input className='h-36 border border-gray-300' placeholder='검색' />
