@@ -1,16 +1,46 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 
+import { changePassword } from '@/apis/auth';
 import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
 import type { MypageLoaderData } from '@/loaders/myPage/types';
+import type { ChangePasswordRequest } from '@/schemas/auth';
+import { changePasswordRequestSchema } from '@/schemas/auth';
 import type { UserInfo } from '@/schemas/user';
 
 const MyPage = () => {
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<ChangePasswordRequest>({
+    resolver: zodResolver(changePasswordRequestSchema),
+  });
+
+  const onSubmit = async (data: ChangePasswordRequest) => {
+    try {
+      await changePassword(data);
+    } catch (err) {
+      console.error('🩺비밀번호 변경 실패:', err);
+      if (err instanceof Response) {
+        const error = await err.json().catch(() => {});
+        const errorMessage = error.message;
+        setError('password', {
+          type: 'value',
+          message: errorMessage,
+        });
+      }
+    }
+  };
 
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
@@ -64,29 +94,47 @@ const MyPage = () => {
           <header>
             <h2 className='text-2lg font-bold tablet:text-2xl'>비밀번호 변경</h2>
           </header>
-          <form className='flex flex-col gap-24'>
+          <form className='flex flex-col gap-24' onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-col gap-16'>
               <Input.Root>
                 <Input.Label className='text-md tablet:text-lg' htmlFor='currentPassword'>
                   현재 비밀번호
                 </Input.Label>
-                <Input.Field id='currentPassword' placeholder='현재 비밀번호 입력' type='password' />
+                <Input.Field
+                  id='currentPassword'
+                  placeholder='현재 비밀번호 입력'
+                  type='password'
+                  {...register('password')}
+                />
+                <Input.ErrorMessage>{errors.password?.message}</Input.ErrorMessage>
               </Input.Root>
               <Input.Root>
                 <Input.Label className='text-md tablet:text-lg' htmlFor='newPassword'>
                   새 비밀번호
                 </Input.Label>
-                <Input.Field id='newPassword' placeholder='새 비밀번호 입력' type='password' />
+                <Input.Field
+                  id='newPassword'
+                  placeholder='새 비밀번호 입력'
+                  type='password'
+                  {...register('newPassword')}
+                />
+                <Input.ErrorMessage>{errors.newPassword?.message}</Input.ErrorMessage>
               </Input.Root>
               <Input.Root>
                 <Input.Label className='text-md tablet:text-lg' htmlFor='checkPassword'>
                   새 비밀번호 확인
                 </Input.Label>
-                <Input.Field id='checkPassword' placeholder='새 비밀번호 입력' type='password' />
+                <Input.Field
+                  id='checkPassword'
+                  placeholder='새 비밀번호 입력'
+                  type='password'
+                  {...register('checkPassword')}
+                />
+                <Input.ErrorMessage>{errors.checkPassword?.message}</Input.ErrorMessage>
               </Input.Root>
             </div>
             <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
-              변경
+              {isSubmitting ? '변경 중' : '변경'}
             </Button>
           </form>
         </section>
