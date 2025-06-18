@@ -43,14 +43,14 @@ const DashboardList = () => {
       }
     };
     fetchDashboard();
-  }, [page, isDashboardLoading]);
+  }, [page]);
 
   const fetchMoreInvitation = useCallback(async () => {
     if (!cursorId || isInvitationLoading) return;
     setIsInvitationLoading(true);
     try {
       const rawMoreInvitation = await getInvitationList({ cursorId });
-      const invitationList = await invitationListSchema.parse(rawMoreInvitation);
+      const invitationList = invitationListSchema.parse(rawMoreInvitation);
       setInvitationList((prev) => [...prev, ...invitationList.invitations]);
       setCursorId(invitationList.cursorId);
     } catch (error) {
