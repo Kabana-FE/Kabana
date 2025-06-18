@@ -20,40 +20,49 @@ const DashboardList = () => {
 
   const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialData.dashboardList.dashboards);
   const [page, setPage] = useState<number>(1);
+  const [isDashboardLoading, setIsDashboardLoading] = useState<boolean>(false);
   const totalDashboardCount = initialData.dashboardList.totalCount;
   const totalDashboardPage = Math.ceil(totalDashboardCount / 5);
 
   const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+  const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
   const [cursorId, setCursorId] = useState<number | null>(initialData.invitationList.cursorId);
 
   useEffect(() => {
     const fetchDashboard = async () => {
+      if (isDashboardLoading) return;
+      setIsDashboardLoading(true);
       try {
         const rawDashboardList = await getDashboardList({ navigationMethod: 'pagination', size: 5, page });
         const dashboardList = dashboardListResponseSchema.parse(rawDashboardList);
         setDashboardList(dashboardList.dashboards);
       } catch (error) {
-        console.error(error);
+        console.error(error); // 에러 미구현
+      } finally {
+        setIsDashboardLoading(false);
       }
     };
     fetchDashboard();
-  }, [page]);
+  }, [page, isDashboardLoading]);
 
   const fetchMoreInvitation = useCallback(async () => {
-    if (!cursorId) return;
+    if (!cursorId || isInvitationLoading) return;
+    setIsInvitationLoading(true);
     try {
       const rawMoreInvitation = await getInvitationList({ cursorId });
       const invitationList = await invitationListSchema.parse(rawMoreInvitation);
       setInvitationList((prev) => [...prev, ...invitationList.invitations]);
       setCursorId(invitationList.cursorId);
     } catch (error) {
-      console.error(error);
+      console.error(error); // 에러 미구현
+    } finally {
+      setIsInvitationLoading(false);
     }
-  }, [cursorId]);
+  }, [cursorId, isInvitationLoading]);
 
   const infiniteScrollRef = useInfiniteScroll({
     callback: fetchMoreInvitation,
-    isMoreData: cursorId !== null,
+    isMoreData: cursorId !== null && !isInvitationLoading,
   });
 
   return (
@@ -83,7 +92,12 @@ const DashboardList = () => {
               <span className='mr-16 text-xs font-normal tablet:text-md'>
                 {page} 페이지 중 {totalDashboardPage}
               </span>
-              <Pagination currentPage={page} totalPages={totalDashboardPage} onPageChange={setPage} />
+              <Pagination
+                currentPage={page}
+                isLoading={isDashboardLoading}
+                totalPages={totalDashboardPage}
+                onPageChange={setPage}
+              />
             </div>
           )}
         </div>
