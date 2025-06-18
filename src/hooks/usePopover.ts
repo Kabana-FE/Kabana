@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
 import type { PopoverOptions, PopoverState } from '@/components/common/popover/types';
 
@@ -65,7 +65,7 @@ const usePopover = (options: PopoverOptions = {}): PopoverState => {
   const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
   const close = useCallback(() => setIsOpen(false), []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const anchorEl = positionRef?.current || triggerRef.current;
 
     if (isOpen && anchorEl && contentRef.current) {

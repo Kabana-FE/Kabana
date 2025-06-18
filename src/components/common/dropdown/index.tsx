@@ -17,7 +17,7 @@ import type { DropdownProps } from './types';
  * - 트리거 요소는 외부에서 전달되며, 스타일은 `triggerClassName`으로 조절할 수 있습니다.
  * - 드롭다운 콘텐츠는 `contentClassName`, 각 항목은 `optionClassName`으로 커스터마이징 가능합니다.
  * - 위치 관련 옵션(`offsetX`, `offsetY`, `positionRef`, `align`)을 통해 정밀한 위치 제어가 가능합니다.
- * - 메뉴가 열리면 첫 항목에 자동 포커스되며, 키보드 화살표 및 Enter/Space/Tab으로 탐색 및 선택 가능합니다.
+ * - 메뉴가 열리면 첫 항목에 자동 포커스되며, 키보드 방향키 및 Enter/Space/Tab으로 탐색 및 선택 가능합니다.
  *
  * @param {DropdownProps} props - 드롭다운 컴포넌트에 전달되는 props
  * @param {React.ReactNode} props.trigger - 드롭다운을 열기 위한 트리거 요소입니다. 버튼, 아이콘 등 어떤 노드도 가능합니다.
@@ -141,7 +141,7 @@ const Dropdown = ({
                   <li key={option.value} role='presentation'>
                     <Link
                       className={twMerge(
-                        'block cursor-pointer rounded-md p-2 text-sm text-gray-black hover:bg-cream hover:text-capybara',
+                        'block w-full cursor-pointer rounded-md p-2 text-sm text-gray-black hover:bg-cream hover:text-capybara focus-visible:bg-cream focus-visible:text-capybara focus-visible:outline-capybara',
                         optionClassName,
                       )}
                       role='menuitem'
@@ -159,7 +159,7 @@ const Dropdown = ({
                 <li key={option.value} role='presentation'>
                   <button
                     className={twMerge(
-                      'cursor-pointer rounded-md p-2 text-sm text-gray-black hover:bg-cream hover:text-capybara',
+                      'w-full cursor-pointer rounded-md p-2 text-sm text-gray-black hover:bg-cream hover:text-capybara focus-visible:bg-cream focus-visible:text-capybara focus-visible:outline-capybara',
                       optionClassName,
                     )}
                     role='menuitem'

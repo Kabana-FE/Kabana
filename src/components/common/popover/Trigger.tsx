@@ -35,7 +35,14 @@ import type { PopoverTriggerProps } from './types';
  */
 const Trigger = ({ children, onToggle, triggerRef, as: Component = 'button', className }: PopoverTriggerProps) => {
   return (
-    <Component ref={triggerRef} className={twMerge('flex cursor-pointer', className)} onClick={onToggle}>
+    <Component
+      ref={triggerRef}
+      className={twMerge(
+        'focus-visible:outline-rounded-md flex h-32 w-32 cursor-pointer items-center justify-center focus-visible:bg-cream focus-visible:outline-capybara',
+        className,
+      )}
+      onClick={onToggle}
+    >
       {children}
     </Component>
   );

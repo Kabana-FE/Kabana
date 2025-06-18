@@ -101,7 +101,7 @@ const Playground = () => {
         <Dropdown
           align='start'
           contentClassName='w-300'
-          optionClassName='text-center'
+          optionClassName='text-left'
           options={statusOptions}
           positionRef={dropdownContainerRef2}
           selectedValue={selectedStatus?.value}
