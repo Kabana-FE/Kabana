@@ -2,7 +2,7 @@
 import type { AxiosError } from 'axios';
 import axios, { HttpStatusCode } from 'axios';
 
-import { useAuthStore } from '@/stores/useAuthStore';
+import { useKabanaStore } from '@/stores';
 
 /**
  * .env 파일에서 설정한 VITE_BASE_URL을 기준으로 Axios 인스턴스를 생성하여 반환합니다.
@@ -33,9 +33,9 @@ const axiosInstance = axios.create({
  */
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = useAuthStore.getState().accessToken;
-    if (token && config.headers) {
-      config.headers.set('Authorization', `Bearer ${token}`);
+    const token = useKabanaStore.getState().accessToken;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
