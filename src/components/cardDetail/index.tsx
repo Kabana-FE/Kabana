@@ -1,3 +1,5 @@
+import { useLoaderData } from 'react-router';
+
 import Badge from '@/components/badge';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
@@ -5,9 +7,9 @@ import Tag from '@/components/tag';
 
 import Comment from './Comment';
 import type { DetailType } from './types';
-
-const Detail = ({ title, description, tagList, column, assignee, dueDate, modalIsOpen, toggleModal }: DetailType) => {
-  const tagList1: string[] = ['tag1', 'tag2', 'tagtag3', 'tag2'];
+const Detail = ({ data, modalIsOpen, toggleModal }: DetailType) => {
+  const loaderData = useLoaderData();
+  const columns = loaderData.columns.data;
   return (
     <Dialog.Root
       className='w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
@@ -16,7 +18,7 @@ const Detail = ({ title, description, tagList, column, assignee, dueDate, modalI
     >
       <Dialog.Title className='tablet:11/12 w-7/8 text-[20px] font-bold tablet:text-2xl'>
         <div className='justify flex max-w-full items-center justify-between text-gray-700'>
-          <h1>타이틀</h1>
+          <h1>{data.title}</h1>
           <span>...</span>
         </div>
       </Dialog.Title>
@@ -25,10 +27,10 @@ const Detail = ({ title, description, tagList, column, assignee, dueDate, modalI
         <section className='tablet:w-420 pc:w-445'>
           <div className='mt-16 flex tablet:mt-0'>
             <div className='border-r-1 border-r-gray-300 pr-12 tablet:pr-20'>
-              <Badge>In Progresssss</Badge>
+              <Badge>{data.title}</Badge>
             </div>
             <div className='ml-12 flex h-fit flex-wrap items-center gap-8 tablet:ml-20'>
-              {tagList1.map((tag) => {
+              {data?.tags?.map((tag) => {
                 return (
                   <Tag key={tag} className='bg-amber-100'>
                     {tag}
@@ -38,13 +40,13 @@ const Detail = ({ title, description, tagList, column, assignee, dueDate, modalI
             </div>
           </div>
           <div>
-            <p className='mt-16 mb-32 text-xs/18 tablet:text-[14px]/24'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus nibh arcu, quis consequat ante
-              cursus eget. Cras mattis, nulla non laoreet porttitor, diam justo laoreet eros, vel aliquet diam elit at
-              leo.
-            </p>
+            <p className='mt-16 mb-32 text-xs/18 tablet:text-[14px]/24'>{data.description}</p>
           </div>
-          <img alt='사용자가 추가한 이미지입니다.' className='h-168 rounded-[6px] bg-gray-500 tablet:h-246 pc:h-260' />
+          <img
+            alt='사용자가 추가한 이미지입니다.'
+            className='h-168 rounded-[6px] bg-gray-500 tablet:h-246 pc:h-260'
+            src={data.imageUrl}
+          />
           <div className='relative mt-16'>
             <form>
               <label>
@@ -62,12 +64,12 @@ const Detail = ({ title, description, tagList, column, assignee, dueDate, modalI
           <div className='flex w-1/2 flex-none flex-col gap-8 tablet:w-full'>
             <h2 className='text-xs/20 font-semibold'>담당자</h2>
             <div className='text-xs/20 tablet:text-md/24'>
-              <span>아이콘</span> 배유철
+              <span>아이콘</span> {data.assignee.nickname}
             </div>
           </div>
           <div className='flex w-1/2 flex-col gap-8 tablet:w-full'>
             <h2 className='text-xs/20 font-semibold'>마감일</h2>
-            <div className='text-xs tablet:text-md'>날짜</div>
+            <div className='text-xs tablet:text-md'>{data.dueDate}</div>
           </div>
         </section>
       </Dialog.Content>
