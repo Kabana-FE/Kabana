@@ -34,8 +34,8 @@ const router = createBrowserRouter([
       },
       {
         lazy: async () => {
-          const { default: SimpleLayout } = await import('@/layouts/Simple');
-          return { Component: SimpleLayout };
+          const { default: AuthLayout } = await import('@/layouts/Auth');
+          return { Component: AuthLayout };
         },
         errorElement: <ApiErrorBoundary />,
         children: [
