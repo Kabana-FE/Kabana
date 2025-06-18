@@ -1,36 +1,29 @@
 import { useState } from 'react';
+import { useLoaderData } from 'react-router';
 
 import AddIcon from '@/assets/icons/AddIcon';
-import DotIcon from '@/assets/icons/DotIcon';
-import SettingIcon from '@/assets/icons/SettingIcon';
-import CardItem from '@/components/cardItem';
+import CardList from '@/components/cardList/CardList';
 import Button from '@/components/common/button';
 import CreateTodo from '@/components/createTodo';
-// main dashboard
+import type { GetCardListType } from '@/schemas/card';
+
 const DashboardDetail = () => {
   const [createTodo, setCreateTodo] = useState(false);
+
+  const data = useLoaderData();
   return (
-    <div className='flex h-full w-full'>
+    <div className='flex h-full w-screen'>
       <section className='w-67 bg-white tablet:w-160 pc:w-300'>사이드바</section>
-      <section className='w-full max-w-1022 p-24'>
-        <div>
-          <div className='mb-25 flex justify-between'>
-            <div className='flex items-center'>
-              <DotIcon />
-              <h1>To do</h1>
-              <span className='rounded-sm bg-gray-200 px-6 py-3'>3</span>
-            </div>
-            <Button variant='none'>
-              <SettingIcon />
-            </Button>
-          </div>
-          <Button className='mb-10 w-full' variant='outlined'>
-            <AddIcon />
-          </Button>
-          <CardItem />
-          <CreateTodo modalIsOpen={createTodo} toggleModal={() => setCreateTodo(!createTodo)} />
-          <button onClick={() => setCreateTodo(!createTodo)}>모달열기</button>
-        </div>
+      <section className='flex flex-1 flex-col px-20 pc:flex-row'>
+        {data.cardList &&
+          data.cardList.map((cardItem: GetCardListType, idx: number) => {
+            return <CardList key={idx} data={cardItem} title={data.columns.data[idx].title} />;
+          })}
+        <Button className='w-full pc:flex-1/5' variant='outlined'>
+          새로운 컬럼 추가하기
+          <AddIcon className='ml-15 w-16 bg-cream' />
+        </Button>
+        <CreateTodo modalIsOpen={createTodo} toggleModal={() => setCreateTodo(!createTodo)} />
       </section>
     </div>
   );
