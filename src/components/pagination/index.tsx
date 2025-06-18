@@ -13,6 +13,7 @@ import type PaginationProps from './types';
  * @param {number} currentPage - 현재 페이지 번호 (1부터 시작)
  * @param {number} totalPages - 전체 페이지 수
  * @param {(page: number) => void} onPageChange - 페이지가 변경될 때 호출되는 콜백 함수
+ * @param {boolean} isLoading - 로딩 여부
  *
  * @example
  * <Pagination
@@ -22,15 +23,15 @@ import type PaginationProps from './types';
  * />
  */
 
-const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
+const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }: PaginationProps) => {
   const paginationBtnStyle =
     'size-36 border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
   return (
-    <>
+    <div>
       <Button
         aria-label='이전 페이지'
         className={`${paginationBtnStyle} rounded-r-none`}
-        disabled={currentPage === 1}
+        disabled={currentPage === 1 || isLoading}
         variant='none'
         onClick={() => onPageChange(currentPage - 1)}
       >
@@ -39,13 +40,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
       <Button
         aria-label='다음 페이지'
         className={`${paginationBtnStyle} rounded-l-none`}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || isLoading}
         variant='none'
         onClick={() => onPageChange(currentPage + 1)}
       >
         <ChevronIcon direction='right' size={16} />
       </Button>
-    </>
+    </div>
   );
 };
 
