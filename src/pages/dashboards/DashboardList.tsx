@@ -1,20 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
+import { getDashboardList } from '@/apis/dashboard';
 import AddIcon from '@/assets/icons/AddIcon';
 import Button from '@/components/common/button';
 import DashboardItem from '@/components/dashboardItem';
 import InvitationItem from '@/components/invitationItem';
 import Pagination from '@/components/pagination';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
-import type { Dashboard } from '@/schemas/dashboard';
+import { type Dashboard, dashboardListResponseSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
 
 // my dashboard
 const DashboardList = () => {
   const initialData = useLoaderData() as DashboardListLoaderData;
+
   const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialData.dashboardList.dashboards);
+  const [page, setPage] = useState<number>(1);
+  const totalDashboardCount = initialData.dashboardList.totalCount;
+  const totalDashboardPage = Math.ceil(totalDashboardCount / 5);
+
   const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const rawDashboardList = await getDashboardList({ navigationMethod: 'pagination', size: 5, page });
+        const dashboardList = dashboardListResponseSchema.parse(rawDashboardList);
+        setDashboardList(dashboardList.dashboards);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDashboard();
+  }, [page]);
 
   return (
     <div className='flex w-full'>
@@ -38,10 +57,14 @@ const DashboardList = () => {
             ))}
           </ul>
 
-          <div className='mt-16 mb-24 flex items-center justify-end tablet:mb-48'>
-            <span className='mr-16 text-xs font-normal tablet:text-md'>1 페이지 중 1</span>
-            <Pagination currentPage={1} totalPages={4} onPageChange={() => {}} />
-          </div>
+          {totalDashboardPage > 1 && (
+            <div className='mt-16 mb-24 flex items-center justify-end tablet:mb-48'>
+              <span className='mr-16 text-xs font-normal tablet:text-md'>
+                {page} 페이지 중 {totalDashboardPage}
+              </span>
+              <Pagination currentPage={page} totalPages={totalDashboardPage} onPageChange={setPage} />
+            </div>
+          )}
         </div>
         <div className='flex flex-col rounded-lg bg-white'>
           <div className='flex flex-col gap-16 px-16 py-24 tablet:px-28 tablet:py-32'>
