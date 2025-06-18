@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 
 import { changePassword } from '@/apis/auth';
+import { updateMyInfo, uploadProfileImg } from '@/apis/user';
 import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import Button from '@/components/common/button';
@@ -11,22 +12,62 @@ import Input from '@/components/common/input';
 import type { MypageLoaderData } from '@/loaders/myPage/types';
 import type { ChangePasswordRequest } from '@/schemas/auth';
 import { changePasswordRequestSchema } from '@/schemas/auth';
-import type { UserInfo } from '@/schemas/user';
+import type { UpdateUser, UserInfo } from '@/schemas/user';
+import { updateUserInfoSchema } from '@/schemas/user';
 
 const MyPage = () => {
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
 
   const {
-    register,
-    handleSubmit,
+    register: registerInfo,
+    handleSubmit: handleSubmitInfo,
+    formState: { isSubmitting: isSubmittingInfo },
+  } = useForm<UpdateUser>({
+    resolver: zodResolver(updateUserInfoSchema),
+    defaultValues: {
+      nickname: myProfile.nickname,
+    },
+  });
+
+  const onSubmitInfo = async (data: UpdateUser) => {
+    try {
+      const updatedData = {
+        ...data,
+        profileImageUrl: myProfile.profileImageUrl,
+      };
+      await updateMyInfo(updatedData);
+    } catch (err) {
+      console.error('🩺프로필 수정 실패:', err);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const updatedProfile = await uploadProfileImg(formData);
+      setMyProfile((prev) => ({
+        ...prev,
+        profileImageUrl: updatedProfile.profileImageUrl,
+      }));
+    } catch (error) {
+      console.error('🩺이미지 업로드 실패:', error);
+    }
+  };
+
+  const {
+    register: registerPwd,
+    handleSubmit: handleSubmitPwd,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isSubmittingPwd },
   } = useForm<ChangePasswordRequest>({
     resolver: zodResolver(changePasswordRequestSchema),
   });
 
-  const onSubmit = async (data: ChangePasswordRequest) => {
+  const onSubmitPwd = async (data: ChangePasswordRequest) => {
     try {
       await changePassword(data);
     } catch (err) {
@@ -61,9 +102,9 @@ const MyPage = () => {
               >
                 <AddIcon className='tablet:size-18' size={12} />
               </Input.Label>
-              <Input.Field id='fileUpload' type='file' />
+              <Input.Field id='fileUpload' type='file' onChange={handleFileChange} />
             </Input.Root>
-            <form className='flex flex-1 flex-col gap-24'>
+            <form className='flex flex-1 flex-col gap-24' onSubmit={handleSubmitInfo(onSubmitInfo)}>
               <div className='flex flex-col gap-16'>
                 <Input.Root>
                   <Input.Label className='text-md tablet:text-lg' htmlFor='email'>
@@ -81,11 +122,16 @@ const MyPage = () => {
                   <Input.Label className='text-md tablet:text-lg' htmlFor='nickname'>
                     닉네임
                   </Input.Label>
-                  <Input.Field id='nickname' placeholder={myProfile.nickname} type='text' />
+                  <Input.Field
+                    {...registerInfo('nickname')}
+                    id='nickname'
+                    placeholder={myProfile.nickname}
+                    type='text'
+                  />
                 </Input.Root>
               </div>
-              <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
-                저장
+              <Button className='rounded-lg' disabled={isSubmittingInfo} size='lg' type='submit' variant='filled'>
+                {isSubmittingInfo ? '저장 중' : '저장'}
               </Button>
             </form>
           </div>
@@ -94,7 +140,7 @@ const MyPage = () => {
           <header>
             <h2 className='text-2lg font-bold tablet:text-2xl'>비밀번호 변경</h2>
           </header>
-          <form className='flex flex-col gap-24' onSubmit={handleSubmit(onSubmit)}>
+          <form className='flex flex-col gap-24' onSubmit={handleSubmitPwd(onSubmitPwd)}>
             <div className='flex flex-col gap-16'>
               <Input.Root>
                 <Input.Label className='text-md tablet:text-lg' htmlFor='currentPassword'>
@@ -104,7 +150,7 @@ const MyPage = () => {
                   id='currentPassword'
                   placeholder='현재 비밀번호 입력'
                   type='password'
-                  {...register('password')}
+                  {...registerPwd('password')}
                 />
                 <Input.ErrorMessage>{errors.password?.message}</Input.ErrorMessage>
               </Input.Root>
@@ -116,7 +162,7 @@ const MyPage = () => {
                   id='newPassword'
                   placeholder='새 비밀번호 입력'
                   type='password'
-                  {...register('newPassword')}
+                  {...registerPwd('newPassword')}
                 />
                 <Input.ErrorMessage>{errors.newPassword?.message}</Input.ErrorMessage>
               </Input.Root>
@@ -128,13 +174,13 @@ const MyPage = () => {
                   id='checkPassword'
                   placeholder='새 비밀번호 입력'
                   type='password'
-                  {...register('checkPassword')}
+                  {...registerPwd('checkPassword')}
                 />
                 <Input.ErrorMessage>{errors.checkPassword?.message}</Input.ErrorMessage>
               </Input.Root>
             </div>
             <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
-              {isSubmitting ? '변경 중' : '변경'}
+              {isSubmittingPwd ? '변경 중' : '변경'}
             </Button>
           </form>
         </section>
