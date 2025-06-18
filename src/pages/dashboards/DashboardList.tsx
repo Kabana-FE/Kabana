@@ -53,7 +53,7 @@ const DashboardList = () => {
   }, [page]);
 
   const fetchMoreInvitation = useCallback(async () => {
-    if (!cursorId || isInvitationLoading) return;
+    if (cursorId === null || isInvitationLoading) return;
     setIsInvitationLoading(true);
     try {
       const rawMoreInvitation = await getInvitationList({ cursorId });
@@ -65,7 +65,7 @@ const DashboardList = () => {
     } finally {
       setIsInvitationLoading(false);
     }
-  }, [cursorId, isInvitationLoading]);
+  }, [cursorId]);
 
   const infiniteScrollRef = useInfiniteScroll({
     callback: fetchMoreInvitation,
