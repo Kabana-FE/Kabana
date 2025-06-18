@@ -11,6 +11,11 @@ export const useKabanaStore = create<AuthSlice>()(
     }),
     {
       name: 'auth-storage',
+      partialize: (state) => ({
+        accessToken: state.accessToken,
+        user: state.user,
+        isLoggedIn: state.isLoggedIn,
+      }),
     },
   ),
 );
