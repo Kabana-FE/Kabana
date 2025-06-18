@@ -1,7 +1,7 @@
 import { redirect } from 'react-router-dom';
 
 import { ROUTES } from '@/constants/paths';
-import { useAuthStore } from '@/stores/useAuthStore';
+import { useKabanaStore } from '@/stores';
 
 /**
  * @description
@@ -11,7 +11,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
  * @returns {boolean} 사용자의 로그인 여부
  */
 const checkIsLoggedIn = (): boolean => {
-  return useAuthStore.getState().isLoggedIn;
+  return useKabanaStore.getState().isLoggedIn;
 };
 
 /**

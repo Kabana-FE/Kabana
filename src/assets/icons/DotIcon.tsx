@@ -1,7 +1,7 @@
 import type { ColorIconProps } from './types';
 
 /**
- * ➕ DotIcon (뱃지로 사용할 점 아이콘)
+ * ● DotIcon (뱃지로 사용할 점 아이콘)
  *
  * 기본적으로 갈색을 사용하며, 다른 색상을 원하면 `color` prop을 사용하세요.
  *
