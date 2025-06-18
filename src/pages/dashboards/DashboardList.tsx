@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import { getInvitationList } from '@/apis/invitation';
 import AddIcon from '@/assets/icons/AddIcon';
 import Button from '@/components/common/button';
 import DashboardItem from '@/components/dashboardItem';
 import InvitationItem from '@/components/invitationItem';
 import Pagination from '@/components/pagination';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
 import { type Dashboard, dashboardListResponseSchema } from '@/schemas/dashboard';
-import type { Invitation } from '@/schemas/invitation';
+import { type Invitation, invitationListSchema } from '@/schemas/invitation';
 
 // my dashboard
 const DashboardList = () => {
@@ -21,6 +23,7 @@ const DashboardList = () => {
   const totalDashboardPage = Math.ceil(totalDashboardCount / 5);
 
   const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+  const [cursorId, setCursorId] = useState<number | null>(initialData.invitationList.cursorId);
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -34,6 +37,23 @@ const DashboardList = () => {
     };
     fetchDashboard();
   }, [page]);
+
+  const fetchMoreInvitation = useCallback(async () => {
+    if (!cursorId) return;
+    try {
+      const rawMoreInvitation = await getInvitationList({ cursorId });
+      const invitationList = await invitationListSchema.parse(rawMoreInvitation);
+      setInvitationList((prev) => [...prev, ...invitationList.invitations]);
+      setCursorId(invitationList.cursorId);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [cursorId]);
+
+  const infiniteScrollRef = useInfiniteScroll({
+    callback: fetchMoreInvitation,
+    isMoreData: cursorId !== null,
+  });
 
   return (
     <div className='flex w-full'>
@@ -86,6 +106,7 @@ const DashboardList = () => {
               </li>
             ))}
           </ul>
+          <div ref={infiniteScrollRef} />
         </div>
       </div>
     </div>
