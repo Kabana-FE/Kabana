@@ -8,20 +8,17 @@ import Input from '@/components/common/input';
 import type { CreateColumnProps } from '@/components/modal/types';
 import type { CreateColumnInput } from '@/schemas/column';
 import { createColumnSchema } from '@/schemas/column';
-import useKabanaStore from '@/stores/store';
 /**
- * @description 새로운 컬럼을 생성하는 모달 컴포넌트입니다.
+ * 새로운 컬럼을 생성하는 모달 컴포넌트
  *
- * @param {CreateColumnProps} props
- * @param {number} props.dashboardId - 컬럼이 생성될 대상 대시보드의 ID
+ * @param {number} dashboardId - 컬럼이 생성될 대상 대시보드의 ID
+ * @param {boolean} isModalOpen - 모달의 열림 여부
+ * @param {() => void} toggleModal - 모달의 열람/닫힘 상태를 토글하는 함수
  *
  * @description
  * - 사용자는 제목을 입력하여 컬럼을 생성할 수 있습니다.
  */
-const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
-  const modalIsOpen = useKabanaStore((state) => state.createColumn);
-  const toggleModal = useKabanaStore((store) => store.toggleCreateColumn);
-
+const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnProps) => {
   const {
     register,
     handleSubmit,
@@ -46,7 +43,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={modalIsOpen}
+      modalIsOpen={isModalOpen}
       toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />

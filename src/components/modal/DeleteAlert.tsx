@@ -2,22 +2,19 @@ import { deleteColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import type { DeleteAlertProps } from '@/components/modal/types';
-import useKabanaStore from '@/stores/store';
 /**
- * @description 컬럼 삭제를 확인하는 모달 컴포넌트입니다.
+ * 컬럼 삭제를 확인하는 모달 컴포넌트
  *
- * @param {DeleteAlertProps} props
- * @param {number} props.columnId - 삭제할 대상 컬럼의 ID
+ * @param {number} columnId - 삭제할 대상 컬럼의 ID
+ * @param {boolean} isModalOpen - 모달의 열림 여부
+ * @param {() => void} toggleModal - 모달의 열람/닫힘 상태를 토글하는 함수
  *
  * @description
  * - 사용자가 컬럼 삭제를 시도할 때 경고 메시지를 띄워 확인을 받는 모달입니다.
  * - 삭제 버튼 클릭 시 서버에 컬럼 삭제 요청을 보내고, 성공 시 모달을 닫습니다.
  * - 취소 버튼을 누르면 단순히 모달이 닫힙니다.
  */
-const DeleteAlert = ({ columnId }: DeleteAlertProps) => {
-  const modalIsOpen = useKabanaStore((state) => state.deleteAlert);
-  const toggleModal = useKabanaStore((store) => store.toggleDeleteAlert);
-
+const DeleteAlert = ({ columnId, isModalOpen, toggleModal }: DeleteAlertProps) => {
   const handleDelete = async () => {
     try {
       await deleteColumn(columnId);
@@ -30,7 +27,7 @@ const DeleteAlert = ({ columnId }: DeleteAlertProps) => {
   return (
     <Dialog.Root
       className='w-327 rounded-2xl px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={modalIsOpen}
+      modalIsOpen={isModalOpen}
       toggleModal={toggleModal}
     >
       <Dialog.Content className='pb-32 text-center text-lg font-medium tablet:pb-40 tablet:text-xl'>

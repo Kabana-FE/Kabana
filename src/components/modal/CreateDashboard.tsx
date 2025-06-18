@@ -9,9 +9,13 @@ import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import type { CreateDashboardInput } from '@/schemas/dashboard';
 import { createDashboardSchema } from '@/schemas/dashboard';
-import useKabanaStore from '@/stores/store';
+
+import type { CreateDashboardProps } from './types';
 /**
- * @description 새로운 대시보드를 생성할 수 있는 모달 컴포넌트입니다.
+ * 새로운 대시보드를 생성할 수 있는 모달 컴포넌트
+ *
+ * @param {boolean} isModalOpen - 모달의 열림 여부
+ * @param {() => void} toggleModal - 모달의 열람/닫힘 상태를 토글하는 함수
  *
  * @description
  * - 대시보드 이름과 색상을 입력받아 생성 요청을 보냅니다.
@@ -20,10 +24,8 @@ import useKabanaStore from '@/stores/store';
  *   - 모달이 닫히고,
  *   - 대시보드 상세 페이지(`/dashboard/{dashboardId}`)로 이동합니다.
  */
-const CreateDashboard = () => {
+const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => {
   const navigate = useNavigate();
-  const modalIsOpen = useKabanaStore((state) => state.createDashboard);
-  const toggleModal = useKabanaStore((store) => store.toggleCreateDashboard);
 
   const {
     register,
@@ -52,7 +54,7 @@ const CreateDashboard = () => {
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-20 tablet:w-568 tablet:p-32'
-      modalIsOpen={modalIsOpen}
+      modalIsOpen={isModalOpen}
       toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />

@@ -8,23 +8,20 @@ import Input from '@/components/common/input';
 import type { EditColumnProps } from '@/components/modal/types';
 import type { UpdateColumnInput } from '@/schemas/column';
 import { updateColumnSchema } from '@/schemas/column';
-import useKabanaStore from '@/stores/store';
 /**
- * @description 컬럼 제목을 수정하거나 컬럼을 삭제할 수 있는 모달 컴포넌트입니다.
+ * 컬럼 수정 및 삭제 모달 컴포넌트
  *
- * @param {EditColumnProps} props
- * @param {number} props.columnId - 수정 또는 삭제할 대상 컬럼의 ID
- * @param {string} props.initialTitle - 수정 폼에 표시될 기존 컬럼 제목
+ * @param {number} columnId - 수정 또는 삭제할 대상 컬럼의 ID
+ * @param {string} initialTitle - 수정 폼에 표시될 기존 컬럼 제목
+ * @param {boolean} isModalOpen - 모달의 열림 여부
+ * @param {() => void} toggleModal - 모달의 열람/닫힘 상태를 토글하는 함수
+ * @param {() => void} toggleDeleteAlert - 삭제 모달의 열람/닫힘 상태를 토글하는 함수
  *
  * @description
  * - 사용자는 제목을 수정하여 컬럼 정보를 업데이트하거나,
  * - 삭제 버튼을 클릭해 삭제 확인 모달(`DeleteAlert`)을 열 수 있습니다.
  */
-const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
-  const modalIsOpen = useKabanaStore((state) => state.editColumn);
-  const toggleEditColumn = useKabanaStore((store) => store.toggleEditColumn);
-  const toggleDeleteAlert = useKabanaStore((store) => store.toggleDeleteAlert);
-
+const EditColumn = ({ columnId, initialTitle, isModalOpen, toggleModal, toggleDeleteAlert }: EditColumnProps) => {
   const {
     register,
     handleSubmit,
@@ -40,7 +37,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
   const onSubmit = async (data: UpdateColumnInput) => {
     try {
       await updateColumn(columnId, data);
-      toggleEditColumn();
+      toggleModal();
       reset();
     } catch (err) {
       console.error('🩺컬럼 수정 실패:', err);
@@ -50,10 +47,10 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={modalIsOpen}
-      toggleModal={isSubmitting ? () => {} : toggleEditColumn}
+      modalIsOpen={isModalOpen}
+      toggleModal={isSubmitting ? () => {} : toggleModal}
     >
-      <Dialog.Close resetContent={reset} toggleModal={toggleEditColumn} />
+      <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>컬럼 관리</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
         <form className='flex flex-col gap-8' id='editColumn' onSubmit={handleSubmit(onSubmit)}>
@@ -72,7 +69,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
           size='lg'
           variant='outlined'
           onClick={() => {
-            toggleEditColumn();
+            toggleModal();
             toggleDeleteAlert();
           }}
         >

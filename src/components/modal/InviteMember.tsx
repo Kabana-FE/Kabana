@@ -8,20 +8,18 @@ import Input from '@/components/common/input';
 import type { InviteMemberProps } from '@/components/modal/types';
 import type { InviteMemberInput } from '@/schemas/invitation';
 import { inviteMemberSchema } from '@/schemas/invitation';
-import useKabanaStore from '@/stores/store';
 /**
  * 구성원 초대 모달 컴포넌트
  *
- * @param {number} props.dashboardId - 초대할 대시보드의 ID
+ * @param {number} dashboardId - 초대할 대시보드의 ID
+ * @param {boolean} isModalOpen - 모달의 열림 여부
+ * @param {() => void} toggleModal - 모달의 열람/닫힘 상태를 토글하는 함수
  *
  * @description
  * - 대시보드에 이메일을 입력하여 구성원을 초대하는 폼 입니다.
  * - 초대 요청 성공 시 해당 이메일을 가진 유저에게 초대가 갑니다.
  */
-const InviteMember = ({ dashboardId }: InviteMemberProps) => {
-  const modalIsOpen = useKabanaStore((state) => state.inviteMember);
-  const toggleModal = useKabanaStore((store) => store.toggleInviteMember);
-
+const InviteMember = ({ dashboardId, isModalOpen, toggleModal }: InviteMemberProps) => {
   const {
     register,
     handleSubmit,
@@ -45,7 +43,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={modalIsOpen}
+      modalIsOpen={isModalOpen}
       toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
