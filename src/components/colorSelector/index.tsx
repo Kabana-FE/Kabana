@@ -1,4 +1,4 @@
-import AddIcon from '@/assets/icons/AddIcon';
+import CheckIcon from '@/assets/icons/CheckIcon';
 import type ColorSelectorProps from '@/components/colorSelector/types';
 import Button from '@/components/common/button';
 const COLOR_OPTIONS = [
@@ -33,7 +33,7 @@ const ColorSelector = ({ value, onChange }: ColorSelectorProps) => {
             variant='none'
             onClick={() => onChange(color.hex)}
           >
-            {isSelected && <AddIcon color='var(--color-gray-100)' size={12} />}
+            {isSelected && <CheckIcon color='var(--color-gray-100)' size={15} />}
           </Button>
         );
       })}
