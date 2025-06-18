@@ -16,7 +16,11 @@ import type { PopoverOptions, PopoverState } from '@/components/common/popover/t
  * - `toggle`, `close` 메서드를 통해 팝오버 열고 닫기 제어
  * - `triggerRef`, `contentRef`를 통한 DOM 참조 제공
  * - 팝오버 콘텐츠의 좌표(`coords`)를 트리거 요소 또는 지정된 기준 요소(`anchorRef`)를 기준으로 계산
- * - 트리거/콘텐츠 외부 클릭 시 팝오버 자동 닫힘
+ * - 트리거/콘텐츠 외부 클릭 또는 ESC 키 입력 시 팝오버 자동 닫힘
+ *
+ * ### 위치 계산 방식
+ * - 기준 요소(`positionRef`) 또는 트리거(`triggerRef`)의 `getBoundingClientRect()`를 기준으로 콘텐츠 위치 계산
+ * - `offsetX`, `offsetY`, `align`을 통해 콘텐츠의 정밀한 위치 조정 가능
  *
  * @param {PopoverOptions} [options] - 팝오버 위치 및 오프셋 설정을 위한 옵션 객체
  * @param {number} [options.offsetX=0] - 콘텐츠의 x축 방향 오프셋(px)
@@ -94,14 +98,23 @@ const usePopover = (options: PopoverOptions = {}): PopoverState => {
       }
     };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        close();
+        triggerRef.current?.focus();
+      }
+    };
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, close, offsetX, offsetY, positionRef, align]);
+  }, [isOpen, close, offsetX, offsetY, positionRef, align, triggerRef]);
 
   return { isOpen, toggle, close, triggerRef, contentRef, coords };
 };

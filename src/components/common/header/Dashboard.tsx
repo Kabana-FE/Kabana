@@ -1,5 +1,5 @@
 const DashboardHeader = () => {
-  return <header>대시보드헤더</header>;
+  return <header />;
 };
 
 export default DashboardHeader;
