@@ -1,7 +1,13 @@
-import { INVITATION_ENDPOINTS } from '@/constants/paths';
-import type { Invitation, InvitationList, InvitationListParams, RespondInvitationParams } from '@/schemas/invitation';
+import { DASHBOARD_ENDPOINTS, INVITATION_ENDPOINTS } from '@/constants/paths';
+import type {
+  Invitation,
+  InvitationList,
+  InvitationListParams,
+  InviteMemberInput,
+  RespondInvitationParams,
+} from '@/schemas/invitation';
 
-import { requestGet, requestPut } from './base/request';
+import { requestGet, requestPost, requestPut } from './base/request';
 
 /**
  * @description 초대 목록을 조회합니다.
@@ -18,4 +24,8 @@ export const getInvitationList = async (params: InvitationListParams) => {
  */
 export const respondInvitation = async (invitationId: number, respond: RespondInvitationParams) => {
   return requestPut<Invitation, RespondInvitationParams>(INVITATION_ENDPOINTS.RESPOND(String(invitationId)), respond);
+};
+
+export const inviteMember = async (dashboardId: number, invitationInput: InviteMemberInput) => {
+  return requestPost<Invitation, InviteMemberInput>(DASHBOARD_ENDPOINTS.INVITE(String(dashboardId)), invitationInput);
 };
