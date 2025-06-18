@@ -1,5 +1,6 @@
 import { useLoaderData } from 'react-router';
 
+import Avatar from '@/components/Avatar';
 import Badge from '@/components/badge';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
@@ -60,11 +61,16 @@ const Detail = ({ data, modalIsOpen, toggleModal }: DetailType) => {
           </div>
           <Comment />
         </section>
-        <section className='box-border flex justify-between rounded-lg border-1 border-gray-300 px-16 py-9 tablet:h-155 tablet:w-181 tablet:flex-col tablet:gap-16 tablet:px-16 tablet:py-14.5 pc:w-200'>
+        <section className='flex justify-between rounded-lg border-1 border-gray-300 px-16 py-9 tablet:h-155 tablet:w-181 tablet:flex-col tablet:px-16 tablet:py-14.5 pc:w-200'>
           <div className='flex w-1/2 flex-none flex-col gap-8 tablet:w-full'>
             <h2 className='text-xs/20 font-semibold'>담당자</h2>
-            <div className='text-xs/20 tablet:text-md/24'>
-              <span>아이콘</span> {data.assignee.nickname}
+            <div className='flex items-center text-xs/20 tablet:text-md/24'>
+              <Avatar
+                className='mr-8'
+                nickname={data.assignee.nickname}
+                src={data.assignee.profileImageUrl && data.assignee.profileImageUrl}
+              />
+              {data.assignee.nickname}
             </div>
           </div>
           <div className='flex w-1/2 flex-col gap-8 tablet:w-full'>

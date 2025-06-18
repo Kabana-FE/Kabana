@@ -1,15 +1,11 @@
-import { useState } from 'react';
 import { useLoaderData } from 'react-router';
 
 import AddIcon from '@/assets/icons/AddIcon';
 import CardList from '@/components/cardList/CardList';
 import Button from '@/components/common/button';
-import CreateTodo from '@/components/createTodo';
 import type { GetCardListType } from '@/schemas/card';
 
 const DashboardDetail = () => {
-  const [createTodo, setCreateTodo] = useState(false);
-
   const data = useLoaderData();
   return (
     <div className='flex h-full w-screen'>
@@ -23,7 +19,6 @@ const DashboardDetail = () => {
           새로운 컬럼 추가하기
           <AddIcon className='ml-15 w-16 bg-cream' />
         </Button>
-        <CreateTodo modalIsOpen={createTodo} toggleModal={() => setCreateTodo(!createTodo)} />
       </section>
     </div>
   );

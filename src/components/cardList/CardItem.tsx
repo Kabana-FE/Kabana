@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import CalendarIcon from '@/assets/icons/CalendarIcon';
-import CardDetail from '@/components/cardDetail';
+import CardDetail from '@/components/modal/cardDetail';
 
+import Avatar from '../Avatar';
 import Tag from '../tag';
 import type { CardItemType } from './types';
 
@@ -33,7 +34,10 @@ const CardItem = ({ data }: CardItemType) => {
             <CalendarIcon />
             <span className='ml-6 text-xs/18 font-medium text-gray-500'>{data.dueDate}</span>
           </div>
-          <span>icon</span>
+          <Avatar
+            nickname={data.assignee.nickname}
+            src={data.assignee.profileImageUrl && data.assignee.profileImageUrl}
+          />
         </div>
       </div>
       <CardDetail data={data} modalIsOpen={cardDetail} toggleModal={() => setCardDetail(!cardDetail)} />
