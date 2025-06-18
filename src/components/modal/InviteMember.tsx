@@ -25,7 +25,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     control,
   } = useForm<InviteMemberInput>({
@@ -46,7 +46,7 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
       modalIsOpen={modalIsOpen}
-      toggleModal={toggleModal}
+      toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>초대하기</Dialog.Title>
@@ -64,13 +64,13 @@ const InviteMember = ({ dashboardId }: InviteMemberProps) => {
       <Dialog.ButtonArea>
         <Button
           className='w-full rounded-lg'
-          disabled={!email?.trim()}
+          disabled={!email?.trim() || isSubmitting}
           form='inviteMember'
           size='lg'
           type='submit'
           variant='filled'
         >
-          생성
+          {isSubmitting ? '초대 중' : '초대'}
         </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>

@@ -25,7 +25,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     control,
   } = useForm<CreateColumnInput>({
@@ -47,7 +47,7 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
       modalIsOpen={modalIsOpen}
-      toggleModal={toggleModal}
+      toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>새 컬럼 생성</Dialog.Title>
@@ -65,13 +65,13 @@ const CreateColumn = ({ dashboardId }: CreateColumnProps) => {
       <Dialog.ButtonArea>
         <Button
           className='w-full rounded-lg'
-          disabled={!title?.trim()}
+          disabled={!title?.trim() || isSubmitting}
           form='createColumn'
           size='lg'
           type='submit'
           variant='filled'
         >
-          생성
+          {isSubmitting ? '생성 중' : '생성'}
         </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>

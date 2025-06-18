@@ -28,7 +28,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<UpdateColumnInput>({
     resolver: zodResolver(updateColumnSchema),
@@ -51,7 +51,7 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
       modalIsOpen={modalIsOpen}
-      toggleModal={toggleEditColumn}
+      toggleModal={isSubmitting ? () => {} : toggleEditColumn}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleEditColumn} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>컬럼 관리</Dialog.Title>
@@ -78,8 +78,15 @@ const EditColumn = ({ columnId, initialTitle }: EditColumnProps) => {
         >
           삭제
         </Button>
-        <Button className='w-full rounded-lg' form='editColumn' size='lg' type='submit' variant='filled'>
-          변경
+        <Button
+          className='w-full rounded-lg'
+          disabled={isSubmitting}
+          form='editColumn'
+          size='lg'
+          type='submit'
+          variant='filled'
+        >
+          {isSubmitting ? '변경 중' : '변경'}
         </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>

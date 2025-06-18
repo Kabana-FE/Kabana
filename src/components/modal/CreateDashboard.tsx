@@ -28,7 +28,7 @@ const CreateDashboard = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     control,
     setValue,
@@ -53,7 +53,7 @@ const CreateDashboard = () => {
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-20 tablet:w-568 tablet:p-32'
       modalIsOpen={modalIsOpen}
-      toggleModal={toggleModal}
+      toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>새로운 대시보드</Dialog.Title>
@@ -72,13 +72,13 @@ const CreateDashboard = () => {
       <Dialog.ButtonArea>
         <Button
           className='w-full rounded-lg'
-          disabled={!title?.trim() || !color}
+          disabled={!title?.trim() || !color || isSubmitting}
           form='createDashboard'
           size='lg'
           type='submit'
           variant='filled'
         >
-          생성
+          {isSubmitting ? '생성 중' : '생성'}
         </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>
