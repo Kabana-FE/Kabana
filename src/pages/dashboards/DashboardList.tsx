@@ -4,6 +4,7 @@ import { useLoaderData } from 'react-router-dom';
 import { getDashboardList } from '@/apis/dashboard';
 import { getInvitationList } from '@/apis/invitation';
 import AddIcon from '@/assets/icons/AddIcon';
+import NoInvitation from '@/assets/icons/NoInvitationIcon';
 import Button from '@/components/common/button';
 import DashboardItem from '@/components/dashboardItem';
 import InvitationItem from '@/components/invitationItem';
@@ -89,14 +90,23 @@ const DashboardList = () => {
         <div className='mt-32 flex flex-col rounded-lg bg-white tablet:mt-40 pc:mt-74'>
           <div className='flex flex-col gap-16 px-16 py-24 tablet:px-28 tablet:py-32'>
             <h2 className='text-xl font-bold tablet:text-2xl'>초대받은 대시보드</h2>
-            <input className='h-36 border border-gray-300' placeholder='검색' />
+            {invitationList.length > 0 ? (
+              <input className='h-36 border border-gray-300' placeholder='검색' />
+            ) : (
+              <div className='flex flex-col items-center justify-center gap-16 pt-105 pb-80 tablet:gap-24 tablet:pt-64 tablet:pb-120'>
+                <NoInvitation className='size-53 tablet:size-88' />
+                <p className='text-md font-normal text-gray-400 tablet:text-2lg'>아직 초대받은 대시보드가 없어요</p>
+              </div>
+            )}
           </div>
           <ul>
-            <li className='hidden px-28 text-gray-400 tablet:flex pc:px-76'>
-              <span className='w-3/10'>이름</span>
-              <span className='w-2/10'>초대자</span>
-              <span className='w-4/10 text-center'>수락 여부</span>
-            </li>
+            {invitationList.length > 0 && (
+              <li className='hidden px-28 text-gray-400 tablet:flex pc:px-76'>
+                <span className='w-3/10'>이름</span>
+                <span className='w-2/10'>초대자</span>
+                <span className='w-4/10 text-center'>수락 여부</span>
+              </li>
+            )}
             {invitationList.map((item) => (
               <li
                 key={item.id}
