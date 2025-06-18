@@ -1,11 +1,9 @@
 import { requestPost } from '@/apis/base/request';
 import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
 import type { InvitationResponse, InviteMemberInput } from '@/schemas/invitation';
-import { invitationResponseSchema } from '@/schemas/invitation';
 export const inviteMember = async (dashboardId: number, invitationInput: InviteMemberInput) => {
-  const response = await requestPost<InvitationResponse, InviteMemberInput>(
+  return requestPost<InvitationResponse, InviteMemberInput>(
     DASHBOARD_ENDPOINTS.INVITE(String(dashboardId)),
     invitationInput,
   );
-  return invitationResponseSchema.parse(response);
 };
