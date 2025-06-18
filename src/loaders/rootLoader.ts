@@ -4,7 +4,7 @@ import { redirect } from 'react-router-dom';
 import { getDashboardList } from '@/apis/dashboard';
 import { ROUTES } from '@/constants/paths';
 import type { DashboardListData } from '@/schemas/dashboard';
-import { useAuthStore } from '@/stores/useAuthStore';
+import { useKabanaStore } from '@/stores';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
 import type { RootLoaderData } from './types';
@@ -17,7 +17,8 @@ import type { RootLoaderData } from './types';
  * - 이 과정에서 API 호출을 통해 토큰의 유효성을 암묵적으로 검증하고, 401 에러 발생 시 사용자를 자동으로 로그아웃 처리합니다.
  */
 export const rootLoader = async (): Promise<RootLoaderData> => {
-  const { isLoggedIn, clearAuth } = useAuthStore.getState();
+  const isLoggedIn = useKabanaStore.getState().isLoggedIn;
+  const clearAuth = useKabanaStore.getState().clearAuth;
 
   if (!isLoggedIn) {
     return { dashboards: [] };
@@ -33,7 +34,7 @@ export const rootLoader = async (): Promise<RootLoaderData> => {
     if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {
       console.warn('⚠️ Token is invalid or expired. Logging out.');
       clearAuth();
-      useAuthStore.persist.clearStorage();
+      useKabanaStore.persist.clearStorage();
       throw redirect(ROUTES.SIGNIN);
     }
 

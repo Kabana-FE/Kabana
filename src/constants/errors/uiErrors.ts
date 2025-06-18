@@ -53,6 +53,7 @@ export const UI_ERRORS = {
     REQUIRED: (fieldName: string) => `${fieldName}은(는) 필수 항목입니다.`,
     STRING_MAX: (max: number) => `최대 ${max}자 이내로 작성해주세요.`,
     STRING_MIN: (min: number) => `최소 ${min}자 이상 작성해주세요.`,
+    FORMAT: (name: string) => `유효한 ${name} 형식이 아닙니다.`,
   },
 
   /**
