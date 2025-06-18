@@ -1,27 +1,29 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Form, useSubmit } from 'react-router-dom';
 
 import AddIcon from '@/assets/icons/AddIcon';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Tag from '@/components/tag';
-import { type CreateTodoType } from '@/schemas/dashboard';
-import { createTodoSchema } from '@/schemas/dashboard';
+import { type CreateTodoType } from '@/schemas/card';
+import { createTodoSchema } from '@/schemas/card';
 
 import colorList from './colorList';
 import { type ModalType, type TagListType } from './types';
 
 const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
+  const submit = useSubmit();
   const defaultValues: CreateTodoType = {
-    assigneeUserId: 0,
-    dashboardId: 0,
-    columnId: 0,
+    assigneeUserId: 20772,
+    dashboardId: 15104,
+    columnId: 50875,
     title: '',
     description: '',
     dueDate: '',
     tags: [],
-    imageUrl: '',
+    imageUrl: new DataTransfer().files,
   };
   const {
     register,
@@ -29,7 +31,6 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
     setValue,
     formState: { errors },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
-
   const [tagList, setTagList] = useState<TagListType[]>([]);
 
   const createRandomNumber = () => {
@@ -64,6 +65,27 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
       setTagList(copy);
     }
   };
+
+  const onSubmit = (data: CreateTodoType) => {
+    const formData = new FormData();
+
+    formData.append('assigneeUserId', String(data.assigneeUserId));
+    formData.append('dashboardId', String(data.dashboardId));
+    formData.append('columnId', String(data.columnId));
+    formData.append('title', data.title);
+    formData.append('description', data.description);
+    formData.append('dueDate', data.dueDate);
+    formData.append('tags', JSON.stringify(data.tags));
+
+    if (data.imageUrl instanceof File) {
+      formData.append('imageUrl', data.imageUrl);
+    }
+    submit(formData, {
+      method: 'post',
+      encType: 'multipart/form-data',
+    });
+  };
+
   useEffect(() => {
     const tags = tagList.map((tag) => tag.label);
     setValue('tags', tags);
@@ -78,10 +100,13 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
       }}
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
+      <Dialog.Close toggleModal={toggleModal} />
       <Dialog.Content>
-        <form
+        <Form
           className='flex flex-col'
+          encType='multipart/form-data'
           id='createTodo'
+          method='post'
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
@@ -89,14 +114,10 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
           }}
           onSubmit={handleSubmit(
             (data) => {
-              const collectedData = {
-                ...data,
-                assigneeUserId: 1,
-                dashboardId: 1,
-                columnId: 1,
-              };
+              onSubmit(data);
+              console.log('onSubmit:', data);
             },
-            (error) => console.error(error),
+            (error) => console.log(error),
           )}
         >
           <input {...register('title')} className='border border-black' placeholder='title' type='text' />
@@ -113,8 +134,15 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
           <label className='mt-5 flex h-76 w-76 items-center justify-center rounded-md bg-[#F5F5F5]' htmlFor='file'>
             <AddIcon />
           </label>
-          <input {...register('imageUrl')} className='hidden' id='file' placeholder='imageUrl' type='file' />
-        </form>
+          <input
+            {...register('imageUrl')}
+            className='hidden'
+            id='file'
+            name='imageUrl'
+            placeholder='imageUrl'
+            type='file'
+          />
+        </Form>
       </Dialog.Content>
       <Dialog.ButtonArea className='mt-32 flex justify-between gap-8'>
         <Button className='w-1/2' variant='outlined' onClick={toggleModal}>
