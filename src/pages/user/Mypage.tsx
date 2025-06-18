@@ -18,6 +18,7 @@ import { updateUserInfoSchema } from '@/schemas/user';
 const MyPage = () => {
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const {
     register: registerInfo,
@@ -45,6 +46,9 @@ const MyPage = () => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
     const file = e.target.files[0];
+    const preview = URL.createObjectURL(file);
+    setPreviewUrl(preview);
+
     const formData = new FormData();
     formData.append('image', file);
     try {
@@ -100,7 +104,15 @@ const MyPage = () => {
                 className='flex size-100 cursor-pointer items-center justify-center rounded-md bg-[#f5f5f5] tablet:size-182'
                 htmlFor='fileUpload'
               >
-                <AddIcon className='tablet:size-18' size={12} />
+                {previewUrl || myProfile.profileImageUrl ? (
+                  <img
+                    alt='프로필 이미지 미리보기'
+                    className='h-full w-full rounded-md object-cover'
+                    src={(previewUrl ?? myProfile.profileImageUrl) || undefined}
+                  />
+                ) : (
+                  <AddIcon className='tablet:size-18' size={12} />
+                )}
               </Input.Label>
               <Input.Field id='fileUpload' type='file' onChange={handleFileChange} />
             </Input.Root>
