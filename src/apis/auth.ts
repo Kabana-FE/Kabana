@@ -1,7 +1,7 @@
 import { requestPost } from '@/apis/base/request';
 import { AUTH_ENDPOINTS } from '@/constants/paths';
 import type { LoginRequest, LoginResponse, SignupRequest } from '@/schemas/auth';
-import type { User as SignupResponse } from '@/schemas/user';
+import type { User as SignupResponse } from '@/schemas/auth';
 
 /**
  * @description 로그인 요청 API

@@ -1,4 +1,4 @@
-import type { User } from '@/schemas/user';
+import type { User } from '@/schemas/auth';
 
 /**
  * Zustand 상태 관리를 위한 Auth Slice 정의
