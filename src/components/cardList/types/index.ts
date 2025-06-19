@@ -4,8 +4,12 @@ export interface CardListType {
   data: GetCardListType;
   title: string;
   columnId: number;
+  onSelectCard: (card: CardType, columnTitle: string) => void;
+  toggleCardDetail: () => void;
 }
 
 export interface CardItemType {
-  data: CardType;
+  card: CardType;
+  onSelectCard: () => void;
+  toggleModal: () => void;
 }

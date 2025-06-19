@@ -1,5 +1,6 @@
-import { useLoaderData } from 'react-router';
+import { useEffect } from 'react';
 
+import { getComments } from '@/apis/comment';
 import Avatar from '@/components/Avatar';
 import Badge from '@/components/badge';
 import Button from '@/components/common/button';
@@ -8,8 +9,16 @@ import Tag from '@/components/tag';
 
 import Comment from './Comment';
 import type { DetailType } from './types';
-const Detail = ({ data, isModalOpen, toggleModal }: DetailType) => {
-  const loaderData = useLoaderData();
+
+const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
+  const getCommentList = async (cardId: number) => {
+    const result = await getComments(cardId);
+    // console.log(result);
+  };
+
+  useEffect(() => {
+    const result = getCommentList(data.id);
+  }, []);
   return (
     <Dialog.Root
       className='w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
@@ -82,4 +91,4 @@ const Detail = ({ data, isModalOpen, toggleModal }: DetailType) => {
   );
 };
 
-export default Detail;
+export default CardDetail;
