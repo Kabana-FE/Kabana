@@ -8,10 +8,10 @@ import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
+import colorList from '@/constants/ui/colorList';
 import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
 
-import colorList from './colorList';
 import { type CreateTodoModalType, type TagListType } from './types';
 const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateTodoModalType) => {
   const submit = useSubmit();
@@ -96,7 +96,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
   return (
     <Dialog.Root
       className='w-327 rounded-2xl px-16 py-24 tablet:w-584'
-      modalIsOpen={isModalOpen}
+      isModalOpen={isModalOpen}
       toggleModal={() => {
         toggleModal();
       }}
