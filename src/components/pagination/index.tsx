@@ -32,6 +32,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }: Pagina
         aria-label='이전 페이지'
         className={`${paginationBtnStyle} rounded-r-none`}
         disabled={currentPage === 1 || isLoading}
+        size='none'
         variant='none'
         onClick={() => onPageChange(currentPage - 1)}
       >
@@ -41,6 +42,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }: Pagina
         aria-label='다음 페이지'
         className={`${paginationBtnStyle} rounded-l-none`}
         disabled={currentPage === totalPages || isLoading}
+        size='none'
         variant='none'
         onClick={() => onPageChange(currentPage + 1)}
       >
