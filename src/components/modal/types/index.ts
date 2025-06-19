@@ -64,7 +64,7 @@ export interface DeleteAlertProps {
   /**
    * 삭제 모달의 열림/닫힘 상태를 토글하는 함수
    */
-  toggleDeleteAlert: () => void;
+  // toggleDeleteAlert: () => void;
 }
 export interface InviteMemberProps {
   /**
