@@ -5,6 +5,8 @@ import type {
   Dashboard,
   DashboardListData,
   DashboardListParams,
+  InvitationList,
+  InvitationListParams,
   UpdateDashboardInput,
 } from '@/schemas/dashboard';
 
@@ -47,4 +49,12 @@ export const updateDashboard = async (dashboardId: number, dashboardInput: Updat
  */
 export const deleteDashboard = async (dashboardId: number) => {
   return requestDelete(`${DASHBOARD_ENDPOINTS.DELETE}/${dashboardId}`);
+};
+
+/**
+ * @description 특정 대시보드 초대 목록을 조회합니다.
+ * @param params 쿼리 파라미터 (dashboardId, page, size)
+ */
+export const getInvitationList = async (params: InvitationListParams) => {
+  return requestGet<InvitationList>(DASHBOARD_ENDPOINTS.GET_INVITATIONS(String(params.dashboardId)), { params });
 };

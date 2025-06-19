@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import UI_ERRORS from '@/constants/errors/uiErrors';
+import { invitationSchema } from '@/schemas/invitation';
 
 /**
  * @description 페이지네이션 방식 유효성 검사를 위한 스키마
@@ -82,6 +83,25 @@ export const createTodoSchema = z.object({
   imageUrl: z.any().optional(),
 });
 
+/**
+ * To server
+ * @description 대시보드 초대 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
+ */
+export const invitationListParamsSchema = z.object({
+  dashboardId: z.number().int().positive(),
+  page: z.number().int().positive().optional(),
+  size: z.number().int().positive().optional(),
+});
+
+/**
+ * From server
+ * @description 대시보드 초대 목록 응답 데이터의 유효성을 검사하는 스키마
+ */
+export const invitationListSchema = z.object({
+  invitations: z.array(invitationSchema),
+  totalCount: z.number().int().positive(),
+});
+
 export type NavigationMethod = z.infer<typeof navigationMethodSchema>;
 export type CreateDashboardInput = z.infer<typeof createDashboardSchema>;
 export type UpdateDashboardInput = z.infer<typeof updateDashboardSchema>;
@@ -89,3 +109,5 @@ export type DashboardListParams = z.infer<typeof dashboardListParamsSchema>;
 export type DashboardListData = z.infer<typeof dashboardListResponseSchema>;
 export type Dashboard = z.infer<typeof dashboardSchema>;
 export type CreateTodoType = z.infer<typeof createTodoSchema>;
+export type InvitationListParams = z.infer<typeof invitationListParamsSchema>;
+export type InvitationList = z.infer<typeof invitationListSchema>;
