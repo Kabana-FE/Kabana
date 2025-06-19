@@ -11,8 +11,10 @@ import InvitationItem from '@/components/invitationItem';
 import Pagination from '@/components/pagination';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
-import { type Dashboard, dashboardListResponseSchema } from '@/schemas/dashboard';
-import { type Invitation, invitationListSchema } from '@/schemas/invitation';
+import type { Dashboard } from '@/schemas/dashboard';
+import { dashboardListResponseSchema } from '@/schemas/dashboard';
+import type { Invitation } from '@/schemas/invitation';
+import { invitationListSchema } from '@/schemas/invitation';
 
 // my dashboard
 const DashboardList = () => {
