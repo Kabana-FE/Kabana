@@ -1,7 +1,7 @@
 import type { CardType } from '@/schemas/card';
 
 export interface ModalType {
-  modalIsOpen: boolean;
+  isModalOpen: boolean;
   toggleModal: () => void;
 }
 export interface DetailType extends ModalType {

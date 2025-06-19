@@ -8,13 +8,12 @@ import Tag from '@/components/tag';
 
 import Comment from './Comment';
 import type { DetailType } from './types';
-const Detail = ({ data, modalIsOpen, toggleModal }: DetailType) => {
+const Detail = ({ data, isModalOpen, toggleModal }: DetailType) => {
   const loaderData = useLoaderData();
-  const columns = loaderData.columns.data;
   return (
     <Dialog.Root
       className='w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
-      modalIsOpen={modalIsOpen}
+      isModalOpen={isModalOpen}
       toggleModal={toggleModal}
     >
       <Dialog.Title className='tablet:11/12 w-7/8 text-[20px] font-bold tablet:text-2xl'>

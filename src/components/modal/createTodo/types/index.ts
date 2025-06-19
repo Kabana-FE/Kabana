@@ -4,6 +4,11 @@ export interface TagListType {
 }
 
 export interface ModalType {
-  modalIsOpen: boolean;
+  isModalOpen: boolean;
   toggleModal: () => void;
+}
+
+export interface CreateTodoModalType extends ModalType {
+  dashboardId: number;
+  columnId: number;
 }

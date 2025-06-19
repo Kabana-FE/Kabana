@@ -6,7 +6,7 @@ import Close from './Close';
 import Title from './Title';
 import type { DialogRootProp } from './types';
 
-const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp) => {
+const Root = ({ children, className, isModalOpen, toggleModal }: DialogRootProp) => {
   const modalRoot = document.getElementById('modal-root') as HTMLElement;
   const _children = Children.toArray(children) as React.ReactElement[];
   const [title, close] = [
@@ -16,19 +16,19 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
   const exceptTitleArea = _children.filter((child) => child.type !== Title && child.type !== Close);
   useEffect(() => {
     const preOverflow = document.body.style.overflow;
-    document.body.style.overflow = modalIsOpen ? 'hidden' : preOverflow;
+    document.body.style.overflow = isModalOpen ? 'hidden' : preOverflow;
     return () => {
       document.body.style.overflow = preOverflow;
     };
-  }, [modalIsOpen]);
+  }, [isModalOpen]);
 
-  if (!modalIsOpen) {
+  if (!isModalOpen) {
     return null;
   }
 
   return createPortal(
     <div
-      className='absolute z-50 h-screen w-screen bg-black/50'
+      className='fixed z-50 h-screen w-screen bg-black/50'
       onClick={() => {
         toggleModal();
       }}
