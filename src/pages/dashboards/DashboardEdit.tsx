@@ -1,20 +1,81 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router';
 
+import { getInvitationList } from '@/apis/dashboard';
+import { getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
-import DotIcon from '@/assets/icons/DotIcon';
+import Avatar from '@/components/Avatar';
 import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Pagination from '@/components/pagination';
 import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
+import { invitationListSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
-import type { Member } from '@/schemas/member';
+import { type Member, memberListResponseSchema } from '@/schemas/member';
 
 const DashboardEdit = () => {
   const initialData = useLoaderData() as DashboardEditLoaderData;
   const [memberList, setMemberList] = useState<Member[]>(initialData.memberList.members);
+  const [memberPage, setMemberPage] = useState<number>(1);
+  const [isMemberLoading, setIsMemberLoading] = useState<boolean>(false);
+  const totalMemberCount = initialData.memberList.totalCount;
+  const totalMemberPage = Math.ceil(totalMemberCount / 5);
+
   const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+  const [invitationPage, setInvitationPage] = useState<number>(1);
+  const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
+  const totalInvitationCount = initialData.invitationList.totalCount;
+  const totalInvitationPage = Math.ceil(totalInvitationCount / 5);
+
+  const isMemberRender = useRef(true);
+
+  useEffect(() => {
+    if (isMemberRender.current) {
+      isMemberRender.current = false;
+      return;
+    }
+
+    const fetchMember = async () => {
+      if (isMemberLoading) return;
+      setIsMemberLoading(true);
+      try {
+        const rawMemberList = await getMemberList({ dashboardId: 15131, size: 4, page: memberPage });
+        const memberList = memberListResponseSchema.parse(rawMemberList);
+        setMemberList(memberList.members);
+      } catch (error) {
+        console.error(error); // 에러 미구현
+      } finally {
+        setIsMemberLoading(false);
+      }
+    };
+    fetchMember();
+  }, [memberPage]);
+
+  const isInvitationRender = useRef(true);
+
+  useEffect(() => {
+    if (isInvitationRender.current) {
+      isInvitationRender.current = false;
+      return;
+    }
+
+    const fetchInvitation = async () => {
+      if (isInvitationLoading) return;
+      setIsInvitationLoading(true);
+      try {
+        const rawInvitationList = await getInvitationList({ dashboardId: 15131, size: 5, page: invitationPage });
+        const invitationList = invitationListSchema.parse(rawInvitationList);
+        setInvitationList(invitationList.invitations);
+      } catch (error) {
+        console.error(error); // 에러 미구현
+      } finally {
+        setIsInvitationLoading(false);
+      }
+    };
+    fetchInvitation();
+  }, [invitationPage]);
+
   console.log(memberList);
   console.log(invitationList);
 
@@ -51,9 +112,15 @@ const DashboardEdit = () => {
           <section className='flex h-337 max-w-620 flex-col rounded-lg bg-white tablet:h-404'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='text-xl font-bold tablet:text-2xl'>구성원</h2>
-              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>1 페이지 중 1</span>
-              {/* props 필수라 임의 값 지정 */}
-              <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
+              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
+                {totalMemberPage} 페이지 중 {memberPage}
+              </span>
+              <Pagination
+                currentPage={memberPage}
+                isLoading={isMemberLoading}
+                totalPages={totalMemberPage}
+                onPageChange={setMemberPage}
+              />
             </div>
             <div className='px-20 text-md text-gray-400 tablet:px-28 tablet:text-lg'>이름</div>
             <ul>
@@ -67,11 +134,7 @@ const DashboardEdit = () => {
                       className='flex items-center justify-between px-20 py-12 tablet:px-28 tablet:py-16'
                     >
                       <div className='flex items-center justify-between gap-8'>
-                        {profileImageUrl ? (
-                          <img alt='profile' className='size-34 rounded-full' src={profileImageUrl} />
-                        ) : (
-                          <DotIcon className='tablet:size-38' size={34} />
-                        )}
+                        <Avatar nickname={nickname} src={profileImageUrl ?? undefined} />
                         <span className='text-md tablet:text-lg'>{nickname}</span>
                       </div>
                       <Button
@@ -92,9 +155,15 @@ const DashboardEdit = () => {
           <section className='h-406 max-w-620 rounded-lg bg-white tablet:h-477'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='text-xl font-bold tablet:text-2xl'>초대내역</h2>
-              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>1 페이지 중 1</span>
-              {/* props 필수라 임의 값 지정 */}
-              <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
+              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
+                {totalInvitationPage} 페이지 중 {invitationPage}
+              </span>
+              <Pagination
+                currentPage={invitationPage}
+                isLoading={isInvitationLoading}
+                totalPages={totalInvitationPage}
+                onPageChange={setInvitationPage}
+              />
             </div>
             <div className='flex justify-between px-20 pb-10 tablet:px-28'>
               <div className='text-gray-400'>이메일</div>
