@@ -5,8 +5,10 @@ import LoginForm from '@/components/loginForm';
 
 const Signin = () => {
   return (
-    <section className='flex w-350 flex-col items-center justify-center gap-25 tablet:w-520'>
-      <VerticalLogo className='tablet:size-350' size={250} />
+    <section className='flex w-350 flex-col items-center justify-center gap-25 tablet:w-520 pc:w-600'>
+      <Link to='/'>
+        <VerticalLogo className='tablet:size-330 pc:size-400' size={230} />
+      </Link>
       <LoginForm />
 
       <p className='text-lg text-capybara'>
