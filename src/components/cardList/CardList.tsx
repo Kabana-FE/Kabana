@@ -6,7 +6,14 @@ import Button from '@/components/common/button';
 
 import type { CardListType } from './types';
 
-const CardList = ({ data, title, onSelectCard, toggleCardDetail, toggleCreateTodo }: CardListType) => {
+const CardList = ({
+  data,
+  title,
+  onSelectCard,
+  toggleCardDetail,
+  toggleCreateTodo,
+  setSelectedCardId,
+}: CardListType) => {
   return (
     <div className='px-12 pc:flex-1/5'>
       <div className='mb-25 flex justify-between'>
@@ -30,6 +37,8 @@ const CardList = ({ data, title, onSelectCard, toggleCardDetail, toggleCreateTod
             <CardItem
               key={`${card.id}-${idx}`}
               card={card}
+              cardId={card.id}
+              setSelectedCardId={(cardId: number) => setSelectedCardId(cardId)}
               toggleModal={toggleCardDetail}
               onSelectCard={() => {
                 onSelectCard(card, title);

@@ -1,27 +1,41 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getComments } from '@/apis/comment';
 import Avatar from '@/components/Avatar';
 import Badge from '@/components/badge';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Input from '@/components/common/input';
 import Tag from '@/components/tag';
+import type { CommentsType } from '@/schemas/comment';
 
 import Comment from './Comment';
 import type { DetailType } from './types';
 
-const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
-  const getCommentList = async (cardId: number) => {
-    const result = await getComments(cardId);
-    // console.log(result);
-  };
+const CardDetail = ({ data, isModalOpen, toggleModal, selectedCardId }: DetailType) => {
+  const [commentList, setCommentList] = useState<CommentsType>();
 
   useEffect(() => {
-    const result = getCommentList(data.id);
-  }, []);
+    let ignore = false;
+
+    const fetchComments = async () => {
+      if (selectedCardId && !ignore) {
+        const result = await getComments(selectedCardId);
+        if (!ignore) setCommentList(result.comments);
+      }
+    };
+
+    fetchComments();
+
+    return () => {
+      ignore = true;
+      setCommentList(undefined); // 또는 []로 초기화
+    };
+  }, [selectedCardId]);
+
   return (
     <Dialog.Root
-      className='w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
+      className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
       isModalOpen={isModalOpen}
       toggleModal={toggleModal}
     >
@@ -31,7 +45,11 @@ const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
           <span>...</span>
         </div>
       </Dialog.Title>
-      <Dialog.Close toggleModal={toggleModal} />
+      <Dialog.Close
+        toggleModal={() => {
+          toggleModal();
+        }}
+      />
       <Dialog.Content className='mt-10 flex grow-0 flex-col-reverse justify-between tablet:mt-24 tablet:flex-row tablet:gap-13'>
         <section className='tablet:w-420 pc:w-445'>
           <div className='mt-16 flex tablet:mt-0'>
@@ -58,16 +76,21 @@ const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
           />
           <div className='relative mt-16'>
             <form>
-              <label>
-                댓글
-                <textarea className='h-70 w-full border border-gray-300' />
-              </label>
+              <Input.Root>
+                <Input.Label htmlFor='comment'>댓글</Input.Label>
+                <Input.Field id='comment' placeholder='댓글 작성하기' type='textarea' />
+              </Input.Root>
               <Button className='absolute right-12 bottom-12 h-32 text-xs' type='submit' variant='outlined'>
                 입력
               </Button>
             </form>
           </div>
-          <Comment />
+          <div className='max-h-160 overflow-y-auto'>
+            {commentList &&
+              commentList.map((comment) => {
+                return <Comment key={comment.id} data={comment} />;
+              })}
+          </div>
         </section>
         <section className='flex justify-between rounded-lg border-1 border-gray-300 px-16 py-9 tablet:h-155 tablet:w-181 tablet:flex-col tablet:px-16 tablet:py-14.5 pc:w-200'>
           <div className='flex w-1/2 flex-none flex-col gap-8 tablet:w-full'>

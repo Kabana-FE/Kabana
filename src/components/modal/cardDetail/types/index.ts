@@ -1,4 +1,5 @@
 import type { CardType } from '@/schemas/card';
+import type { CommentType } from '@/schemas/comment';
 
 export interface ModalType {
   isModalOpen: boolean;
@@ -6,4 +7,9 @@ export interface ModalType {
 }
 export interface DetailType extends ModalType {
   data: CardType;
+  selectedCardId: number;
+}
+
+export interface CommentPropsType {
+  data: CommentType;
 }

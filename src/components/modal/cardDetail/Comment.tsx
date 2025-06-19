@@ -1,13 +1,17 @@
-const Comment = () => {
+import Avatar from '@/components/Avatar';
+
+import type { CommentPropsType } from './types';
+
+const Comment = ({ data }: CommentPropsType) => {
   return (
-    <div className='flex gap-8'>
-      <div className='h-26 w-26 rounded-full bg-amber-300 text-center' />
+    <div className='my-10 flex gap-8'>
+      <Avatar nickname={data.author.nickname} src={data.author.profileImageUrl && data.author.profileImageUrl} />
       <div className='flex flex-col'>
         <div className='flex items-center gap-8'>
-          <h3 className='text-xs font-semibold text-gray-700 tablet:text-md/24'>name</h3>
-          <span className='text-[10px] text-gray-400'>date</span>
+          <h3 className='text-xs font-semibold text-gray-700 tablet:text-md/24'>{data.author.nickname}</h3>
+          <span className='text-[10px] text-gray-400'>{data.createdAt}</span>
         </div>
-        <div className='text-xs/18 tablet:text-md/24'>댓글 코멘트 입니다</div>
+        <div className='text-xs/18 tablet:text-md/24'>{data.content}</div>
         <div className='flex gap-8'>
           <span className='text-[10px] text-gray-400 underline tablet:text-xs'>수정</span>
           <span className='text-[10px] text-gray-400 underline tablet:text-xs'>삭제</span>

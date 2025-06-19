@@ -30,8 +30,8 @@ const DashboardDetail = () => {
   const [selectedCard, setSeletectedCard] = useState<CardType | null>(null);
   const [selectedColumnId, setSelectedColumnId] = useState<number>();
   const [selectedColumnTitle, setSelectedColumnTitle] = useState<string>();
+  const [selectedCardId, setSelectedCardId] = useState<number>(0);
   const dashboardId = Number(location.pathname.split('/')[2]);
-
   return (
     <div className='flex h-full w-screen'>
       <section className='w-67 bg-white tablet:w-160 pc:w-300'>사이드바</section>
@@ -43,6 +43,7 @@ const DashboardDetail = () => {
                 key={columns.data[idx].id}
                 columnId={columns.data[idx].id}
                 data={cardItem}
+                setSelectedCardId={(cardId: number) => setSelectedCardId(cardId)}
                 title={data.columns.data[idx].title}
                 toggleCardDetail={() => setCardDetail(!cardDetail)}
                 toggleCreateTodo={() => setCreateTodo(!createTodo)}
@@ -81,7 +82,12 @@ const DashboardDetail = () => {
         toggleModal={() => setDeleteAlert(!deleteAlert)}
       />
       {selectedCard && (
-        <CardDetail data={selectedCard} isModalOpen={cardDetail} toggleModal={() => setCardDetail(!cardDetail)} />
+        <CardDetail
+          data={selectedCard}
+          isModalOpen={cardDetail}
+          selectedCardId={selectedCardId}
+          toggleModal={() => setCardDetail(!cardDetail)}
+        />
       )}
     </div>
   );

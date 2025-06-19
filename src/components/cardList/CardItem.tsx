@@ -4,13 +4,14 @@ import Avatar from '../Avatar';
 import Tag from '../tag';
 import type { CardItemType } from './types';
 
-const CardItem = ({ card, onSelectCard, toggleModal }: CardItemType) => {
+const CardItem = ({ card, cardId, onSelectCard, setSelectedCardId, toggleModal }: CardItemType) => {
   return (
     <div
       className='my-10 flex flex-col rounded-md border-1 border-gray-300 bg-white p-12 tablet:my-16 tablet:flex-row tablet:justify-between tablet:px-14 tablet:py-20 pc:flex-col'
       onClick={() => {
         onSelectCard();
         toggleModal();
+        setSelectedCardId(cardId);
       }}
     >
       <img
