@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import UI_ERRORS from '@/constants/errors/uiErrors';
+import { UI_ERRORS } from '@/constants/errors/uiErrors';
 
 /**
  * From Server

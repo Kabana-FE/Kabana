@@ -38,6 +38,7 @@ const MyPage = () => {
         profileImageUrl: myProfile.profileImageUrl,
       };
       await updateMyInfo(updatedData);
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
     } catch (err) {
       console.error('🩺프로필 수정 실패:', err);
     }
