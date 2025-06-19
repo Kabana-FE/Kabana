@@ -6,6 +6,7 @@ export interface CardListType {
   columnId: number;
   onSelectCard: (card: CardType, columnTitle: string) => void;
   toggleCardDetail: () => void;
+  toggleCreateTodo: () => void;
 }
 
 export interface CardItemType {

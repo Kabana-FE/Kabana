@@ -45,6 +45,7 @@ const DashboardDetail = () => {
                 data={cardItem}
                 title={data.columns.data[idx].title}
                 toggleCardDetail={() => setCardDetail(!cardDetail)}
+                toggleCreateTodo={() => setCreateTodo(!createTodo)}
                 onSelectCard={(card: CardType, columnTitle: string) =>
                   getModalData(card, columns.data[idx].id, columnTitle)
                 }
