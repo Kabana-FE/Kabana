@@ -84,9 +84,6 @@ const DashboardEdit = () => {
     fetchInvitation();
   }, [invitationPage]);
 
-  console.log(memberList);
-  console.log(invitationList);
-
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16'>
       <div className='flex items-center gap-8'>
