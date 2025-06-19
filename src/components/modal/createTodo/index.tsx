@@ -6,19 +6,20 @@ import { Form, useSubmit } from 'react-router-dom';
 import AddIcon from '@/assets/icons/AddIcon';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Input from '@/components/common/input';
 import Tag from '@/components/tag';
-import { type CreateTodoType } from '@/schemas/card';
+import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
 
 import colorList from './colorList';
-import { type ModalType, type TagListType } from './types';
-
-const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
+import { type CreateTodoModalType, type TagListType } from './types';
+const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateTodoModalType) => {
   const submit = useSubmit();
+
   const defaultValues: CreateTodoType = {
-    assigneeUserId: 20772,
-    dashboardId: 15104,
-    columnId: 50875,
+    assigneeUserId: 0,
+    dashboardId: dashboardId,
+    columnId: columnId,
     title: '',
     description: '',
     dueDate: '',
@@ -29,7 +30,8 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitting },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
   const [tagList, setTagList] = useState<TagListType[]>([]);
 
@@ -94,14 +96,14 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
   return (
     <Dialog.Root
       className='w-327 rounded-2xl px-16 py-24 tablet:w-584'
-      modalIsOpen={modalIsOpen}
+      modalIsOpen={isModalOpen}
       toggleModal={() => {
         toggleModal();
       }}
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Close toggleModal={toggleModal} />
-      <Dialog.Content>
+      <Dialog.Content className='mt-32'>
         <Form
           className='flex flex-col'
           encType='multipart/form-data'
@@ -112,43 +114,79 @@ const CreateTodo = ({ modalIsOpen, toggleModal }: ModalType) => {
               e.preventDefault();
             }
           }}
-          onSubmit={handleSubmit(
-            (data) => {
-              onSubmit(data);
-              console.log('onSubmit:', data);
-            },
-            (error) => console.log(error),
-          )}
+          onSubmit={handleSubmit((data) => {
+            onSubmit(data);
+            console.log('onSubmit:', data);
+          })}
         >
-          <input {...register('title')} className='border border-black' placeholder='title' type='text' />
-          <textarea {...register('description')} className='border border-black' placeholder='설명을 입력해주세요' />
-          <input {...register('dueDate')} className='border-1 border-black' type='date' />
-          <div className='flex flex-nowrap items-center gap-2 border border-black p-2'>
+          <div>담당자 선택하는거랑 상태 넣어야함</div>
+          <Input.Root className='my-10'>
+            <Input.Label htmlFor='title'>
+              제목<strong className='text-capybara'>*</strong>
+            </Input.Label>
+            <Input.Field id='title' {...register('title')} className='h-50' />
+            <Input.ErrorMessage>{errors.title?.message}</Input.ErrorMessage>
+          </Input.Root>
+
+          <Input.Root className='mb-10'>
+            <Input.Label htmlFor='description'>
+              설명<strong className='text-capybara'>*</strong>
+            </Input.Label>
+            <Input.Field
+              id='description'
+              placeholder='설명을 입력해주세요'
+              type='textarea'
+              {...register('description')}
+            />
+            <Input.ErrorMessage>{errors.description?.message}</Input.ErrorMessage>
+          </Input.Root>
+
+          <Input.Root className='mb-10'>
+            <Input.Label htmlFor='dueDate'>
+              마감일<strong className='text-capybara'>*</strong>
+            </Input.Label>
+            <Input.Field id='dueDate' type='datetime-local' {...register('dueDate')} />
+            <Input.ErrorMessage>{errors.dueDate?.message}</Input.ErrorMessage>
+          </Input.Root>
+
+          <Input.Root>
+            <Input.Label htmlFor='tags'>
+              태그<strong className='text-capybara'>*</strong>
+            </Input.Label>
+            <Input.Field id='tags' onKeyDown={createDeleteTags} />
+            <Input.ErrorMessage>{errors.tags?.message}</Input.ErrorMessage>
+          </Input.Root>
+          <div>
             {tagList.map((tag, idx) => (
               <Tag key={tag.label ?? idx} className={`${tag.color ?? 'bg-gray-200'}`}>
                 {tag.label ?? '빈값'}
               </Tag>
             ))}
-            <input className='flex-1 focus:outline-0' name='tags' type='text' onKeyDown={createDeleteTags} />
           </div>
-          <label className='mt-5 flex h-76 w-76 items-center justify-center rounded-md bg-[#F5F5F5]' htmlFor='file'>
-            <AddIcon />
-          </label>
-          <input
-            {...register('imageUrl')}
-            className='hidden'
-            id='file'
-            name='imageUrl'
-            placeholder='imageUrl'
-            type='file'
-          />
+          <Input.Root>
+            <Input.Label
+              className='mt-5 flex h-76 w-76 items-center justify-center rounded-md bg-[#F5F5F5]'
+              htmlFor='file'
+            >
+              <AddIcon />
+            </Input.Label>
+            <Input.Field className='hidden' id='file' />
+          </Input.Root>
         </Form>
       </Dialog.Content>
       <Dialog.ButtonArea className='mt-32 flex justify-between gap-8'>
-        <Button className='w-1/2' variant='outlined' onClick={toggleModal}>
+        <Button
+          className='w-1/2'
+          variant='outlined'
+          onClick={() => {
+            toggleModal();
+            reset();
+            setTagList([]);
+          }}
+        >
           취소
         </Button>
-        <Button className='w-1/2' form='createTodo' type='submit'>
+        <Button className='w-1/2' disabled={isSubmitting} form='createTodo' type='submit'>
           생성
         </Button>
       </Dialog.ButtonArea>
