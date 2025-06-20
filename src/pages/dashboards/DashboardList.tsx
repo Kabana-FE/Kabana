@@ -192,7 +192,7 @@ const DashboardList = () => {
           <div ref={infiniteScrollRef} />
         </div>
       </div>
-      <CreateDashboard isModalOpen={isModalOpen} toggleModal={() => setIsModalOpen((...prev) => !prev)} />
+      <CreateDashboard isModalOpen={isModalOpen} toggleModal={() => setIsModalOpen((prev) => !prev)} />
     </div>
   );
 };
