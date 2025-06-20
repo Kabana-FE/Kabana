@@ -1,16 +1,9 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
-
-import useKabanaStore from '@/stores/store';
-
-import Toast from './Toast';
-
 /**
  * @description 전역 토스트 알림을 렌더링하는 Provider 컴포넌트입니다.
  *
  * Zustand 전역 상태에서 `toasts` 배열을 구독하고, 각 토스트를 `<Toast />` 컴포넌트로 렌더링합니다.
  *
- * 렌더링은 `createPortal`을 통해 HTML의 `#toast-root` 요소에 삽입되며,
+ * 렌더링은 `createPortal`을 통해 HTML의 `#portal-root` 요소에 삽입되며,
  * DOM 계층 구조와 무관하게 항상 화면의 우측 상단 고정 위치에서 토스트가 표시됩니다.
  *
  * 주요 특징:
@@ -28,26 +21,22 @@ import Toast from './Toast';
  *
  */
 const ToastProvider = () => {
-  const toasts = useKabanaStore((state) => state.toasts);
-
-  const [toastRoot, setToastRoot] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    setToastRoot(document.getElementById('toast-root'));
-  }, []);
-
-  if (toasts.length === 0 || !toastRoot) {
-    return null;
-  }
-
-  return createPortal(
-    <div className='fixed top-4 right-4 z-[9999] flex flex-col gap-3'>
-      {toasts.map((toast) => (
-        <Toast key={toast.id} toast={toast} />
-      ))}
-    </div>,
-    toastRoot,
-  );
+  // const toasts = useKabanaStore((state) => state.toasts);
+  // const [toastRoot, setToastRoot] = useState<HTMLElement | null>(null);
+  // useEffect(() => {
+  //   setToastRoot(document.getElementById('toast-root'));
+  // }, []);
+  // if (toasts.length === 0 || !toastRoot) {
+  //   return null;
+  // }
+  // return createPortal(
+  //   <div className='fixed top-4 right-4 z-[9999] flex flex-col gap-3'>
+  //     {toasts.map((toast) => (
+  //       <Toast key={toast.id} toast={toast} />
+  //     ))}
+  //   </div>,
+  //   toastRoot,
+  // );
 };
 
 export default ToastProvider;

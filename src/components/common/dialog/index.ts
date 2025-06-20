@@ -22,7 +22,7 @@ import Title from './Title';
  * </Dialog.Root>
  * ```
  */
-export default {
+const Dialog = {
   /**
    * 모달의 최상위 래퍼 컴포넌트입니다.
    *
@@ -66,3 +66,5 @@ export default {
    */
   ButtonArea,
 };
+
+export default Dialog;
