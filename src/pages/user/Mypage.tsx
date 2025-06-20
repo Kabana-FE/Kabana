@@ -125,6 +125,7 @@ const MyPage = () => {
                   </Input.Label>
                   <Input.Field
                     readOnly
+                    autoComplete='email'
                     className='cursor-default focus:border-1 focus:border-gray-300 focus:ring-0 focus:outline-none'
                     id='email'
                     placeholder={myProfile.email}
