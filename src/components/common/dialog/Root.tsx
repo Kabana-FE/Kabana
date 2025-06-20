@@ -7,7 +7,7 @@ import Title from './Title';
 import type { DialogRootProp } from './types';
 
 const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp) => {
-  const modalRoot = document.getElementById('modal-root') as HTMLElement;
+  const portalRoot = document.getElementById('portal-root') as HTMLElement;
   const _children = Children.toArray(children) as React.ReactElement[];
   const [title, close] = [
     _children.find((child) => child.type === Title),
@@ -41,7 +41,7 @@ const Root = ({ children, className, modalIsOpen, toggleModal }: DialogRootProp)
         {exceptTitleArea}
       </dialog>
     </div>,
-    modalRoot,
+    portalRoot,
   );
 };
 
