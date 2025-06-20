@@ -7,10 +7,10 @@ import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
+import type { CreateDashboardProps } from '@/components/modal/types';
+import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
 import type { CreateDashboardInput } from '@/schemas/dashboard';
 import { createDashboardSchema } from '@/schemas/dashboard';
-
-import type { CreateDashboardProps } from './types';
 /**
  * 새로운 대시보드를 생성할 수 있는 모달 컴포넌트
  *
@@ -45,7 +45,7 @@ const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => 
       const dashboard = await createDashboard(data);
       toggleModal();
       reset();
-      navigate(`/dashboard/${dashboard.id}`);
+      navigate(DASHBOARD_ENDPOINTS.DETAIL(String(dashboard.id)));
     } catch (err) {
       console.error('🩺대시보드 생성 실패:', err);
     }

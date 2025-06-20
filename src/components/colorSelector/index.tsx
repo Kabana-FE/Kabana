@@ -2,11 +2,11 @@ import CheckIcon from '@/assets/icons/CheckIcon';
 import type ColorSelectorProps from '@/components/colorSelector/types';
 import Button from '@/components/common/button';
 const COLOR_OPTIONS = [
-  { name: 'green', hex: '#7ac555' },
-  { name: 'purple', hex: '#760dde' },
-  { name: 'orange', hex: '#ffa500' },
-  { name: 'blue', hex: '#76a5ea' },
-  { name: 'pink', hex: '#e876ea' },
+  { name: 'green', hex: '#7ac555', className: 'bg-green' },
+  { name: 'purple', hex: '#760dde', className: 'bg-purple' },
+  { name: 'orange', hex: '#ffa500', className: 'bg-orange' },
+  { name: 'blue', hex: '#76a5ea', className: 'bg-blue' },
+  { name: 'pink', hex: '#e876ea', className: 'bg-pink' },
 ];
 /**
  * ColorSelector 컴포넌트
@@ -29,7 +29,7 @@ const ColorSelector = ({ value, onChange }: ColorSelectorProps) => {
           <Button
             key={color.hex}
             aria-label={color.name}
-            className={`size-30 rounded-full p-0 bg-${color.name}`}
+            className={`size-30 rounded-full p-0 ${color.className}`}
             variant='none'
             onClick={() => onChange(color.hex)}
           >
