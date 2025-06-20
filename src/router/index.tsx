@@ -66,6 +66,7 @@ const router = createBrowserRouter([
           const { authGuardLoader } = await import('@/loaders/authGuardLoader');
           return { Component: DashboardLayout, loader: () => authGuardLoader(true) };
         },
+        id: 'dashboard',
         children: [
           {
             errorElement: <ApiErrorBoundary />,

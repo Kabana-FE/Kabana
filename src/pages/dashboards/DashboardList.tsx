@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
 import { getInvitationList } from '@/apis/invitation';
@@ -11,6 +11,7 @@ import InvitationItem from '@/components/invitationItem';
 import Pagination from '@/components/pagination';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
+import type { authGuardLoaderData } from '@/loaders/types';
 import type { Dashboard } from '@/schemas/dashboard';
 import { dashboardListResponseSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
@@ -18,17 +19,18 @@ import { invitationListSchema } from '@/schemas/invitation';
 
 // my dashboard
 const DashboardList = () => {
-  const initialData = useLoaderData() as DashboardListLoaderData;
+  const initialDashboardData = useRouteLoaderData('dashboard') as authGuardLoaderData;
+  const initialInvitationData = useLoaderData() as DashboardListLoaderData;
 
-  const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialData.dashboardList.dashboards);
+  const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialDashboardData.dashboards.slice(0, 5));
   const [page, setPage] = useState<number>(1);
   const [isDashboardLoading, setIsDashboardLoading] = useState<boolean>(false);
-  const totalDashboardCount = initialData.dashboardList.totalCount;
+  const totalDashboardCount = initialDashboardData.totalCount;
   const totalDashboardPage = Math.ceil(totalDashboardCount / 5);
 
-  const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+  const [invitationList, setInvitationList] = useState<Invitation[]>(initialInvitationData.invitationList.invitations);
   const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
-  const [cursorId, setCursorId] = useState<number | null>(initialData.invitationList.cursorId);
+  const [cursorId, setCursorId] = useState<number | null>(initialInvitationData.invitationList.cursorId);
 
   const isInitialRender = useRef(true);
 

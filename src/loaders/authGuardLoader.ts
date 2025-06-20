@@ -44,7 +44,11 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
         navigationMethod: 'infiniteScroll',
         size: 10,
       });
-      return { dashboards: dashboardListResponse.dashboards, cursorId: dashboardListResponse.cursorId };
+      return {
+        dashboards: dashboardListResponse.dashboards,
+        cursorId: dashboardListResponse.cursorId,
+        totalCount: dashboardListResponse.totalCount,
+      };
     } catch (error) {
       // 401이면 토큰 만료 → 자동 로그아웃
       if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {
