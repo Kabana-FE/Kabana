@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router';
+
 import landingImg from '@/assets/images/landing_image.webp';
 import Landing1 from '@/assets/images/Landing1.png';
 import Landing2 from '@/assets/images/Landing2.png';
@@ -5,8 +7,15 @@ import Landing3 from '@/assets/images/Landing3.png';
 import Landing4 from '@/assets/images/Landing4.png';
 import Landing5 from '@/assets/images/Landing5.png';
 import Button from '@/components/common/button';
+import { AUTH_ENDPOINTS } from '@/constants/paths';
 
 const Landing = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate(AUTH_ENDPOINTS.SIGNIN);
+  };
+
   return (
     <div className='text-white'>
       <div className='flex flex-col items-center justify-center pt-42 pb-76 tablet:pt-94 tablet:pb-180'>
@@ -15,7 +24,12 @@ const Landing = () => {
           <div className='text-[40px] font-bold tablet:text-[56px] pc:text-[76px]'>새로운 일정 관리</div>
           <div className='text-[42px] font-bold text-capybara tablet:text-[70px] pc:text-[90px]'>Kabana</div>
         </div>
-        <Button className='w-235 text-md tablet:w-280 tablet:text-2lg' type='button' variant='filled'>
+        <Button
+          className='w-235 text-md tablet:w-280 tablet:text-2lg'
+          type='button'
+          variant='filled'
+          onClick={handleButtonClick}
+        >
           로그인하기
         </Button>
       </div>
@@ -46,7 +60,7 @@ const Landing = () => {
         </div>
       </div>
       <div className='flex flex-col gap-42 pb-120 tablet:pb-160'>
-        <div className='text-center text-[22px] font-bold tablet:text-[28px] pc:text-start'>
+        <div className='m-auto text-center text-[22px] font-bold tablet:text-[28px] pc:w-1230 pc:text-start'>
           생산성을 높이는 다양한 설정 ⚡️
         </div>
         <div className='flex flex-col items-center justify-center gap-40 tablet:gap-48 pc:flex-row'>
