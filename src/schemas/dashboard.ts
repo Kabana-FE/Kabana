@@ -30,7 +30,7 @@ export const dashboardSchema = z.object({
  */
 export const dashboardListParamsSchema = z.object({
   navigationMethod: navigationMethodSchema,
-  cursorId: z.number().int().positive().optional(),
+  cursorId: z.number().int().positive().nullable().optional(),
   page: z.number().int().positive().optional(),
   size: z.number().int().positive().optional(),
 });

@@ -41,10 +41,16 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
   if (isPrivateOnly && isLoggedIn) {
     try {
       const dashboardListResponse = await getDashboardList({
-        navigationMethod: 'infiniteScroll',
+        navigationMethod: 'pagination',
+        page: 1,
         size: 10,
+        cursorId: null,
       });
-      return { dashboards: dashboardListResponse.dashboards, cursorId: dashboardListResponse.cursorId };
+      return {
+        dashboards: dashboardListResponse.dashboards,
+        totalCount: dashboardListResponse.totalCount,
+        pageSize: 10,
+      };
     } catch (error) {
       // 401이면 토큰 만료 → 자동 로그아웃
       if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {
