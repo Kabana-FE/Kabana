@@ -14,8 +14,7 @@ const DashboardDetail = () => {
   const [createColumn, setCreateColumn] = useState(false);
   return (
     <div className='flex h-full w-screen'>
-      <section className='w-67 bg-white tablet:w-160 pc:w-300'>사이드바</section>
-      <section className='flex flex-1 flex-col px-20 pc:flex-row'>
+      <section className='flex w-screen flex-col px-20 pc:flex-row pc:overflow-x-scroll'>
         {data.cardList &&
           data.cardList.map((cardItem: GetCardListType, idx: number) => {
             return (
@@ -29,7 +28,7 @@ const DashboardDetail = () => {
             );
           })}
         <Button
-          className='w-full pc:flex-1/5'
+          className='w-full shrink-0 pc:flex-1/5'
           variant='outlined'
           onClick={() => {
             setCreateColumn(!createColumn);
