@@ -6,10 +6,11 @@ import type TagType from './types';
 
 const Tag = ({ children, className, ...props }: TagType) => {
   const getColor = (nickname: string) => {
-    const trimmed = nickname.trim();
+    const text = typeof nickname === 'string' ? nickname : String(nickname);
+    const trimmed = text.trim();
     if (!trimmed) return colorList[0];
     const firstChar = trimmed.charAt(0).toUpperCase();
-    const index = firstChar.charCodeAt(0) % 10;
+    const index = firstChar.charCodeAt(0) % colorList.length;
     return colorList[index];
   };
 

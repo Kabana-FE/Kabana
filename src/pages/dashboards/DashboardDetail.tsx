@@ -12,7 +12,6 @@ const DashboardDetail = () => {
   const params = useParams();
   const dashboardId = Number(params.dashboardId);
   const [createColumn, setCreateColumn] = useState(false);
-
   return (
     <div className='flex h-full w-screen'>
       <section className='w-67 bg-white tablet:w-160 pc:w-300'>사이드바</section>
@@ -22,14 +21,20 @@ const DashboardDetail = () => {
             return (
               <CardList
                 key={data.columns.data[idx].id}
-                columnId={data.columns.data[idx].id}
+                columnId={data?.columns?.data[idx]?.id ?? 0}
                 dashboardId={dashboardId}
                 data={cardItem}
                 title={data.columns.data[idx].title}
               />
             );
           })}
-        <Button className='w-full pc:flex-1/5' variant='outlined' onClick={() => setCreateColumn(!createColumn)}>
+        <Button
+          className='w-full pc:flex-1/5'
+          variant='outlined'
+          onClick={() => {
+            setCreateColumn(!createColumn);
+          }}
+        >
           새로운 컬럼 추가하기
           <AddIcon className='ml-15 w-16 bg-cream' />
         </Button>
