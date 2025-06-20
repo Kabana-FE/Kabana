@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router';
 
-import { getInvitationList } from '@/apis/dashboard';
+import { getInviteeList } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
@@ -11,7 +11,7 @@ import Invitations from '@/components/dashboardEdit/invitations';
 import Members from '@/components/dashboardEdit/members';
 import Pagination from '@/components/pagination';
 import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
-import { invitationListSchema } from '@/schemas/dashboard';
+import { inviteeListSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
 import type { Member } from '@/schemas/member';
 import { memberListResponseSchema } from '@/schemas/member';
@@ -26,11 +26,11 @@ const DashboardEdit = () => {
   const totalMemberCount = initialData.memberList.totalCount;
   const totalMemberPage = Math.ceil(totalMemberCount / 5);
 
-  const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
-  const [invitationPage, setInvitationPage] = useState<number>(1);
-  const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
-  const totalInvitationCount = initialData.invitationList.totalCount;
-  const totalInvitationPage = Math.ceil(totalInvitationCount / 5);
+  const [inviteeList, setInviteeList] = useState<Invitation[]>(initialData.inviteeList.invitations);
+  const [inviteePage, setInviteePage] = useState<number>(1);
+  const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
+  const totalInviteeCount = initialData.inviteeList.totalCount;
+  const totalInviteePage = Math.ceil(totalInviteeCount / 5);
 
   const isMemberRender = useRef(true);
 
@@ -56,33 +56,33 @@ const DashboardEdit = () => {
     fetchMember();
   }, [memberPage]);
 
-  const isInvitationRender = useRef(true);
+  const isInviteeRender = useRef(true);
 
   useEffect(() => {
-    if (isInvitationRender.current) {
-      isInvitationRender.current = false;
+    if (isInviteeRender.current) {
+      isInviteeRender.current = false;
       return;
     }
 
     const fetchInvitation = async () => {
-      if (isInvitationLoading) return;
-      setIsInvitationLoading(true);
+      if (isInviteeLoading) return;
+      setIsInviteeLoading(true);
       try {
-        const rawInvitationList = await getInvitationList({
+        const rawInviteeList = await getInviteeList({
           dashboardId: dashboardIdNumber,
           size: 5,
-          page: invitationPage,
+          page: inviteePage,
         });
-        const invitationList = invitationListSchema.parse(rawInvitationList);
-        setInvitationList(invitationList.invitations);
+        const inviteeList = inviteeListSchema.parse(rawInviteeList);
+        setInviteeList(inviteeList.invitations);
       } catch (err) {
         console.error('🩺초대내역 조회 실패:', err);
       } finally {
-        setIsInvitationLoading(false);
+        setIsInviteeLoading(false);
       }
     };
     fetchInvitation();
-  }, [invitationPage]);
+  }, [inviteePage]);
 
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16'>
@@ -148,13 +148,13 @@ const DashboardEdit = () => {
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>초대내역</h2>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
-                {totalInvitationPage} 페이지 중 {invitationPage}
+                {totalInviteePage} 페이지 중 {inviteePage}
               </span>
               <Pagination
-                currentPage={invitationPage}
-                isLoading={isInvitationLoading}
-                totalPages={totalInvitationPage}
-                onPageChange={setInvitationPage}
+                currentPage={inviteePage}
+                isLoading={isInviteeLoading}
+                totalPages={totalInviteePage}
+                onPageChange={setInviteePage}
               />
             </div>
             <div className='flex justify-between px-20 pb-10 tablet:px-28'>
@@ -169,7 +169,7 @@ const DashboardEdit = () => {
               </Button>
             </div>
             <ul>
-              {invitationList.map((member, index, arr) => {
+              {inviteeList.map((member, index, arr) => {
                 const { id } = member;
                 const { email } = member.invitee;
                 const isLast = index === arr.length - 1;

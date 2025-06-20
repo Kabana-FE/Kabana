@@ -1,13 +1,12 @@
 import { HttpStatusCode } from 'axios';
 import type { LoaderFunctionArgs } from 'react-router';
 
-import { getInvitationList } from '@/apis/dashboard';
+import { getInviteeList } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
-import { invitationListSchema } from '@/schemas/dashboard';
+import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
+import { inviteeListSchema } from '@/schemas/dashboard';
 import { memberListResponseSchema } from '@/schemas/member';
 import handleLoaderError from '@/utils/error/handleLoaderError';
-
-import type { DashboardEditLoaderData } from './types';
 
 export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardEditLoaderData> => {
   const dashboardIdString: string | undefined = params.dashboardId;
@@ -33,7 +32,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardE
   try {
     const results = await Promise.allSettled([
       getMemberList({ dashboardId, size: 4 }),
-      getInvitationList({ dashboardId, size: 5 }),
+      getInviteeList({ dashboardId, size: 5 }),
     ]);
 
     const rejectedPromises = results.filter((result) => result.status === 'rejected');
@@ -47,12 +46,12 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardE
       throw rejectedPromises[0].reason;
     }
     const rawMemberList = (results[0] as PromiseFulfilledResult<unknown>).value;
-    const rawInvitationList = (results[1] as PromiseFulfilledResult<unknown>).value;
+    const rawInviteeList = (results[1] as PromiseFulfilledResult<unknown>).value;
 
     const memberList = memberListResponseSchema.parse(rawMemberList);
-    const invitationList = invitationListSchema.parse(rawInvitationList);
+    const inviteeList = inviteeListSchema.parse(rawInviteeList);
 
-    return { memberList, invitationList };
+    return { memberList, inviteeList };
   } catch (error) {
     return handleLoaderError(error);
   }

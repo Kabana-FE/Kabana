@@ -88,7 +88,7 @@ export const createTodoSchema = z.object({
  * To server
  * @description 대시보드 초대 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
  */
-export const invitationListParamsSchema = z.object({
+export const inviteeListParamsSchema = z.object({
   dashboardId: z.number().int().positive(),
   page: z.number().int().positive().optional(),
   size: z.number().int().positive().optional(),
@@ -98,7 +98,7 @@ export const invitationListParamsSchema = z.object({
  * From server
  * @description 대시보드 초대 목록 응답 데이터의 유효성을 검사하는 스키마
  */
-export const invitationListSchema = z.object({
+export const inviteeListSchema = z.object({
   invitations: z.array(invitationSchema),
   totalCount: z.number().int().positive(),
 });
@@ -110,5 +110,5 @@ export type DashboardListParams = z.infer<typeof dashboardListParamsSchema>;
 export type DashboardListData = z.infer<typeof dashboardListResponseSchema>;
 export type Dashboard = z.infer<typeof dashboardSchema>;
 export type CreateTodoType = z.infer<typeof createTodoSchema>;
-export type InvitationListParams = z.infer<typeof invitationListParamsSchema>;
-export type InvitationList = z.infer<typeof invitationListSchema>;
+export type InviteeListParams = z.infer<typeof inviteeListParamsSchema>;
+export type InviteeList = z.infer<typeof inviteeListSchema>;
