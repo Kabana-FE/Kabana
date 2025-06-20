@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
+import { Form } from 'react-router';
 
 import { createColumn } from '@/apis/column';
 import Button from '@/components/common/button';
@@ -43,13 +44,13 @@ const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnPro
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={isModalOpen}
+      isModalOpen={isModalOpen}
       toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>새 컬럼 생성</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
-        <form className='flex flex-col gap-8' id='createColumn' onSubmit={handleSubmit(onSubmit)}>
+        <Form className='flex flex-col gap-8' id='createColumn' onSubmit={handleSubmit(onSubmit)}>
           <Input.Root>
             <Input.Label className='tablet:text-2lg' htmlFor='title'>
               이름
@@ -57,7 +58,7 @@ const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnPro
             <Input.Field id='title' {...register('title')} placeholder='새 컬럼 이름' type='text' />
             <Input.ErrorMessage>{errors.title?.message}</Input.ErrorMessage>
           </Input.Root>
-        </form>
+        </Form>
       </Dialog.Content>
       <Dialog.ButtonArea>
         <Button

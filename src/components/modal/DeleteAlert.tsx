@@ -27,7 +27,7 @@ const DeleteAlert = ({ columnId, isModalOpen, toggleModal }: DeleteAlertProps) =
   return (
     <Dialog.Root
       className='w-327 rounded-2xl px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={isModalOpen}
+      isModalOpen={isModalOpen}
       toggleModal={toggleModal}
     >
       <Dialog.Content className='pb-32 text-center text-lg font-medium tablet:pb-40 tablet:text-xl'>

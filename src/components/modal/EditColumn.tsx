@@ -47,7 +47,7 @@ const EditColumn = ({ columnId, initialTitle, isModalOpen, toggleModal, toggleDe
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-24 tablet:w-568 tablet:px-24'
-      modalIsOpen={isModalOpen}
+      isModalOpen={isModalOpen}
       toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />

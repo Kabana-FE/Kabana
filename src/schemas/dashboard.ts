@@ -67,23 +67,6 @@ export const createDashboardSchema = z.object({
  */
 export const updateDashboardSchema = createDashboardSchema.partial();
 
-export const createTodoSchema = z.object({
-  assigneeUserId: z.coerce.number(),
-  dashboardId: z.coerce.number(),
-  columnId: z.coerce.number(),
-  title: z
-    .string()
-    .trim()
-    .min(1, { message: UI_ERRORS.VALIDATION.STRING_MIN(1) }),
-  description: z
-    .string()
-    .trim()
-    .min(1, { message: UI_ERRORS.VALIDATION.STRING_MIN(1) }),
-  dueDate: z.string().min(1, { message: '날짜 형식이 올바르지 않습니다' }),
-  tags: z.array(z.string(), { message: 'error' }).min(1, { message: '최소 1개' }).max(3, { message: '최대 3개' }),
-  imageUrl: z.any().optional(),
-});
-
 /**
  * To server
  * @description 대시보드 초대 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
@@ -118,7 +101,6 @@ export type UpdateDashboardInput = z.infer<typeof updateDashboardSchema>;
 export type DashboardListParams = z.infer<typeof dashboardListParamsSchema>;
 export type DashboardListData = z.infer<typeof dashboardListResponseSchema>;
 export type Dashboard = z.infer<typeof dashboardSchema>;
-export type CreateTodoType = z.infer<typeof createTodoSchema>;
 export type InviteeListParams = z.infer<typeof inviteeListParamsSchema>;
 export type InviteeList = z.infer<typeof inviteeListSchema>;
 export type CancelInviteeParams = z.infer<typeof cancelInviteeParamsSchema>;

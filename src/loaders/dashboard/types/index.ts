@@ -1,4 +1,6 @@
-import type { Dashboard, DashboardListData, InviteeList } from '@/schemas/dashboard';
+import type { CardListValidateType } from '@/schemas/card';
+import type { ColumnsType } from '@/schemas/column';
+import type { DashboardListData, InviteeList } from '@/schemas/dashboard';
 import type { InvitationList } from '@/schemas/invitation';
 import type { MemberListData } from '@/schemas/member';
 
@@ -8,8 +10,9 @@ import type { MemberListData } from '@/schemas/member';
  * @property {import('@/schemas/member').MemberListData} memberListResponse - 멤버 목록이 포함된 응답 데이터입니다.
  */
 export interface DashboardDetailLoaderData {
-  dashboardDetail: Dashboard;
+  columns: ColumnsType;
   memberListResponse: MemberListData;
+  cardList: CardListValidateType;
 }
 
 /**
