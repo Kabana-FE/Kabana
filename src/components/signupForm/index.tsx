@@ -7,6 +7,7 @@ import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeOffIcon from '@/assets/icons/EyeOffIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import { ROUTES } from '@/constants/paths/routes';
 import { useAuth } from '@/hooks/useAuth';
 import type { SignupRequest } from '@/schemas/auth';
 import { signupRequestSchema } from '@/schemas/auth';
@@ -39,7 +40,7 @@ const SignupForm = () => {
   const onSubmit = async (data: SignupRequest) => {
     try {
       await signup(data);
-      navigate('/login', { replace: true });
+      navigate(ROUTES.SIGNIN, { replace: true });
     } catch (error) {
       // 토스트 메세지로 변경 예정
       alert(`회원가입 실패: ${error}`);
