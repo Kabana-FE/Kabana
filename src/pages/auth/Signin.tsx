@@ -1,12 +1,20 @@
 import { useState } from 'react';
 
+import AddIcon from '@/assets/icons/AddIcon';
+import CheckIcon from '@/assets/icons/CheckIcon';
+import ErrorIcon from '@/assets/icons/ErrorIcon';
+import InfoIcon from '@/assets/icons/InfoIcon';
+import SearchIcon from '@/assets/icons/SearchIcon';
+import SuccessIcon from '@/assets/icons/SuccessIcon';
+import WarningIcon from '@/assets/icons/WarningIcon';
+import Input from '@/components/common/input';
 import { useAuth } from '@/hooks/useAuth';
-import { useAuthStore } from '@/stores/useAuthStore';
+import { useKabanaStore } from '@/stores';
 
 const Signin = () => {
   const { login, signup, logout } = useAuth();
-  const user = useAuthStore((state) => state.user);
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const user = useKabanaStore((state) => state.user);
+  const isLoggedIn = useKabanaStore((state) => state.isLoggedIn);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,10 +31,24 @@ const Signin = () => {
   const handleLogout = () => {
     logout();
   };
+  const [query, setQuery] = useState('');
+
+  const handleSearch = () => {
+    console.log('검색어:', query);
+    // debounce 함수와 API 호출 로직 추가 가능
+  };
+
+  const hasError = false;
+  const errorMessage = hasError ? '이메일을 입력해주세요.' : '';
 
   return (
     <div className='space-y-4 p-8'>
       <h1 className='text-xl font-bold'>인증 테스트 페이지</h1>
+      <SuccessIcon size={20} />
+      <WarningIcon size={20} />
+      <InfoIcon size={20} />
+      <ErrorIcon size={20} />
+      <CheckIcon color='black' size={20} />
 
       <div className='flex flex-col space-y-2'>
         <input
@@ -73,6 +95,37 @@ const Signin = () => {
           </div>
         )}
       </div>
+
+      <Input.Root>
+        <Input.Label htmlFor='email'>이메일</Input.Label>
+        <Input.Field
+          autoComplete='email'
+          id='email'
+          isInvalid={hasError}
+          leftIcon={<SearchIcon />}
+          placeholder='이메일을 입력해주세요'
+          type='email'
+        />
+        <Input.ErrorMessage>{errorMessage}</Input.ErrorMessage>
+      </Input.Root>
+
+      <Input.Root>
+        <Input.Field name='comment' placeholder='댓글을 입력해주세요' type='textarea' />
+      </Input.Root>
+
+      <Input.Root>
+        <Input.Label
+          className='flex h-76 w-76 cursor-pointer items-center justify-center rounded-md bg-[#F5F5F5] transition-colors hover:bg-gray-200'
+          htmlFor='fileUpload'
+        >
+          <AddIcon />
+        </Input.Label>
+        <Input.Field id='fileUpload' name='fileUpload' type='file' />
+      </Input.Root>
+
+      <Input.Root>
+        <Input.Field />
+      </Input.Root>
     </div>
   );
 };
