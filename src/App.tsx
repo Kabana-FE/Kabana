@@ -9,7 +9,7 @@ const { APP: LANDING, SIGNUP, SIGNIN } = ROUTES;
 /**
  * @description
  * App의 루트 컴포넌트로, SplashScreen → PendingUI → 실제 콘텐츠(Outlet) 순으로 구성됩니다.
- * 라우터 설정에 따라 LandingLayout, DashboardLayout, SimpleLayout 중 하나가 Outlet을 통해 이곳에 렌더링됩니다.
+ * 라우터 설정에 따라 LandingLayout, DashboardLayout, AuthLayout 중 하나가 Outlet을 통해 이곳에 렌더링됩니다.
  * 최소 Splash 시간을 보장하게 만들 수 있습니다.
  */
 const App = () => {
