@@ -24,7 +24,16 @@ import type { ColorIconProps } from '@/assets/icons/types';
 
 const Spinner = ({ size = 16, color = '#000000', ...props }: ColorIconProps) => {
   return (
-    <svg fill='none' height={size} viewBox='0 0 24 24' width={size} {...props} xmlns='http://www.w3.org/2000/svg'>
+    <svg
+      aria-label='로딩 중'
+      fill='none'
+      height={size}
+      role='status'
+      viewBox='0 0 24 24'
+      width={size}
+      {...props}
+      xmlns='http://www.w3.org/2000/svg'
+    >
       <circle
         cx='12'
         cy='12'
