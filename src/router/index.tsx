@@ -127,6 +127,17 @@ const router = createBrowserRouter([
             },
           ]
         : []),
+      ...(import.meta.env.DEV
+        ? [
+            {
+              path: 'playground',
+              lazy: async () => {
+                const { default: Component } = await import('@/pages/test');
+                return { Component };
+              },
+            },
+          ]
+        : []),
       {
         path: NOT_FOUND,
         lazy: async () => {

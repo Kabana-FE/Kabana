@@ -54,7 +54,7 @@ const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => 
   return (
     <Dialog.Root
       className='w-327 rounded-lg px-16 py-20 tablet:w-568 tablet:p-32'
-      modalIsOpen={isModalOpen}
+      isModalOpen={isModalOpen}
       toggleModal={isSubmitting ? () => {} : toggleModal}
     >
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />

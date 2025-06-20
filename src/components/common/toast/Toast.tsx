@@ -105,7 +105,7 @@ const Toast = ({ toast }: ToastProps) => {
         'rounded-sm bg-white py-5 pr-9 pl-6 shadow-lg',
         'transform transition-all duration-500 ease-in-out',
         'flex min-w-300 items-center justify-between',
-        'max-w-400 break-words', // break-words는 index.css에 추가되면 삭제할 예정
+        'max-w-400',
         isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+30px)]',
         currentTypeStyle.border,
         'border-l-8',

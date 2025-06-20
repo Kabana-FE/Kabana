@@ -1,14 +1,14 @@
 import { HttpStatusCode } from 'axios';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
-import { getDashboardDetail } from '@/apis/dashboard';
+import { getCardList } from '@/apis/card';
+import { getColumns } from '@/apis/column';
 import { getMemberList } from '@/apis/member';
-import { dashboardSchema } from '@/schemas/dashboard';
+import { columnsSchema, type ColumnsType } from '@/schemas/column';
 import { memberListResponseSchema } from '@/schemas/member';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
 import type { DashboardDetailLoaderData } from './types';
-
 /**
  * @description
  * 대시보드 상세 페이지에 필요한 모든 데이터를 병렬로 요청합니다.
@@ -41,7 +41,6 @@ import type { DashboardDetailLoaderData } from './types';
  */
 export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardDetailLoaderData> => {
   const dashboardIdString: string | undefined = params.dashboardId;
-
   if (!dashboardIdString) {
     throw new Response(JSON.stringify({ message: 'URL 파라미터에 dashboardId가 누락되었습니다.' }), {
       status: HttpStatusCode.BadRequest,
@@ -62,10 +61,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
   }
 
   try {
-    const results = await Promise.allSettled([
-      getDashboardDetail(dashboardId),
-      getMemberList({ dashboardId, size: 4 }),
-    ]);
+    const results = await Promise.allSettled([getColumns(dashboardId), getMemberList({ dashboardId, size: 4 })]);
 
     const rejectedPromises = results.filter((result) => result.status === 'rejected');
 
@@ -80,14 +76,25 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
 
     // 모든 Promise가 성공했을 때만 데이터를 추출합니다.
     // 주의: 타입 단언이 필요할 수 있습니다.
-    const dashboardRaw = (results[0] as PromiseFulfilledResult<unknown>).value;
+    const columnsRaw = (results[0] as PromiseFulfilledResult<ColumnsType>).value;
     const memberListRaw = (results[1] as PromiseFulfilledResult<unknown>).value;
 
-    // zod 검사
-    const dashboardDetail = dashboardSchema.parse(dashboardRaw);
-    const memberListResponse = memberListResponseSchema.parse(memberListRaw);
+    const columnList = columnsRaw.data;
+    // console.log('columnsRaw', columnsRaw);
+    const cardsRaw = await Promise.allSettled(columnList.map((column) => getCardList(column.id)));
 
-    return { dashboardDetail, memberListResponse };
+    const cardList = [];
+    for (const result of cardsRaw) {
+      if (result.status === 'fulfilled') {
+        cardList.push(result.value);
+      }
+    }
+    // const flatedCardRawList = cardRawList.flatMap((result) => result.cards);
+    // zod 검사
+    const columns = columnsSchema.parse(columnsRaw);
+    const memberListResponse = memberListResponseSchema.parse(memberListRaw);
+    // const cardList = cardListValidateSchema.parse(flatedCardRawList);
+    return { columns, memberListResponse, cardList };
   } catch (error: unknown) {
     return handleLoaderError(error);
   }
