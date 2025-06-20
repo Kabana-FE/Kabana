@@ -38,6 +38,7 @@ const Search = ({ value, setValue, onSearch, delay = 500 }: SearchParams) => {
       <Input.Field
         className='h-36'
         leftIcon={<SearchIcon />}
+        name='search'
         placeholder='검색'
         value={value}
         onChange={handleChange}
