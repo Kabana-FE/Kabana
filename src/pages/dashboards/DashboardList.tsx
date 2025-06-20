@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
-import { getInvitationList } from '@/apis/invitation';
+import { getInvitationList, respondInvitation } from '@/apis/invitation';
 import AddIcon from '@/assets/icons/AddIcon';
 import NoInvitation from '@/assets/icons/NoInvitationIcon';
 import Button from '@/components/common/button';
@@ -26,7 +26,7 @@ const DashboardList = () => {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialDashboardData.dashboards.slice(0, 5));
   const [page, setPage] = useState<number>(1);
   const [isDashboardLoading, setIsDashboardLoading] = useState<boolean>(false);
-  const totalDashboardCount = initialDashboardData.totalCount;
+  const [totalDashboardCount, setTotalDashboardCount] = useState<number>(initialDashboardData.totalCount);
   const totalDashboardPage = Math.ceil(totalDashboardCount / 5);
 
   const [invitationList, setInvitationList] = useState<Invitation[]>(initialInvitationData.invitationList.invitations);
@@ -49,6 +49,7 @@ const DashboardList = () => {
         const rawDashboardList = await getDashboardList({ navigationMethod: 'pagination', size: 5, page });
         const dashboardList = dashboardListResponseSchema.parse(rawDashboardList);
         setDashboardList(dashboardList.dashboards);
+        setTotalDashboardCount(dashboardList.totalCount);
       } catch (error) {
         console.error(error); // 에러 미구현
       } finally {
@@ -92,6 +93,22 @@ const DashboardList = () => {
     }
   }, []);
 
+  const handleInvitationResponse = useCallback(
+    async (id: number, response: boolean) => {
+      try {
+        await respondInvitation(id, { inviteAccepted: response });
+        setInvitationList((prev) => prev.filter((item) => item.id !== id));
+        const rawDashboardList = await getDashboardList({ navigationMethod: 'pagination', size: 5, page });
+        const dashboardList = dashboardListResponseSchema.parse(rawDashboardList);
+        setDashboardList(dashboardList.dashboards);
+        setTotalDashboardCount(dashboardList.totalCount);
+      } catch (error) {
+        console.error(error); // 에러 미구현
+      }
+    },
+    [page],
+  );
+
   return (
     <div className='flex w-full'>
       <div className='w-67 bg-white tablet:w-160 pc:w-300' />
@@ -107,8 +124,8 @@ const DashboardList = () => {
                 새로운 대시보드 <AddIcon className='size-20 rounded-sm bg-cream p-5 tablet:size-22 tablet:p-6' />
               </Button>
             </li>
-            {dashboardList.map((item) => (
-              <li key={item.id}>
+            {dashboardList.map((item, index) => (
+              <li key={index}>
                 <DashboardItem {...item} />
               </li>
             ))}
@@ -159,7 +176,12 @@ const DashboardList = () => {
                 key={item.id}
                 className='border-b border-gray-200 px-16 py-14 tablet:flex tablet:items-center tablet:px-28 tablet:py-22 pc:px-76'
               >
-                <InvitationItem dashboardTitle={item.dashboard.title} inviterNickname={item.inviter.nickname} />
+                <InvitationItem
+                  dashboardTitle={item.dashboard.title}
+                  id={item.id}
+                  inviterNickname={item.inviter.nickname}
+                  onResponse={handleInvitationResponse}
+                />
               </li>
             ))}
           </ul>
