@@ -100,7 +100,7 @@ export const inviteeListParamsSchema = z.object({
  */
 export const inviteeListSchema = z.object({
   invitations: z.array(invitationSchema),
-  totalCount: z.number().int().positive(),
+  totalCount: z.number().int(),
 });
 
 export type NavigationMethod = z.infer<typeof navigationMethodSchema>;

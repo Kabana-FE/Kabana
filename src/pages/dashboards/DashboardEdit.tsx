@@ -24,7 +24,7 @@ const DashboardEdit = () => {
   const [memberPage, setMemberPage] = useState<number>(1);
   const [isMemberLoading, setIsMemberLoading] = useState<boolean>(false);
   const totalMemberCount = initialData.memberList.totalCount;
-  const totalMemberPage = Math.ceil(totalMemberCount / 5);
+  const totalMemberPage = Math.ceil(totalMemberCount / 4);
 
   const [inviteeList, setInviteeList] = useState<Invitation[]>(initialData.inviteeList.invitations);
   const [inviteePage, setInviteePage] = useState<number>(1);

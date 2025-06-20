@@ -56,5 +56,6 @@ export const deleteDashboard = async (dashboardId: number) => {
  * @param params 쿼리 파라미터 (dashboardId, page, size)
  */
 export const getInviteeList = async (params: InviteeListParams) => {
-  return requestGet<InviteeList>(DASHBOARD_ENDPOINTS.GET_INVITATIONS(String(params.dashboardId)), { params });
+  const { dashboardId, ...queryParams } = params;
+  return requestGet<InviteeList>(DASHBOARD_ENDPOINTS.GET_INVITATIONS(String(dashboardId)), { params: queryParams });
 };
