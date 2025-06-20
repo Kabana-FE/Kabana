@@ -14,4 +14,10 @@ export default interface PaginationProps {
    * @param page - 이동할 페이지 번호
    */
   onPageChange: (page: number) => void;
+
+  /**
+   * 로딩 상태여부를 나타냅니다.
+   * `true`이면 로딩 중, `false`이면 로딩이 완료되었거나 시작되지 않은 상태입니다.
+   */
+  isLoading?: boolean;
 }
