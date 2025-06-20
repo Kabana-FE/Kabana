@@ -17,7 +17,7 @@ const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
   const [deleteAlert, setDeleteAlert] = useState(false);
 
   return (
-    <div className='w- px-12 pc:w-354 pc:shrink-0'>
+    <div className='px-12 pc:w-354 pc:shrink-0'>
       <div className='mb-25 flex justify-between'>
         <div className='flex items-center'>
           <DotIcon />
