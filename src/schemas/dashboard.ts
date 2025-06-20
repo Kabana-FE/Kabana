@@ -43,6 +43,7 @@ export const dashboardListParamsSchema = z.object({
 export const dashboardListResponseSchema = z.object({
   dashboards: z.array(dashboardSchema),
   cursorId: z.number().nullable(),
+  totalCount: z.number(),
 });
 
 //! 유효성 에러 메시지 처리는 react-hook-form에서 처리할수도 있고 추후 다시 정리
