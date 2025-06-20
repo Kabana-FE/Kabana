@@ -12,8 +12,8 @@ const Signin = () => {
       <LoginForm />
 
       <p className='text-lg text-capybara'>
-        회원이 아니신가요?{' '}
-        <Link className='font-semibold underline hover:text-[#653f3f] active:text-[#4b2828]' to='/signup'>
+        회원이 아니신가요?
+        <Link className='ml-8 font-semibold underline hover:text-[#653f3f] active:text-[#4b2828]' to='/signup'>
           회원가입하기
         </Link>
       </p>
