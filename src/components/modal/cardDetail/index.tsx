@@ -12,15 +12,15 @@ import type { CommentsType } from '@/schemas/comment';
 import Comment from './Comment';
 import type { DetailType } from './types';
 
-const CardDetail = ({ data, isModalOpen, toggleModal, selectedCardId }: DetailType) => {
+const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
   const [commentList, setCommentList] = useState<CommentsType>();
 
   useEffect(() => {
     let ignore = false;
-
+    const cardId = data.id;
     const fetchComments = async () => {
-      if (selectedCardId && !ignore) {
-        const result = await getComments(selectedCardId);
+      if (cardId && !ignore) {
+        const result = await getComments(cardId);
         if (!ignore) setCommentList(result.comments);
       }
     };
@@ -31,7 +31,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, selectedCardId }: DetailTy
       ignore = true;
       setCommentList(undefined); // 또는 []로 초기화
     };
-  }, [selectedCardId]);
+  }, []);
 
   return (
     <Dialog.Root

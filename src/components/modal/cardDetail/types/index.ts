@@ -7,7 +7,6 @@ export interface ModalType {
 }
 export interface DetailType extends ModalType {
   data: CardType;
-  selectedCardId: number;
 }
 
 export interface CommentPropsType {

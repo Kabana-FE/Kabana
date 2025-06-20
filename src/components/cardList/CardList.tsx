@@ -1,19 +1,21 @@
+import { useState } from 'react';
+
 import AddIcon from '@/assets/icons/AddIcon';
 import DotIcon from '@/assets/icons/DotIcon';
 import SettingIcon from '@/assets/icons/SettingIcon';
 import CardItem from '@/components/cardList/CardItem';
 import Button from '@/components/common/button';
 
+import CreateTodo from '../modal/createTodo';
+import DeleteAlert from '../modal/DeleteAlert';
+import EditColumn from '../modal/EditColumn';
 import type { CardListType } from './types';
 
-const CardList = ({
-  data,
-  title,
-  onSelectCard,
-  toggleCardDetail,
-  toggleCreateTodo,
-  setSelectedCardId,
-}: CardListType) => {
+const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
+  const [createTodo, setCreateTodo] = useState(false);
+  const [editColumn, setEditColumn] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+
   return (
     <div className='px-12 pc:flex-1/5'>
       <div className='mb-25 flex justify-between'>
@@ -24,28 +26,31 @@ const CardList = ({
             {data.cards?.length}
           </span>
         </div>
-        <Button className='p-0' variant='none'>
+        <Button className='p-0' variant='none' onClick={() => setEditColumn(!editColumn)}>
           <SettingIcon />
         </Button>
       </div>
-      <Button className='mb-10 w-full' variant='outlined' onClick={() => toggleCreateTodo()}>
+      <Button className='mb-10 w-full' variant='outlined' onClick={() => setCreateTodo(true)}>
         <AddIcon />
       </Button>
       {data.cards &&
         data.cards.map((card, idx) => {
-          return (
-            <CardItem
-              key={`${card.id}-${idx}`}
-              card={card}
-              cardId={card.id}
-              setSelectedCardId={(cardId: number) => setSelectedCardId(cardId)}
-              toggleModal={toggleCardDetail}
-              onSelectCard={() => {
-                onSelectCard(card, title);
-              }}
-            />
-          );
+          return <CardItem key={`${card.id}-${idx}`} card={card} />;
         })}
+      <CreateTodo
+        columnId={columnId}
+        dashboardId={dashboardId}
+        isModalOpen={createTodo}
+        toggleModal={() => setCreateTodo(!createTodo)}
+      />
+      <EditColumn
+        columnId={columnId}
+        initialTitle={title}
+        isModalOpen={editColumn}
+        toggleDeleteAlert={() => setDeleteAlert(!deleteAlert)}
+        toggleModal={() => setEditColumn(!editColumn)}
+      />
+      <DeleteAlert columnId={columnId} isModalOpen={deleteAlert} toggleModal={() => setDeleteAlert(!deleteAlert)} />
     </div>
   );
 };

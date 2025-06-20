@@ -26,6 +26,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     tags: [],
     imageUrl: new DataTransfer().files,
   };
+
   const {
     register,
     handleSubmit,
