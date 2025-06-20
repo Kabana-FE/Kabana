@@ -114,7 +114,7 @@ const DashboardEdit = () => {
               변경
             </Button>
           </section>
-          <section className='flex max-w-620 flex-col rounded-lg bg-white'>
+          <section className='flex h-337 max-w-620 flex-col rounded-lg bg-white tablet:h-404'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>구성원</h2>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
@@ -144,7 +144,7 @@ const DashboardEdit = () => {
               })}
             </ul>
           </section>
-          <section className='max-w-620 rounded-lg bg-white'>
+          <section className='h-406 max-w-620 rounded-lg bg-white tablet:h-477'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>초대내역</h2>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
