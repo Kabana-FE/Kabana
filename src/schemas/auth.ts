@@ -37,11 +37,20 @@ export const loginResponseSchema = z.object({
  * To Server
  * @description 회원가입 요청 시 전송하는 데이터의 유효성을 검사하는 스키마
  */
-export const signupRequestSchema = z.object({
-  email: z.string().email(),
-  nickname: z.string(),
-  password: z.string().min(8),
-});
+export const signupRequestSchema = z
+  .object({
+    email: z.string().email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
+    nickname: z.string().max(10, { message: UI_ERRORS.VALIDATION.STRING_MAX(10) }),
+    password: z.string().min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
+    checkPassword: z.string().min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
+    agreeToTerms: z.boolean().refine((v) => v === true, {
+      message: '약관에 동의해야 가입할 수 있습니다.',
+    }),
+  })
+  .refine((data) => data.password === data.checkPassword, {
+    path: ['checkPassword'],
+    message: '비밀번호가 일치하지 않습니다.',
+  });
 
 /**
  * To Server
