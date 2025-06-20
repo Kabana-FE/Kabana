@@ -23,14 +23,14 @@ import type PaginationProps from './types';
  * />
  */
 
-const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }: PaginationProps) => {
+const Pagination = ({ currentPage, totalPages, onPageChange, isLoading, children }: PaginationProps) => {
   const paginationBtnStyle =
-    'size-36 border border-gray-300 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
+    ' border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
   return (
-    <div>
+    <div className='flex'>
       <Button
         aria-label='이전 페이지'
-        className={`${paginationBtnStyle} rounded-r-none`}
+        className={`${paginationBtnStyle} rounded-r-none p-5`}
         disabled={currentPage === 1 || isLoading}
         size='none'
         variant='none'
@@ -38,9 +38,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }: Pagina
       >
         <ChevronIcon direction='left' size={16} />
       </Button>
+      <div className='mx-2'>{children}</div>
       <Button
         aria-label='다음 페이지'
-        className={`${paginationBtnStyle} rounded-l-none`}
+        className={`${paginationBtnStyle} rounded-l-none p-5`}
         disabled={currentPage === totalPages || isLoading}
         size='none'
         variant='none'

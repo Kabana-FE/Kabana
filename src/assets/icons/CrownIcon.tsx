@@ -25,7 +25,7 @@ import type { ColorIconProps } from './types';
 const CrownIcon = ({ size = 18, color = '#FDD448', ...props }: ColorIconProps) => {
   return (
     <svg
-      fill='none'
+      fill={color}
       height={size * 0.833} // 18px의 5/6 비율로 높이 설정
       viewBox='0 0 18 15'
       width={size}

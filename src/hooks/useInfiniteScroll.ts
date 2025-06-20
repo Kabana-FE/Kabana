@@ -22,6 +22,7 @@ export const useInfiniteScroll = ({ callback, isMoreData }: UseInfiniteScrollPro
           callback();
         }
       },
+
       { threshold: 0.1 }, //뷰 포트에 10% 이상 보일 때 콜백 실행
     );
 

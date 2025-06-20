@@ -3,7 +3,6 @@ import { redirect } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
 import { ROUTES } from '@/constants/paths';
-import { dashboardListResponseSchema } from '@/schemas/dashboard';
 import { useKabanaStore } from '@/stores';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
@@ -41,16 +40,16 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
 
   if (isPrivateOnly && isLoggedIn) {
     try {
-      const rawDashboardListResponse = await getDashboardList({
-        navigationMethod: 'infiniteScroll',
+      const dashboardListResponse = await getDashboardList({
+        navigationMethod: 'pagination',
+        page: 1,
         size: 10,
+        cursorId: null,
       });
-      const dashboardListResponse = dashboardListResponseSchema.parse(rawDashboardListResponse);
-
       return {
         dashboards: dashboardListResponse.dashboards,
-        cursorId: dashboardListResponse.cursorId,
         totalCount: dashboardListResponse.totalCount,
+        pageSize: 10,
       };
     } catch (error) {
       // 401이면 토큰 만료 → 자동 로그아웃
