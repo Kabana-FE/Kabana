@@ -31,6 +31,10 @@ export interface MembersProps {
 
 export interface InvitationsProps {
   /**
+   * 사용자 초대 ID
+   */
+  invitationId: number;
+  /**
    * 초대받은 이메일 주소
    */
   email: string;
@@ -39,4 +43,8 @@ export interface InvitationsProps {
    * (렌더링 시 구분선 생략 등 UI 처리를 위한 플래그)
    */
   isLast: boolean;
+  /**
+   * 초대 취소 함수
+   */
+  onDelete: (invitationId: number) => void;
 }

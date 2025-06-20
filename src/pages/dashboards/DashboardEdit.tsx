@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router';
 
-import { getInviteeList } from '@/apis/dashboard';
+import { cancelInvitee, getInviteeList } from '@/apis/dashboard';
 import { deleteMember, getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
@@ -94,6 +94,16 @@ const DashboardEdit = () => {
     fetchInvitation();
   }, [inviteePage]);
 
+  const handleDeleteInvitee = async (invitationId: number) => {
+    try {
+      await cancelInvitee({ dashboardId: dashboardIdNumber, invitationId });
+      setInviteeList((prev) => prev.filter((invitee) => invitee.id !== invitationId));
+    } catch (error) {
+      console.error('🩺 초대내역 삭제 실패:', error);
+      alert('초대내역 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16'>
       <div className='flex items-center gap-8'>
@@ -185,7 +195,15 @@ const DashboardEdit = () => {
                 const { id } = member;
                 const { email } = member.invitee;
                 const isLast = index === arr.length - 1;
-                return <Invitations key={id} email={email} isLast={isLast} />;
+                return (
+                  <Invitations
+                    key={id}
+                    email={email}
+                    invitationId={id}
+                    isLast={isLast}
+                    onDelete={handleDeleteInvitee}
+                  />
+                );
               })}
             </ul>
           </section>

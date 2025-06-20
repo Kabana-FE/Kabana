@@ -103,6 +103,15 @@ export const inviteeListSchema = z.object({
   totalCount: z.number().int(),
 });
 
+/**
+ * To server
+ * @description 구성원 삭제 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
+ */
+export const cancelInviteeParamsSchema = z.object({
+  dashboardId: z.number().int().positive(),
+  invitationId: z.number().int().positive(),
+});
+
 export type NavigationMethod = z.infer<typeof navigationMethodSchema>;
 export type CreateDashboardInput = z.infer<typeof createDashboardSchema>;
 export type UpdateDashboardInput = z.infer<typeof updateDashboardSchema>;
@@ -112,3 +121,4 @@ export type Dashboard = z.infer<typeof dashboardSchema>;
 export type CreateTodoType = z.infer<typeof createTodoSchema>;
 export type InviteeListParams = z.infer<typeof inviteeListParamsSchema>;
 export type InviteeList = z.infer<typeof inviteeListSchema>;
+export type CancelInviteeParams = z.infer<typeof cancelInviteeParamsSchema>;
