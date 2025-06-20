@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 import CreateDashboard from '@/components/modal/CreateDashboard';
@@ -21,5 +20,6 @@ const Landing = () => {
       <DeleteAlert columnId={51081} isModalOpen={isDeleteModalOpen} toggleModal={toggleDeleteAlert} />
     </div>
   );
+};
 
 export default Landing;

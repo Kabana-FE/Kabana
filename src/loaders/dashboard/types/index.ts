@@ -1,4 +1,4 @@
-import type { Dashboard, DashboardListData } from '@/schemas/dashboard';
+import type { Dashboard, DashboardListData, InviteeList } from '@/schemas/dashboard';
 import type { InvitationList } from '@/schemas/invitation';
 import type { MemberListData } from '@/schemas/member';
 
@@ -20,4 +20,13 @@ export interface DashboardDetailLoaderData {
 export interface DashboardListLoaderData {
   dashboardList: DashboardListData;
   invitationList: InvitationList;
+}
+/**
+ * @description 대시보드 수정 페이지 로더(editLoader)가 반환하는 데이터의 타입입니다.
+ * @property {import('@/schemas/member').MemberListData} memberList - 구성원 리스트 응답 데이터입니다.
+ * @property {import('@/schemas/dashboard').InviteeList} inviteeList - 대시보드 초대 받은 리스트 응답 데이터입니다.
+ */
+export interface DashboardEditLoaderData {
+  memberList: MemberListData;
+  inviteeList: InviteeList;
 }
