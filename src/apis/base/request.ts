@@ -38,8 +38,7 @@ export const requestDelete = async <T>(endpoint: string, options?: AxiosRequestC
  */
 export const requestPost = async <T, D>(endpoint: string, data: D, options?: AxiosRequestConfig): Promise<T> => {
   const isFormData = data instanceof FormData;
-  const headers = isFormData ? undefined : { 'Content-Type': 'application/json' };
-
+  const headers = { 'Content-Type': isFormData ? 'multipart/form-data' : 'application/json' };
   const response = await axiosInstance.post<T>(endpoint, data, {
     ...options,
     headers: {
