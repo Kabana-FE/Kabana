@@ -11,16 +11,16 @@ const router = createBrowserRouter([
   {
     path: APP,
     lazy: async () => {
-      const { default: Root } = await import('@/App');
-      const { rootLoader } = await import('@/loaders/rootLoader');
-      return { Component: Root, loader: rootLoader };
+      const { default: Component } = await import('@/App');
+      return { Component };
     },
     errorElement: <GlobalErrorBoundary />,
     children: [
       {
         lazy: async () => {
           const { default: LandingLayout } = await import('@/layouts/Landing');
-          return { Component: LandingLayout };
+          const { authGuardLoader } = await import('@/loaders/authGuardLoader');
+          return { Component: LandingLayout, loader: () => authGuardLoader(false) };
         },
         children: [
           {
@@ -35,9 +35,11 @@ const router = createBrowserRouter([
       {
         lazy: async () => {
           const { default: AuthLayout } = await import('@/layouts/Auth');
-          return { Component: AuthLayout };
+          const { authGuardLoader } = await import('@/loaders/authGuardLoader');
+          return { Component: AuthLayout, loader: () => authGuardLoader(false) };
         },
         errorElement: <ApiErrorBoundary />,
+
         children: [
           {
             path: SIGNUP,
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
         lazy: async () => {
           const { default: DashboardLayout } = await import('@/layouts/Dashboard');
           const { authGuardLoader } = await import('@/loaders/authGuardLoader');
-          return { Component: DashboardLayout, loader: authGuardLoader };
+          return { Component: DashboardLayout, loader: () => authGuardLoader(true) };
         },
         children: [
           {
