@@ -8,7 +8,8 @@ import EyeOffIcon from '@/assets/icons/EyeOffIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
 import { useAuth } from '@/hooks/useAuth';
-import { type LoginRequest, loginRequestSchema } from '@/schemas/auth';
+import type { LoginRequest } from '@/schemas/auth';
+import { loginRequestSchema } from '@/schemas/auth';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -61,6 +62,7 @@ const LoginForm = () => {
           placeholder='비밀번호를 입력해 주세요'
           rightIcon={
             <button
+              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
               className='cursor-pointer focus:outline-none'
               type='button'
               onClick={() => setShowPassword((prev) => !prev)}
