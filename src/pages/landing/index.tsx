@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import CreateDashboard from '@/components/modal/CreateDashboard';
-import DeleteAlert from '@/components/modal/DeleteAlert';
 
 const Landing = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -17,7 +16,7 @@ const Landing = () => {
       <h1 className='text-2xl font-bold'>Welcome to Kabana!</h1>
       <button onClick={toggleModal}>구성원 초대하기 모달</button>
       <CreateDashboard isModalOpen={isModalOpen} toggleModal={toggleModal} />
-      <DeleteAlert columnId={51081} isModalOpen={isDeleteModalOpen} toggleModal={toggleDeleteAlert} />
+      {/* <DeleteAlert columnId={51081} isModalOpen={isDeleteModalOpen} toggleModal={toggleDeleteAlert} /> */}
     </div>
   );
 };
