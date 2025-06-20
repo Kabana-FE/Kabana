@@ -18,7 +18,7 @@ const DashboardHeader = () => {
   const userName = user?.nickname;
   const profileImageUrl = user?.profileImageUrl;
 
-  const id = location.pathname.slice(-1) === 't' ? 'edit' : 'detail';
+  const id = location.pathname.includes('/edit') ? 'edit' : 'detail';
 
   const data = (useRouteLoaderData(id) as DashboardDetailLoaderData) || undefined;
   const dashboardDetail = data?.dashboardDetail;
