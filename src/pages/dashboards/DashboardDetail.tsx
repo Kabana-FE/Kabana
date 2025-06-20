@@ -22,7 +22,7 @@ const DashboardDetail = () => {
             return (
               <CardList
                 key={data.columns.data[idx].id}
-                columnId={data.columns.data.id}
+                columnId={data.columns.data[idx].id}
                 dashboardId={dashboardId}
                 data={cardItem}
                 title={data.columns.data[idx].title}

@@ -13,33 +13,27 @@ import Comment from './Comment';
 import type { DetailType } from './types';
 
 const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
-  const [commentList, setCommentList] = useState<CommentsType>();
+  const [commentList, setCommentList] = useState<CommentsType>([]);
 
   useEffect(() => {
-    let ignore = false;
-    const cardId = data.id;
-    const fetchComments = async () => {
-      if (cardId && !ignore) {
-        const result = await getComments(cardId);
-        if (!ignore) setCommentList(result.comments);
-      }
+    if (!data?.id) return;
+
+    const fetch = async () => {
+      const result = await getComments(data.id);
+      setCommentList(result.comments);
     };
 
-    fetchComments();
+    fetch();
 
-    return () => {
-      ignore = true;
-      setCommentList(undefined); // 또는 []로 초기화
-    };
-  }, []);
-
+    return () => setCommentList([]);
+  }, [data.id]);
   return (
     <Dialog.Root
       className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
       isModalOpen={isModalOpen}
       toggleModal={toggleModal}
     >
-      <Dialog.Title className='tablet:11/12 w-7/8 text-[20px] font-bold tablet:text-2xl'>
+      <Dialog.Title className='w-7/8 text-[20px] font-bold tablet:text-2xl'>
         <div className='justify flex max-w-full items-center justify-between text-gray-700'>
           <h1>{data.title}</h1>
           <span>...</span>
@@ -73,6 +67,9 @@ const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
             alt='사용자가 추가한 이미지입니다.'
             className='h-168 rounded-[6px] bg-gray-500 tablet:h-246 pc:h-260'
             src={data.imageUrl}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
           />
           <div className='relative mt-16'>
             <form>

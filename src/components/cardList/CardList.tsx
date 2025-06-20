@@ -33,10 +33,9 @@ const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
       <Button className='mb-10 w-full' variant='outlined' onClick={() => setCreateTodo(true)}>
         <AddIcon />
       </Button>
-      {data.cards &&
-        data.cards.map((card, idx) => {
-          return <CardItem key={`${card.id}-${idx}`} card={card} />;
-        })}
+      {data.cards?.map((card, idx) => {
+        return <CardItem key={`${card.id}-${idx}`} card={card} />;
+      })}
       <CreateTodo
         columnId={columnId}
         dashboardId={dashboardId}
