@@ -18,7 +18,7 @@ const Landing = () => {
   return (
     <div className='text-white'>
       <header className='flex flex-col items-center justify-center pt-42 pb-76 tablet:pt-94 tablet:pb-180'>
-        <img alt='랜딩이미지' className='m-auto w-287 tablet:w-537 pc:w-722' src={landingImg} />
+        <img alt='Kabana 대표 이미지' className='m-auto w-287 tablet:w-537 pc:w-722' src={landingImg} />
         <div className='flex flex-col items-center justify-center gap-6 pt-26 pb-101 tablet:flex-row tablet:gap-24 tablet:pt-48 tablet:pb-109 pc:pb-111'>
           <h1 className='text-[40px] font-bold tablet:text-[56px] pc:text-[76px]'>새로운 일정 관리</h1>
           <h2 className='text-[42px] font-bold text-capybara tablet:text-[70px] pc:text-[90px]'>Kabana</h2>
@@ -41,7 +41,11 @@ const Landing = () => {
               <br /> 관리하세요
             </p>
           </div>
-          <img alt='랜딩1' className='w-296 self-end tablet:w-519 pc:w-594' src={Landing1} />
+          <img
+            alt='일정 우선순위 관리 기능을 보여주는 스크린샷'
+            className='w-296 self-end tablet:w-519 pc:w-594'
+            src={Landing1}
+          />
         </section>
         <section className='flex h-686 flex-col justify-between rounded-lg bg-gray-black tablet:h-972 tablet:pl-60 pc:h-600 pc:flex-row-reverse pc:justify-end pc:pl-108'>
           <div className='flex flex-col gap-60 text-center tablet:gap-100 tablet:text-left'>
@@ -52,7 +56,7 @@ const Landing = () => {
             </p>
           </div>
           <img
-            alt='랜딩2'
+            alt='할 일 등록 기능을 보여주는 스크린샷'
             className='w-218 self-center tablet:mr-60 tablet:w-360 pc:mr-100 pc:w-436 pc:self-end'
             src={Landing2}
           />
@@ -65,7 +69,7 @@ const Landing = () => {
         <div className='flex flex-col items-center justify-center gap-40 tablet:gap-48 pc:flex-row'>
           <article className='w-343 tablet:w-378'>
             <div className='flex h-236 items-center justify-center rounded-t-lg bg-gray-600 tablet:h-260'>
-              <img alt='랜딩3' className='w-260 tablet:w-300' src={Landing3} />
+              <img alt='대시보드 관리 기능을 보여주는 스크린샷' className='w-260 tablet:w-300' src={Landing3} />
             </div>
             <div className='flex h-112 flex-col justify-center gap-18 rounded-b-lg bg-gray-black pl-32 tablet:h-124'>
               <h4 className='text-2lg font-bold'>대시보드 설정</h4>
@@ -74,7 +78,7 @@ const Landing = () => {
           </article>
           <article className='w-343 tablet:w-378'>
             <div className='flex h-236 items-center justify-center rounded-t-lg bg-gray-600 tablet:h-260'>
-              <img alt='랜딩3' className='w-260 tablet:w-300' src={Landing4} />
+              <img alt='팀원 초대 기능을 보여주는 스크린샷' className='w-260 tablet:w-300' src={Landing4} />
             </div>
             <div className='flex h-112 flex-col justify-center gap-18 rounded-b-lg bg-gray-black pl-32 tablet:h-124'>
               <h4 className='text-2lg font-bold'>초대</h4>
@@ -83,7 +87,7 @@ const Landing = () => {
           </article>
           <article className='w-343 tablet:w-378'>
             <div className='flex h-236 items-center justify-center rounded-t-lg bg-gray-600 tablet:h-260'>
-              <img alt='랜딩3' className='w-260 tablet:w-300' src={Landing5} />
+              <img alt='구성원 관리 기능을 보여주는 스크린샷' className='w-260 tablet:w-300' src={Landing5} />
             </div>
             <div className='flex h-112 flex-col justify-center gap-18 rounded-b-lg bg-gray-black pl-32 tablet:h-124'>
               <h4 className='text-2lg font-bold'>구성원</h4>
