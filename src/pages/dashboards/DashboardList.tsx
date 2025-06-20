@@ -74,7 +74,7 @@ const DashboardList = () => {
     } finally {
       setIsInvitationLoading(false);
     }
-  }, [cursorId, searchValue, isInvitationLoading]);
+  }, [cursorId, searchValue]);
 
   const infiniteScrollRef = useInfiniteScroll({
     callback: fetchMoreInvitation,
