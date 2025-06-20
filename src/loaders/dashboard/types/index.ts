@@ -1,6 +1,6 @@
 import type { CardListValidateType } from '@/schemas/card';
 import type { ColumnsType } from '@/schemas/column';
-import type { Dashboard, DashboardListData, InviteeList } from '@/schemas/dashboard';
+import type { DashboardListData, InviteeList } from '@/schemas/dashboard';
 import type { InvitationList } from '@/schemas/invitation';
 import type { MemberListData } from '@/schemas/member';
 

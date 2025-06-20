@@ -67,7 +67,6 @@ export const createDashboardSchema = z.object({
  */
 export const updateDashboardSchema = createDashboardSchema.partial();
 
-
 /**
  * To server
  * @description 대시보드 초대 목록 조회 요청 시 사용하는 쿼리 파라미터의 유효성을 검사하는 스키마
