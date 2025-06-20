@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router';
 
 import { getInviteeList } from '@/apis/dashboard';
-import { getMemberList } from '@/apis/member';
+import { deleteMember, getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import ColorSelector from '@/components/colorSelector';
@@ -55,6 +55,16 @@ const DashboardEdit = () => {
     };
     fetchMember();
   }, [memberPage]);
+
+  const handleDeleteMember = async (id: number) => {
+    try {
+      await deleteMember(id);
+      setMemberList((prev) => prev.filter((member) => member.id !== id));
+    } catch (err) {
+      console.error('🩺 멤버 삭제 실패:', err);
+      alert('삭제 중 오류가 발생했습니다.');
+    }
+  };
 
   const isInviteeRender = useRef(true);
 
@@ -130,15 +140,17 @@ const DashboardEdit = () => {
             <div className='px-20 text-md text-gray-400 tablet:px-28 tablet:text-lg'>이름</div>
             <ul>
               {memberList.map((member, index, arr) => {
-                const { userId, nickname, profileImageUrl, isOwner } = member;
+                const { id, nickname, profileImageUrl, isOwner } = member;
                 const isLast = index === arr.length - 1;
                 return (
                   <Members
-                    key={userId}
+                    key={id}
+                    id={id}
                     isLast={isLast}
                     isOwner={isOwner}
                     nickname={nickname}
                     profileImg={profileImageUrl ?? undefined}
+                    onDelete={handleDeleteMember}
                   />
                 );
               })}

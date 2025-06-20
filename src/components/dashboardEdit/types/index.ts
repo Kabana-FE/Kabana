@@ -2,6 +2,10 @@ type ProfileImg = string | undefined;
 
 export interface MembersProps {
   /**
+   * 사용자 고유 ID
+   */
+  id: number;
+  /**
    * 사용자 닉네임
    */
   nickname: string;
@@ -19,6 +23,10 @@ export interface MembersProps {
    * (렌더링 시 구분선 생략 등 UI 처리를 위한 플래그)
    */
   isLast: boolean;
+  /**
+   * 구성원 삭제 함수
+   */
+  onDelete: (userId: number) => void;
 }
 
 export interface InvitationsProps {
