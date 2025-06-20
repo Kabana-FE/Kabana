@@ -130,10 +130,16 @@ const DashboardEdit = () => {
             <div className='px-20 text-md text-gray-400 tablet:px-28 tablet:text-lg'>이름</div>
             <ul>
               {memberList.map((member, index, arr) => {
-                const { userId, nickname, profileImageUrl } = member;
+                const { userId, nickname, profileImageUrl, isOwner } = member;
                 const isLast = index === arr.length - 1;
                 return (
-                  <Members key={userId} isLast={isLast} nickname={nickname} profileImg={profileImageUrl ?? undefined} />
+                  <Members
+                    key={userId}
+                    isLast={isLast}
+                    isOwner={isOwner}
+                    nickname={nickname}
+                    profileImg={profileImageUrl ?? undefined}
+                  />
                 );
               })}
             </ul>

@@ -6,6 +6,10 @@ export interface MembersProps {
    */
   nickname: string;
   /**
+   * 대시보드 오너 여부
+   */
+  isOwner: boolean;
+  /**
    * 프로필 이미지 URL
    * (이미지가 없을 경우 기본 아바타로 대체될 수 있습니다.)
    */
