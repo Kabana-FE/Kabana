@@ -9,6 +9,7 @@ import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Invitations from '@/components/dashboardEdit/invitations';
 import Members from '@/components/dashboardEdit/members';
+import InviteMember from '@/components/modal/InviteMember';
 import Pagination from '@/components/pagination';
 import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
 import { inviteeListSchema } from '@/schemas/dashboard';
@@ -31,6 +32,10 @@ const DashboardEdit = () => {
   const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
   const totalInviteeCount = initialData.inviteeList.totalCount;
   const totalInviteePage = Math.ceil(totalInviteeCount / 5);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   const isMemberRender = useRef(true);
 
@@ -185,10 +190,12 @@ const DashboardEdit = () => {
                 className='flex h-26 w-86 gap-10 p-0 tablet:h-32 tablet:w-105 tablet:text-md'
                 size='sm'
                 variant='filled'
+                onClick={toggleModal}
               >
                 <AddBoxIcon className='tablet:size-16' color='var(--color-white)' size={10} />
                 초대하기
               </Button>
+              <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
             </div>
             <ul>
               {inviteeList.map((member, index, arr) => {
