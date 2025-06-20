@@ -94,7 +94,7 @@ const DashboardEdit = () => {
       </div>
       <div className='flex flex-col gap-24'>
         <div className='flex flex-col gap-16'>
-          <section className='flex h-312 max-w-620 flex-col gap-32 rounded-lg bg-white px-16 py-20 tablet:h-344 tablet:gap-40 tablet:px-28 tablet:py-32'>
+          <section className='flex max-w-620 flex-col gap-32 rounded-lg bg-white px-16 py-20 tablet:gap-40 tablet:px-28 tablet:py-32'>
             <div className='flex flex-col gap-24'>
               <h2 className='text-xl font-bold tablet:text-2xl'>비브리지</h2>
               <div className='flex flex-col gap-16'>
@@ -114,7 +114,7 @@ const DashboardEdit = () => {
               변경
             </Button>
           </section>
-          <section className='flex h-337 max-w-620 flex-col rounded-lg bg-white tablet:h-404'>
+          <section className='flex max-w-620 flex-col rounded-lg bg-white'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>구성원</h2>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
@@ -144,7 +144,7 @@ const DashboardEdit = () => {
               })}
             </ul>
           </section>
-          <section className='h-406 max-w-620 rounded-lg bg-white tablet:h-477'>
+          <section className='max-w-620 rounded-lg bg-white'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
               <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>초대내역</h2>
               <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
