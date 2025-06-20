@@ -8,6 +8,7 @@ import NoInvitation from '@/assets/icons/NoInvitationIcon';
 import Button from '@/components/common/button';
 import DashboardItem from '@/components/dashboardItem';
 import InvitationItem from '@/components/invitationItem';
+import CreateDashboard from '@/components/modal/CreateDashboard';
 import Pagination from '@/components/pagination';
 import Search from '@/components/search';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
@@ -33,6 +34,8 @@ const DashboardList = () => {
   const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
   const [cursorId, setCursorId] = useState<number | null>(initialInvitationData.invitationList.cursorId);
   const [searchValue, setSearchValue] = useState<string>('');
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const isInitialRender = useRef(true);
 
@@ -120,6 +123,7 @@ const DashboardList = () => {
                 className='h-58 w-full gap-12 rounded-lg text-md font-semibold text-gray-700 tablet:h-68 tablet:text-lg'
                 size='none'
                 variant='outlined'
+                onClick={() => setIsModalOpen(true)}
               >
                 새로운 대시보드 <AddIcon className='size-20 rounded-sm bg-cream p-5 tablet:size-22 tablet:p-6' />
               </Button>
@@ -188,6 +192,7 @@ const DashboardList = () => {
           <div ref={infiniteScrollRef} />
         </div>
       </div>
+      <CreateDashboard isModalOpen={isModalOpen} toggleModal={() => setIsModalOpen((...prev) => !prev)} />
     </div>
   );
 };
