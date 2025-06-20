@@ -20,7 +20,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<LoginRequest>({
     resolver: zodResolver(loginRequestSchema),
     mode: 'onBlur',
@@ -76,11 +76,7 @@ const LoginForm = () => {
         />
         <Input.ErrorMessage>{errors.password?.message}</Input.ErrorMessage>
       </Input.Root>
-      <Button
-        className='rounded-md'
-        disabled={isSubmitting || !isDirty || Object.keys(errors).length > 0}
-        type='submit'
-      >
+      <Button className='rounded-md' disabled={isSubmitting || !isValid} type='submit'>
         {isSubmitting ? '로그인 중...' : '로그인'}
       </Button>
     </form>
