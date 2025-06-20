@@ -1,6 +1,6 @@
 export const AUTH_ENDPOINTS = {
   SIGNUP: '/users',
-  SIGNIN: '/login',
+  SIGNIN: '/auth/login',
   CHANGE_PASSWORD: '/auth/password',
 };
 

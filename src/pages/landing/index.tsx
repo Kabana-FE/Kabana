@@ -7,13 +7,12 @@ import Landing3 from '@/assets/images/Landing3.png';
 import Landing4 from '@/assets/images/Landing4.png';
 import Landing5 from '@/assets/images/Landing5.png';
 import Button from '@/components/common/button';
-import { AUTH_ENDPOINTS } from '@/constants/paths';
 
 const Landing = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate(AUTH_ENDPOINTS.SIGNIN);
+    navigate('/login');
   };
 
   return (
