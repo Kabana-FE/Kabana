@@ -99,7 +99,7 @@ const DashboardList = () => {
           {totalDashboardPage > 1 && (
             <div className='mt-16 mb-24 flex items-center justify-end tablet:mb-48 pc:-mb-34'>
               <span className='mr-16 text-xs font-normal tablet:text-md'>
-                {page} 페이지 중 {totalDashboardPage}
+                {totalDashboardPage} 페이지 중 {page}
               </span>
               <Pagination
                 currentPage={page}
