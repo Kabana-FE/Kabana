@@ -60,6 +60,8 @@ const MyPage = () => {
       setUser(updatedProfile);
       if (selectedFile && previewUrl) {
         URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
+        setSelectedFile(null);
       }
     } catch (err) {
       console.error('🩺프로필 수정 실패:', err);
