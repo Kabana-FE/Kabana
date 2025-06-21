@@ -1,6 +1,6 @@
 import type { CardListValidateType } from '@/schemas/card';
 import type { ColumnsType } from '@/schemas/column';
-import type { InviteeList } from '@/schemas/dashboard';
+import type { Dashboard, InviteeList } from '@/schemas/dashboard';
 import type { InvitationList } from '@/schemas/invitation';
 import type { MemberListData } from '@/schemas/member';
 
@@ -11,8 +11,9 @@ import type { MemberListData } from '@/schemas/member';
  */
 export interface DashboardDetailLoaderData {
   columns: ColumnsType;
-  memberListResponse: MemberListData;
+  memberList: MemberListData;
   cardList: CardListValidateType;
+  dashboardDetail: Dashboard;
 }
 
 /**
@@ -30,4 +31,5 @@ export interface DashboardListLoaderData {
 export interface DashboardEditLoaderData {
   memberList: MemberListData;
   inviteeList: InviteeList;
+  dashboardDetail: Dashboard;
 }
