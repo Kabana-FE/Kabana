@@ -91,6 +91,7 @@ const router = createBrowserRouter([
               },
               {
                 path: DASHBOARD_DETAIL,
+                id: 'detail',
                 lazy: async () => {
                   const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
                   const { loader } = await import('@/loaders/dashboard/detailLoader');
@@ -100,6 +101,7 @@ const router = createBrowserRouter([
               },
               {
                 path: DASHBOARD_EDIT,
+                id: 'edit',
                 lazy: async () => {
                   const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
                   const { loader } = await import('@/loaders/dashboard/editLoader');
