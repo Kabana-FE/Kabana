@@ -42,6 +42,7 @@ const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
         isModalOpen={createTodo}
         toggleModal={() => setCreateTodo(!createTodo)}
       />
+
       <EditColumn
         columnId={columnId}
         initialTitle={title}

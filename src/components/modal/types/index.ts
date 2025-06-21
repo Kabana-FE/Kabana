@@ -1,3 +1,7 @@
+import type { CardType } from '@/schemas/card';
+
+import type { CreateTodoModalType } from '../createTodo/types';
+
 export interface CreateDashboardProps {
   /**
    * 모달의 열림 여부 상태
@@ -78,5 +82,15 @@ export interface InviteMemberProps {
   /**
    * 모달의 열림/닫힘 상태를 토글하는 함수
    */
+  toggleModal: () => void;
+}
+
+export interface EditTodoType extends CreateTodoModalType {
+  data: CardType;
+}
+
+export interface DeleteCardAlertType {
+  cardId: number;
+  isModalOpen: boolean;
   toggleModal: () => void;
 }

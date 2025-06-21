@@ -9,7 +9,7 @@ import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import type { CreateDashboardProps } from '@/components/modal/types';
 import TOAST_MESSAGES from '@/constants/messages/toastMessages';
-import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
+import { getDashboardDetailPath } from '@/constants/paths';
 import { useToast } from '@/hooks/useToast';
 import type { CreateDashboardInput } from '@/schemas/dashboard';
 import { createDashboardSchema } from '@/schemas/dashboard';
@@ -49,7 +49,7 @@ const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => 
       toggleModal();
       reset();
       showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('대시보드'));
-      navigate(DASHBOARD_ENDPOINTS.DETAIL(String(dashboard.id)));
+      navigate(getDashboardDetailPath(String(dashboard.id)));
     } catch (err) {
       showError(TOAST_MESSAGES.API.CREATE_FAILURE('대시보드'));
       console.error('🩺대시보드 생성 실패:', err);

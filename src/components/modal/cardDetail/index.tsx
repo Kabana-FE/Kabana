@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useParams, useSubmit } from 'react-router';
 
 import { getComments } from '@/apis/comment';
+import MoreVertIcon from '@/assets/icons/MoreVertIcon';
 import Avatar from '@/components/Avatar';
 import Badge from '@/components/badge';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Dropdown from '@/components/common/dropdown';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
 import type { CommentsType } from '@/schemas/comment';
@@ -12,12 +15,37 @@ import type { CommentsType } from '@/schemas/comment';
 import Comment from './Comment';
 import type { DetailType } from './types';
 
-const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
+const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleEditTodo }: DetailType) => {
   const [commentList, setCommentList] = useState<CommentsType>([]);
+  const isInitialRender = useRef(true);
+  const params = useParams();
+  const submit = useSubmit();
 
+  const handleOptionSelect = async (value: string | number) => {
+    if (value === 'edit') {
+      console.log('수정하기 클릭');
+      toggleModal();
+      toggleEditTodo();
+    }
+
+    if (value === 'delete') {
+      console.log('삭제하기 클릭');
+      const formData = new FormData();
+      formData.append('intent', 'deleteCard');
+      formData.append('cardId', String(data.id));
+
+      try {
+        toggleModal();
+      } catch (error) {
+        console.error('카드 삭제 실패:', error);
+      }
+    }
+  };
   useEffect(() => {
-    if (!data?.id) return;
-
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
     const fetch = async () => {
       const result = await getComments(data.id);
       setCommentList(result.comments);
@@ -26,7 +54,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
     fetch();
 
     return () => setCommentList([]);
-  }, [data.id]);
+  }, [data.id, isModalOpen]);
   return (
     <Dialog.Root
       className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
@@ -36,7 +64,20 @@ const CardDetail = ({ data, isModalOpen, toggleModal }: DetailType) => {
       <Dialog.Title className='w-7/8 text-[20px] font-bold tablet:text-2xl'>
         <div className='justify flex max-w-full items-center justify-between text-gray-700'>
           <h1>{data.title}</h1>
-          <span>...</span>
+          <span>
+            <Dropdown
+              align='end'
+              contentClassName=''
+              optionClassName='text-center'
+              options={[
+                { label: '수정하기', value: 'edit' },
+                { label: '삭제하기', value: 'delete' },
+              ]}
+              trigger={<MoreVertIcon aria-label='더보기 옵션' size={24} />}
+              triggerClassName='px-2 py-1 hover:bg-gray-100'
+              onSelect={handleOptionSelect}
+            />
+          </span>
         </div>
       </Dialog.Title>
       <Dialog.Close

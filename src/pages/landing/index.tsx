@@ -16,7 +16,7 @@ const Landing = () => {
   };
 
   return (
-    <div className='text-white'>
+    <div className='mt-60 text-white tablet:mt-70'>
       <header className='flex flex-col items-center justify-center pt-42 pb-76 tablet:pt-94 tablet:pb-180'>
         <img alt='Kabana 대표 이미지' className='m-auto w-287 tablet:w-537 pc:w-722' src={landingImg} />
         <div className='flex flex-col items-center justify-center gap-6 pt-26 pb-101 tablet:flex-row tablet:gap-24 tablet:pt-48 tablet:pb-109 pc:pb-111'>

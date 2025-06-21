@@ -20,8 +20,14 @@ export const userSchema = z.object({
  * @description 로그인 요청 시 전송하는 데이터의 유효성을 검사하는 스키마
  */
 export const loginRequestSchema = z.object({
-  email: z.string().email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
-  password: z.string().min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
+  email: z
+    .string()
+    .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('이메일') })
+    .email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
+  password: z
+    .string()
+    .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호') })
+    .min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
 });
 
 /**
@@ -39,10 +45,22 @@ export const loginResponseSchema = z.object({
  */
 export const signupRequestSchema = z
   .object({
-    email: z.string().email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
-    nickname: z.string().max(10, { message: UI_ERRORS.VALIDATION.STRING_MAX(10) }),
-    password: z.string().min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
-    checkPassword: z.string().min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
+    email: z
+      .string()
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('이메일') })
+      .email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
+    nickname: z
+      .string()
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('닉네임') })
+      .max(10, { message: UI_ERRORS.VALIDATION.STRING_MAX(10) }),
+    password: z
+      .string()
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호') })
+      .min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
+    checkPassword: z
+      .string()
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호 확인') })
+      .min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
     agreeToTerms: z.boolean().refine((v) => v === true, {
       message: '약관에 동의해야 가입할 수 있습니다.',
     }),
