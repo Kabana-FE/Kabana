@@ -59,7 +59,7 @@ const DashboardEdit = () => {
     try {
       await updateDashboard(dashboardIdNumber, data);
     } catch (err) {
-      console.error('🩺대시보드 생성 실패:', err);
+      console.error('🩺대시보드 수정 실패:', err);
     }
   };
 
@@ -157,7 +157,7 @@ const DashboardEdit = () => {
           <section className='flex max-w-620 flex-col gap-32 rounded-lg bg-white px-16 py-20 tablet:gap-40 tablet:px-28 tablet:py-32'>
             <div className='flex flex-col gap-24'>
               <h2 className='text-xl font-bold tablet:text-2xl'>비브리지</h2>
-              <form className='flex flex-col gap-16' id='updateDashboard' onClick={handleSubmit(onSubmit)}>
+              <form className='flex flex-col gap-16' id='updateDashboard' onSubmit={handleSubmit(onSubmit)}>
                 <Input.Root>
                   <Input.Label className='tablet:text-2lg' htmlFor='dashboardEdit'>
                     대시보드 이름
