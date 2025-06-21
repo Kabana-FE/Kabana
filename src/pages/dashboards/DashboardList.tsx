@@ -113,7 +113,7 @@ const DashboardList = () => {
   );
 
   return (
-    <div className='flex w-full'>
+    <div className='tablet:mt-h-70 mt-60 flex w-full'>
       <div className='w-67 bg-white tablet:w-160 pc:w-300' />
       <div className='w-full max-w-1022 p-24'>
         <div>

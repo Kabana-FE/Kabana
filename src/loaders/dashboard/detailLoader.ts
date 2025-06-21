@@ -3,8 +3,10 @@ import type { LoaderFunctionArgs } from 'react-router-dom';
 
 import { getCardList } from '@/apis/card';
 import { getColumns } from '@/apis/column';
+import { getDashboardDetail } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
 import { columnsSchema, type ColumnsType } from '@/schemas/column';
+import { dashboardSchema } from '@/schemas/dashboard';
 import { memberListResponseSchema } from '@/schemas/member';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
@@ -61,13 +63,17 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
   }
 
   try {
-    const results = await Promise.allSettled([getColumns(dashboardId), getMemberList({ dashboardId, size: 4 })]);
+    const results = await Promise.allSettled([
+      getColumns(dashboardId),
+      getMemberList({ dashboardId, size: 4 }),
+      getDashboardDetail(dashboardId),
+    ]);
 
     const rejectedPromises = results.filter((result) => result.status === 'rejected');
 
     if (rejectedPromises.length > 0) {
       rejectedPromises.forEach((promise, index) => {
-        const apiName = index === 0 ? 'getDashboardDetail' : 'getMemberList';
+        const apiName = index === 0 ? 'getColumns' : index === 1 ? 'getMemberList' : 'getDashboardDetail';
         console.error(`🩺 ${apiName} API 호출 실패:`, (promise as PromiseRejectedResult).reason);
       });
       // 첫 번째 에러를 ErrorBoundary로 던져서 UI를 중단시킵니다.
@@ -78,6 +84,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
     // 주의: 타입 단언이 필요할 수 있습니다.
     const columnsRaw = (results[0] as PromiseFulfilledResult<ColumnsType>).value;
     const memberListRaw = (results[1] as PromiseFulfilledResult<unknown>).value;
+    const dashboardDetailRaw = (results[2] as PromiseFulfilledResult<unknown>).value;
 
     const columnList = columnsRaw.data;
     // console.log('columnsRaw', columnsRaw);
@@ -92,9 +99,10 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
     // const flatedCardRawList = cardRawList.flatMap((result) => result.cards);
     // zod 검사
     const columns = columnsSchema.parse(columnsRaw);
-    const memberListResponse = memberListResponseSchema.parse(memberListRaw);
+    const memberList = memberListResponseSchema.parse(memberListRaw);
+    const dashboardDetail = dashboardSchema.parse(dashboardDetailRaw);
     // const cardList = cardListValidateSchema.parse(flatedCardRawList);
-    return { columns, memberListResponse, cardList };
+    return { columns, memberList, cardList, dashboardDetail };
   } catch (error: unknown) {
     return handleLoaderError(error);
   }
