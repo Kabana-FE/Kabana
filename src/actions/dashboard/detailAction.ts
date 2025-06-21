@@ -24,13 +24,10 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
         imageUrl: formData.get('imageUrl') as string,
         tags,
       });
-      return new Response(
-        JSON.stringify({ success: true }), // ✅ 성공 응답 명시적으로
-        {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
     case 'createComment':
       break;

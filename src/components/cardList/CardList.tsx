@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useActionData } from 'react-router';
+import { useState } from 'react';
 
 import AddIcon from '@/assets/icons/AddIcon';
 import DotIcon from '@/assets/icons/DotIcon';
@@ -16,13 +15,7 @@ const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
   const [createTodo, setCreateTodo] = useState(false);
   const [editColumn, setEditColumn] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
-  const actionResult = useActionData() as { success: boolean };
 
-  useEffect(() => {
-    if (actionResult.success) {
-      setCreateTodo(false);
-    }
-  }, [actionResult]);
   return (
     <div className='px-12 pc:w-354 pc:shrink-0'>
       <div className='mb-25 flex justify-between'>
