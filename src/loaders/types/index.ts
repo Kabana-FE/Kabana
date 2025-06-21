@@ -7,4 +7,5 @@ import type { Dashboard } from '@/schemas/dashboard';
 export interface authGuardLoaderData {
   dashboards: Dashboard[];
   cursorId: number | null;
+  totalCount: number;
 }
