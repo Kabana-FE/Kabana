@@ -29,7 +29,7 @@ const DashboardHeader = () => {
 
   return (
     <>
-      <header className='fixed inset-x-0 z-10 flex h-60 items-center gap-16 border-b border-gray-300 bg-white pr-8 pl-18 tablet:h-70 tablet:gap-32 tablet:pr-32 tablet:pl-40 pc:gap-40 pc:pr-80 pc:pl-40'>
+      <header className='fixed inset-x-0 top-0 z-10 flex h-60 items-center gap-16 border-b border-gray-300 bg-white pr-8 pl-18 tablet:h-70 tablet:gap-32 tablet:pr-32 tablet:pl-40 pc:gap-40 pc:pr-80 pc:pl-40'>
         <div className='flex flex-1 items-center justify-between'>
           {dashboardDetail ? (
             <h1 className='invisible flex items-center gap-8 text-lg font-bold text-gray-700 pc:visible'>
