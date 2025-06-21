@@ -9,6 +9,8 @@ import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 import type { MypageLoaderData } from '@/loaders/myPage/types';
 import type { ChangePasswordRequest } from '@/schemas/auth';
 import { changePasswordRequestSchema } from '@/schemas/auth';
@@ -19,6 +21,7 @@ const MyPage = () => {
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const { showSuccess, showError } = useToast();
 
   const {
     register: registerInfo,
@@ -38,9 +41,11 @@ const MyPage = () => {
         profileImageUrl: myProfile.profileImageUrl,
       };
       await updateMyInfo(updatedData);
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('프로필'));
       if (previewUrl) URL.revokeObjectURL(previewUrl);
     } catch (err) {
-      console.error('🩺프로필 수정 실패:', err);
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('프로필'));
+      console.error('🩺 프로필 수정 실패:', err);
     }
   };
 
@@ -58,8 +63,10 @@ const MyPage = () => {
         ...prev,
         profileImageUrl: updatedProfile.profileImageUrl,
       }));
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('프로필 사진'));
     } catch (error) {
-      console.error('🩺이미지 업로드 실패:', error);
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('프로필 사진'));
+      console.error('🩺 이미지 업로드 실패:', error);
     }
   };
 
@@ -75,7 +82,9 @@ const MyPage = () => {
   const onSubmitPwd = async (data: ChangePasswordRequest) => {
     try {
       await changePassword(data);
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('비밀번호'));
     } catch (err) {
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('비밀번호'));
       console.error('🩺비밀번호 변경 실패:', err);
       if (err instanceof Response) {
         const error = await err.json().catch(() => {});

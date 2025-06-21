@@ -1,18 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { createAuthSlice, createSidebarSlice, createToastSlice } from './slices';
+import createAuthSlice from './slices/authSlice';
+import createSidebarSlice from './slices/sidebarSlice';
+import createToastSlice from './slices/toastSlice';
 import type { BoundState } from './types';
 
 export const useKabanaStore = create<BoundState>()(
   persist(
     (...args) => ({
-      ...createToastSlice(...args),
       ...createAuthSlice(...args),
       ...createSidebarSlice(...args),
+      ...createToastSlice(...args),
     }),
     {
-      name: 'auth-storage',
+      name: 'kabana-storage',
       partialize: (state) => ({
         accessToken: state.accessToken,
         user: state.user,

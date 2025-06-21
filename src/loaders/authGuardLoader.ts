@@ -2,6 +2,7 @@ import { HttpStatusCode } from 'axios';
 import { redirect } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { ROUTES } from '@/constants/paths';
 import { useKabanaStore } from '@/stores';
 import handleLoaderError from '@/utils/error/handleLoaderError';
@@ -30,11 +31,13 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
 
   if (!isPrivateOnly && isLoggedIn) {
     console.warn('⚠️ 로그인한 사용자가 공개 전용 경로에 접근하려 했습니다. 대시보드로 리디렉션합니다.');
+    useKabanaStore.getState().addToast(TOAST_MESSAGES.AUTH_GUARD.NEED_SIGNOUT, 'info');
     throw redirect(ROUTES.DASHBOARD_LIST);
   }
 
   if (isPrivateOnly && !isLoggedIn) {
     console.warn('⚠️ 로그인하지 않은 사용자가 보호된 경로에 접근하려 했습니다. 로그인 페이지로 리디렉션합니다.');
+    useKabanaStore.getState().addToast(TOAST_MESSAGES.AUTH_GUARD.NEED_SIGNIN, 'warning');
     throw redirect(ROUTES.SIGNIN);
   }
 
@@ -54,6 +57,7 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
     } catch (error) {
       // 401이면 토큰 만료 → 자동 로그아웃
       if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {
+        useKabanaStore.getState().addToast(TOAST_MESSAGES.AUTH_GUARD.TOKEN_EXPIRED, 'warning');
         clearAuth();
         useKabanaStore.persist.clearStorage();
         throw redirect(ROUTES.SIGNIN);
@@ -65,5 +69,3 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
 
   return null;
 };
-
-// ! 토스트 처리할 예정.-> zustand쓸지 말지 정하고.

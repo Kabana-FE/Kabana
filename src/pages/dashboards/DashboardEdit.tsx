@@ -10,6 +10,8 @@ import Button from '@/components/common/button';
 import Invitations from '@/components/dashboardEdit/invitations';
 import Members from '@/components/dashboardEdit/members';
 import Pagination from '@/components/pagination';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
 import { inviteeListSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
@@ -34,6 +36,8 @@ const DashboardEdit = () => {
 
   const isMemberRender = useRef(true);
 
+  const { showSuccess, showError } = useToast();
+
   useEffect(() => {
     if (isMemberRender.current) {
       isMemberRender.current = false;
@@ -48,8 +52,9 @@ const DashboardEdit = () => {
         const memberList = memberListResponseSchema.parse(rawMemberList);
         setMemberList(memberList.members);
       } catch (err) {
-        console.error('🩺구성원 조회 실패:', err);
+        console.error('🩺 구성원 조회 실패:', err);
       } finally {
+        showError(TOAST_MESSAGES.API.FETCH_FAILURE('구성원'));
         setIsMemberLoading(false);
       }
     };
@@ -76,7 +81,8 @@ const DashboardEdit = () => {
         const inviteeList = inviteeListSchema.parse(rawInviteeList);
         setInviteeList(inviteeList.invitations);
       } catch (err) {
-        console.error('🩺초대내역 조회 실패:', err);
+        showError(TOAST_MESSAGES.API.FETCH_FAILURE('초대 내역'));
+        console.error('🩺 초대내역 조회 실패:', err);
       } finally {
         setIsInviteeLoading(false);
       }
