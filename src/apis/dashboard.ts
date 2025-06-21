@@ -50,7 +50,6 @@ export const updateDashboard = async (dashboardId: number, dashboardInput: Updat
  */
 export const deleteDashboard = async (dashboardId: number) => {
   return requestDelete(DASHBOARD_ENDPOINTS.DELETE(String(dashboardId)));
-
 };
 
 /**
@@ -60,7 +59,6 @@ export const deleteDashboard = async (dashboardId: number) => {
 export const getInviteeList = async (params: InviteeListParams) => {
   const { dashboardId, ...queryParams } = params;
   return requestGet<InviteeList>(DASHBOARD_ENDPOINTS.GET_INVITATIONS(String(dashboardId)), { params: queryParams });
-
 };
 
 export const cancelInvitee = async (params: CancelInviteeParams) => {
