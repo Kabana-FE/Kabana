@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { NavLink, useLoaderData } from 'react-router-dom';
+import { Link, NavLink, useLoaderData } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 import { getDashboardList } from '@/apis/dashboard';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import CrownIcon from '@/assets/icons/CrownIcon';
 import DotIcon from '@/assets/icons/DotIcon';
+import HorizontalLogo from '@/assets/images/HorizontalLogo';
+import LogoImage from '@/assets/images/LogoImage';
+import LogoTextImage from '@/assets/images/LogoTextImage';
 import Button from '@/components/common/button';
 import Tooltip from '@/components/common/tooltip';
 import CreateDashboard from '@/components/modal/CreateDashboard';
 import Pagination from '@/components/pagination';
-import { getDashboardDetailPath } from '@/constants/paths';
+import { getDashboardDetailPath, ROUTES } from '@/constants/paths';
 import type { authGuardLoaderData } from '@/loaders/types';
 import { type Dashboard, dashboardListResponseSchema } from '@/schemas/dashboard';
 import { useKabanaStore } from '@/stores';
@@ -124,7 +127,7 @@ const Sidebar = () => {
   }, []);
 
   const sidebarClasses = twMerge(
-    'fixed top-50 left-0 h-[calc(100vh-50px)] flex items-center justify-center flex-col border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out',
+    'fixed left-0 h-[calc(100vh-50px)] flex items-center justify-center flex-col border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out',
     // 모바일: 화면이 작으니까 사이드바가 아예 없어질수도 있게.
     isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
 
@@ -140,6 +143,17 @@ const Sidebar = () => {
   return (
     <>
       <aside className={sidebarClasses}>
+        <Link className='flex h-60 items-center tablet:h-70' to={ROUTES.DASHBOARD_LIST}>
+          {isSidebarOpen ? (
+            <>
+              <LogoImage className='tablet:hidden' size={40} />
+              <LogoTextImage className='hidden tablet:block pc:hidden' size={120} />
+              <HorizontalLogo className='hidden pc:block' size={200} />
+            </>
+          ) : (
+            <LogoImage className='' size={40} />
+          )}
+        </Link>
         <div
           className={twMerge(
             'mb-10 flex w-full shrink-0 cursor-pointer items-center justify-center gap-10 rounded-lg p-10 hover:bg-cream',
