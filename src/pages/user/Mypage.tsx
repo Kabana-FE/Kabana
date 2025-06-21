@@ -14,12 +14,14 @@ import type { ChangePasswordRequest } from '@/schemas/auth';
 import { changePasswordRequestSchema } from '@/schemas/auth';
 import type { UpdateUser, UserInfo } from '@/schemas/user';
 import { updateUserInfoSchema } from '@/schemas/user';
+import { useKabanaStore } from '@/stores';
 
 const MyPage = () => {
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const setUser = useKabanaStore((state) => state.setUser);
 
   const {
     register: registerInfo,
@@ -45,17 +47,17 @@ const MyPage = () => {
       if (selectedFile) {
         const formData = new FormData();
         formData.append('image', selectedFile);
-        const updatedProfile = await uploadProfileImg(formData);
+        const profileImageUrl = await uploadProfileImg(formData);
 
-        uploadedProfileImageUrl = updatedProfile.profileImageUrl;
-        console.log('이미지');
+        uploadedProfileImageUrl = profileImageUrl.profileImageUrl;
       }
       const updatedData = {
         ...data,
         profileImageUrl: uploadedProfileImageUrl,
       };
-      await updateMyInfo(updatedData);
-      console.log('업로드');
+      const updatedProfile = await updateMyInfo(updatedData);
+      setMyProfile(updatedProfile);
+      setUser(updatedProfile);
       if (selectedFile && previewUrl) {
         URL.revokeObjectURL(previewUrl);
       }
