@@ -5,13 +5,16 @@ import AddIcon from '@/assets/icons/AddIcon';
 import CardList from '@/components/cardList/CardList';
 import Button from '@/components/common/button';
 import CreateColumn from '@/components/modal/CreateColumn';
+import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import type { GetCardListType } from '@/schemas/card';
 
 const DashboardDetail = () => {
-  const data = useLoaderData();
+  const data = useLoaderData() as DashboardDetailLoaderData;
   const params = useParams();
+  console.log(data.memberListResponse);
   const dashboardId = Number(params.dashboardId);
   const [createColumn, setCreateColumn] = useState(false);
+
   return (
     <div className='flex h-full w-screen'>
       <section className='flex w-screen flex-col px-20 pc:flex-row pc:overflow-x-scroll'>

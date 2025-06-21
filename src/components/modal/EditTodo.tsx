@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, useLoaderData, useSubmit } from 'react-router-dom';
 
-import { uploadCardImage } from '@/apis/card';
 import AddIcon from '@/assets/icons/AddIcon';
 import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Button from '@/components/common/button';
@@ -16,21 +15,31 @@ import colorList from '@/constants/ui/colorList';
 import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
+import type { Column } from '@/schemas/column';
 
-import { type CreateTodoModalType, type TagListType } from './types';
-const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateTodoModalType) => {
+import type { TagListType } from './createTodo/types';
+import type { EditTodoType } from './types';
+const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoType) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [tagList, setTagList] = useState<TagListType[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<DropdownOption | null>(null);
+  const [selectedStatus2, setSelectedStatus2] = useState<DropdownOption | null>(null);
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
   const memberList = loader.memberListResponse.members;
+
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
-    value: member.userId,
+    value: member.id,
+  }));
+
+  const statusOptions2: DropdownOption[] = loader.columns.data.map((column: Column) => ({
+    label: column.title,
+    value: column.id,
   }));
 
   const dropDownContainer = useRef<HTMLDivElement>(null);
+  const dropDownContainer2 = useRef<HTMLDivElement>(null);
   const defaultValues: CreateTodoType = {
     assigneeUserId: 0,
     dashboardId: dashboardId,
@@ -85,7 +94,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
 
   const onSubmit = (data: CreateTodoType) => {
     const formData = new FormData();
-    formData.append('intent', 'createTodo');
+    formData.append('intent', 'editTodo');
     formData.append('assigneeUserId', String(data.assigneeUserId));
     formData.append('dashboardId', String(data.dashboardId));
     formData.append('columnId', String(data.columnId));
@@ -112,22 +121,27 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const uploadImage = await uploadCardImage(columnId, formData);
-      console.log(uploadImage);
-      setValue('imageUrl', uploadImage.imageUrl);
+      setValue('imageUrl', preview);
     } catch (error) {
       console.error('🩺이미지 업로드 실패:', error);
     }
   };
 
   const handleOptionSelect = async (value: string | number) => {
-    // 선택된 값(value)에 해당하는 옵션 객체(label, value)를 찾습니다.
     const selected = statusOptions.find((option) => option.value === value);
     if (selected) {
       setSelectedStatus(selected);
       setValue('assigneeUserId', Number(value));
     }
   };
+  const handleOptionSelect2 = async (value: string | number) => {
+    const selected = statusOptions2.find((option) => option.value === value);
+    if (selected) {
+      setSelectedStatus2(selected);
+      setValue('columnId', Number(value));
+    }
+  };
+
   useEffect(() => {
     const tags = tagList.map((tag) => tag.label);
     setValue('tags', tags);
@@ -142,25 +156,44 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
         reset();
       }}
     >
-      <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
+      <Dialog.Title className='text-2xl font-bold'>할일 수정</Dialog.Title>
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Content className='mt-32'>
-        <div
-          ref={dropDownContainer}
-          className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
-        >
-          <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
-          <Dropdown
-            align='start'
-            contentClassName='w-287 tablet:w-552 '
-            optionClassName='text-left h-40'
-            options={statusOptions}
-            positionRef={dropDownContainer}
-            selectedValue={selectedStatus?.value}
-            trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
-            triggerClassName='p-2 hover:bg-gray-100 rounded'
-            onSelect={handleOptionSelect}
-          />
+        <div>
+          <div
+            ref={dropDownContainer}
+            className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
+          >
+            <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+            <Dropdown
+              align='start'
+              contentClassName='w-287 tablet:w-552 '
+              optionClassName='text-left h-40'
+              options={statusOptions}
+              positionRef={dropDownContainer}
+              selectedValue={selectedStatus?.value}
+              trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
+              triggerClassName='p-2 hover:bg-gray-100 rounded'
+              onSelect={handleOptionSelect}
+            />
+          </div>
+          <div
+            ref={dropDownContainer}
+            className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
+          >
+            <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+            <Dropdown
+              align='start'
+              contentClassName='w-287 tablet:w-552 '
+              optionClassName='text-left h-40'
+              options={statusOptions2}
+              positionRef={dropDownContainer2}
+              selectedValue={selectedStatus2?.value}
+              trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
+              triggerClassName='p-2 hover:bg-gray-100 rounded'
+              onSelect={handleOptionSelect}
+            />
+          </div>
         </div>
         <Form
           className='flex flex-col'
@@ -255,11 +288,11 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
           취소
         </Button>
         <Button className='w-1/2' disabled={isSubmitting} form='createTodo' type='submit'>
-          생성
+          수정
         </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>
   );
 };
 
-export default CreateTodo;
+export default EditTodo;

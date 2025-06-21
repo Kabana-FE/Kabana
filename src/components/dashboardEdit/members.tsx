@@ -3,7 +3,7 @@ import Avatar from '@/components/Avatar';
 import Button from '@/components/common/button';
 import type { MembersProps } from '@/components/dashboardEdit/types';
 
-const Members = ({ nickname, profileImg, isLast, isOwner }: MembersProps) => {
+const Members = ({ id, nickname, profileImg, isLast, isOwner, onDelete }: MembersProps) => {
   return (
     <>
       <li className='flex items-center justify-between px-20 py-12 tablet:px-28 tablet:py-16'>
@@ -17,7 +17,13 @@ const Members = ({ nickname, profileImg, isLast, isOwner }: MembersProps) => {
             <span>Owner</span>
           </span>
         ) : (
-          <Button className='w-52 p-0 tablet:w-84 tablet:text-md' size='sm' type='button' variant='outlined'>
+          <Button
+            className='w-52 p-0 tablet:w-84 tablet:text-md'
+            size='sm'
+            type='button'
+            variant='outlined'
+            onClick={() => onDelete(id)}
+          >
             삭제
           </Button>
         )}

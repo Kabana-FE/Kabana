@@ -20,4 +20,6 @@ export default interface PaginationProps {
    * `true`이면 로딩 중, `false`이면 로딩이 완료되었거나 시작되지 않은 상태입니다.
    */
   isLoading?: boolean;
+  buttonSize?: 'sm' | 'md' | 'lg' | 'none';
+  children?: React.ReactNode;
 }

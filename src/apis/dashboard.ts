@@ -1,6 +1,7 @@
 import { requestDelete, requestGet, requestPost, requestPut } from '@/apis/base/request';
 import { DASHBOARD_ENDPOINTS } from '@/constants/paths';
 import type {
+  CancelInviteeParams,
   CreateDashboardInput,
   Dashboard,
   DashboardListData,
@@ -58,4 +59,8 @@ export const deleteDashboard = async (dashboardId: number) => {
 export const getInviteeList = async (params: InviteeListParams) => {
   const { dashboardId, ...queryParams } = params;
   return requestGet<InviteeList>(DASHBOARD_ENDPOINTS.GET_INVITATIONS(String(dashboardId)), { params: queryParams });
+};
+
+export const cancelInvitee = async (params: CancelInviteeParams) => {
+  return requestDelete(DASHBOARD_ENDPOINTS.CANCEL_INVITATION(String(params.dashboardId), String(params.invitationId)));
 };

@@ -1,7 +1,7 @@
 import { COMMENT_ENDPOINTS } from '@/constants/paths';
 import type { GetCommentsType } from '@/schemas/comment';
 
-import { requestGet } from './base/request';
+import { requestDelete, requestGet } from './base/request';
 
 /**
  * @description 댓글 목록을 불러옵니다
@@ -11,4 +11,8 @@ import { requestGet } from './base/request';
  */
 export const getComments = async (cardId: number, size = 5) => {
   return requestGet<GetCommentsType>(`${COMMENT_ENDPOINTS.LIST}?size=${size}&cardId=${cardId}`);
+};
+
+export const deleteComment = async (commentId: number) => {
+  return requestDelete<void>(`${COMMENT_ENDPOINTS.DELETE(String(commentId))}`);
 };

@@ -1,14 +1,20 @@
 import { useState } from 'react';
+import { useParams } from 'react-router';
 
 import CalendarIcon from '@/assets/icons/CalendarIcon';
+import Avatar from '@/components/Avatar';
 import CardDetail from '@/components/modal/cardDetail';
+import DeleteCardAlert from '@/components/modal/DeleteCardAlert';
+import EditTodo from '@/components/modal/EditTodo';
+import Tag from '@/components/tag';
 
-import Avatar from '../Avatar';
-import Tag from '../tag';
 import type { CardItemType } from './types';
 
 const CardItem = ({ card }: CardItemType) => {
   const [cardDetail, setCardDetail] = useState(false);
+  const [editTodo, setEditTodo] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const params = useParams();
   return (
     <div
       className='my-10 flex flex-col rounded-md border-1 border-gray-300 bg-white p-12 tablet:my-16 tablet:flex-row tablet:justify-between tablet:px-14 tablet:py-20 pc:flex-col'
@@ -39,7 +45,21 @@ const CardItem = ({ card }: CardItemType) => {
           />
         </div>
       </div>
-      <CardDetail data={card} isModalOpen={cardDetail} toggleModal={() => setCardDetail(!cardDetail)} />
+      <CardDetail
+        data={card}
+        isModalOpen={cardDetail}
+        toggleDeleteAlert={() => setDeleteAlert(!deleteAlert)}
+        toggleEditTodo={() => setEditTodo(!editTodo)}
+        toggleModal={() => setCardDetail(!cardDetail)}
+      />
+      <DeleteCardAlert cardId={card.id} isModalOpen={deleteAlert} toggleModal={() => setDeleteAlert(!deleteAlert)} />
+      <EditTodo
+        columnId={card.columnId}
+        dashboardId={Number(params.dashboardId)}
+        data={card}
+        isModalOpen={editTodo}
+        toggleModal={() => setEditTodo(!editTodo)}
+      />
     </div>
   );
 };
