@@ -1,21 +1,36 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form, useSubmit } from 'react-router-dom';
+import { Form, useLoaderData, useSubmit } from 'react-router-dom';
 
+import { uploadCardImage } from '@/apis/card';
 import AddIcon from '@/assets/icons/AddIcon';
+import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
+import Dropdown from '@/components/common/dropdown';
+import type { DropdownOption } from '@/components/common/dropdown/types';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
 import colorList from '@/constants/ui/colorList';
+import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
 
 import { type CreateTodoModalType, type TagListType } from './types';
 const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateTodoModalType) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [tagList, setTagList] = useState<TagListType[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<DropdownOption | null>(null);
   const submit = useSubmit();
+  const loader = useLoaderData() as DashboardDetailLoaderData;
+  const memberList = loader.memberListResponse.members;
+  const statusOptions: DropdownOption[] = memberList.map((member) => ({
+    label: member.nickname,
+    value: member.userId,
+  }));
 
+  const dropDownContainer = useRef<HTMLDivElement>(null);
   const defaultValues: CreateTodoType = {
     assigneeUserId: 0,
     dashboardId: dashboardId,
@@ -24,7 +39,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     description: '',
     dueDate: '',
     tags: [],
-    imageUrl: new DataTransfer().files,
+    imageUrl: '',
   };
 
   const {
@@ -34,7 +49,6 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     reset,
     formState: { errors, isSubmitting },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
-  const [tagList, setTagList] = useState<TagListType[]>([]);
 
   const createRandomNumber = () => {
     const result = Math.floor(Math.random() * colorList.length);
@@ -71,7 +85,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
 
   const onSubmit = (data: CreateTodoType) => {
     const formData = new FormData();
-
+    formData.append('intent', 'createTodo');
     formData.append('assigneeUserId', String(data.assigneeUserId));
     formData.append('dashboardId', String(data.dashboardId));
     formData.append('columnId', String(data.columnId));
@@ -79,16 +93,41 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     formData.append('description', data.description);
     formData.append('dueDate', data.dueDate);
     formData.append('tags', JSON.stringify(data.tags));
-
-    if (data.imageUrl instanceof File) {
+    if (data.imageUrl) {
       formData.append('imageUrl', data.imageUrl);
     }
+
     submit(formData, {
       method: 'post',
       encType: 'multipart/form-data',
     });
   };
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+    const file = e.target.files[0];
+    const preview = URL.createObjectURL(file);
+    setPreviewUrl(preview);
+
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const uploadImage = await uploadCardImage(columnId, formData);
+      console.log(uploadImage);
+      setValue('imageUrl', uploadImage.imageUrl);
+    } catch (error) {
+      console.error('🩺이미지 업로드 실패:', error);
+    }
+  };
+
+  const handleOptionSelect = async (value: string | number) => {
+    // 선택된 값(value)에 해당하는 옵션 객체(label, value)를 찾습니다.
+    const selected = statusOptions.find((option) => option.value === value);
+    if (selected) {
+      setSelectedStatus(selected);
+      setValue('assigneeUserId', Number(value));
+    }
+  };
   useEffect(() => {
     const tags = tagList.map((tag) => tag.label);
     setValue('tags', tags);
@@ -96,15 +135,33 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
 
   return (
     <Dialog.Root
-      className='w-327 rounded-2xl px-16 py-24 tablet:w-584'
+      className='w-327 content-between rounded-2xl px-16 py-24 tablet:w-584'
       isModalOpen={isModalOpen}
       toggleModal={() => {
         toggleModal();
+        reset();
       }}
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
-      <Dialog.Close toggleModal={toggleModal} />
+      <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Content className='mt-32'>
+        <div
+          ref={dropDownContainer}
+          className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
+        >
+          <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+          <Dropdown
+            align='start'
+            contentClassName='w-287 tablet:w-552 '
+            optionClassName='text-left h-40'
+            options={statusOptions}
+            positionRef={dropDownContainer}
+            selectedValue={selectedStatus?.value}
+            trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
+            triggerClassName='p-2 hover:bg-gray-100 rounded'
+            onSelect={handleOptionSelect}
+          />
+        </div>
         <Form
           className='flex flex-col'
           encType='multipart/form-data'
@@ -120,7 +177,6 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
             console.log('onSubmit:', data);
           })}
         >
-          <div>담당자 선택하는거랑 상태 넣어야함</div>
           <Input.Root className='my-10'>
             <Input.Label htmlFor='title'>
               제목<strong className='text-capybara'>*</strong>
@@ -164,16 +220,27 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
               </Tag>
             ))}
           </div>
-          <Input.Root>
-            <Input.Label
-              className='mt-5 flex h-76 w-76 items-center justify-center rounded-md bg-[#F5F5F5]'
-              htmlFor='file'
-            >
-              <AddIcon />
-            </Input.Label>
-            <Input.Field className='hidden' id='file' />
-          </Input.Root>
         </Form>
+        <Input.Root>
+          <Input.Label htmlFor='image'>이미지</Input.Label>
+        </Input.Root>
+        <Input.Root>
+          <Input.Label
+            className='mt-5 flex h-76 w-76 cursor-pointer items-center justify-center rounded-md bg-[#F5F5F5]'
+            htmlFor='file'
+          >
+            {previewUrl ? (
+              <img
+                alt='프로필 이미지 미리보기'
+                className='h-full w-full rounded-md object-cover'
+                src={previewUrl || undefined}
+              />
+            ) : (
+              <AddIcon className='tablet:size-18' size={12} />
+            )}
+          </Input.Label>
+          <Input.Field className='hidden' id='file' type='file' onChange={handleFileChange} />
+        </Input.Root>
       </Dialog.Content>
       <Dialog.ButtonArea className='mt-32 flex justify-between gap-8'>
         <Button
