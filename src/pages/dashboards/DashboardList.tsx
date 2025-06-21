@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
 import { getInvitationList } from '@/apis/invitation';
@@ -9,8 +9,10 @@ import Button from '@/components/common/button';
 import DashboardItem from '@/components/dashboardItem';
 import InvitationItem from '@/components/invitationItem';
 import Pagination from '@/components/pagination';
+import Search from '@/components/search';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
+import type { authGuardLoaderData } from '@/loaders/types';
 import type { Dashboard } from '@/schemas/dashboard';
 import { dashboardListResponseSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
@@ -18,17 +20,19 @@ import { invitationListSchema } from '@/schemas/invitation';
 
 // my dashboard
 const DashboardList = () => {
-  const initialData = useLoaderData() as DashboardListLoaderData;
+  const initialDashboardData = useRouteLoaderData('dashboard') as authGuardLoaderData;
+  const initialInvitationData = useLoaderData() as DashboardListLoaderData;
 
-  const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialData.dashboardList.dashboards);
+  const [dashboardList, setDashboardList] = useState<Dashboard[]>(initialDashboardData.dashboards.slice(0, 5));
   const [page, setPage] = useState<number>(1);
   const [isDashboardLoading, setIsDashboardLoading] = useState<boolean>(false);
-  const totalDashboardCount = initialData.dashboardList.totalCount;
+  const totalDashboardCount = initialDashboardData.totalCount;
   const totalDashboardPage = Math.ceil(totalDashboardCount / 5);
 
-  const [invitationList, setInvitationList] = useState<Invitation[]>(initialData.invitationList.invitations);
+  const [invitationList, setInvitationList] = useState<Invitation[]>(initialInvitationData.invitationList.invitations);
   const [isInvitationLoading, setIsInvitationLoading] = useState<boolean>(false);
-  const [cursorId, setCursorId] = useState<number | null>(initialData.invitationList.cursorId);
+  const [cursorId, setCursorId] = useState<number | null>(initialInvitationData.invitationList.cursorId);
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const isInitialRender = useRef(true);
 
@@ -58,7 +62,10 @@ const DashboardList = () => {
     if (cursorId === null || isInvitationLoading) return;
     setIsInvitationLoading(true);
     try {
-      const rawMoreInvitation = await getInvitationList({ cursorId });
+      const rawMoreInvitation =
+        searchValue === ''
+          ? await getInvitationList({ cursorId })
+          : await getInvitationList({ cursorId, title: searchValue });
       const invitationList = invitationListSchema.parse(rawMoreInvitation);
       setInvitationList((prev) => [...prev, ...invitationList.invitations]);
       setCursorId(invitationList.cursorId);
@@ -67,12 +74,23 @@ const DashboardList = () => {
     } finally {
       setIsInvitationLoading(false);
     }
-  }, [cursorId]);
+  }, [cursorId, searchValue]);
 
   const infiniteScrollRef = useInfiniteScroll({
     callback: fetchMoreInvitation,
     isMoreData: cursorId !== null && !isInvitationLoading,
   });
+
+  const searchInvitation = useCallback(async (value: string) => {
+    try {
+      const rawMoreInvitation = value === '' ? await getInvitationList({}) : await getInvitationList({ title: value });
+      const invitationList = invitationListSchema.parse(rawMoreInvitation);
+      setInvitationList(invitationList.invitations);
+      setCursorId(invitationList.cursorId);
+    } catch (error) {
+      console.error(error); // 에러 미구현
+    }
+  }, []);
 
   return (
     <div className='flex w-full'>
@@ -113,8 +131,8 @@ const DashboardList = () => {
         <div className='mt-32 flex flex-col rounded-lg bg-white tablet:mt-40 pc:mt-74'>
           <div className='flex flex-col gap-16 px-16 py-24 tablet:px-28 tablet:py-32'>
             <h2 className='text-xl font-bold tablet:text-2xl'>초대받은 대시보드</h2>
-            {invitationList.length > 0 ? (
-              <input className='h-36 border border-gray-300' placeholder='검색' />
+            {initialInvitationData.invitationList.invitations.length > 0 ? (
+              <Search setValue={setSearchValue} value={searchValue} onSearch={searchInvitation} />
             ) : (
               <div className='flex flex-col items-center justify-center gap-16 pt-105 pb-80 tablet:gap-24 tablet:pt-64 tablet:pb-120'>
                 <NoInvitation className='size-53 tablet:size-88' />
@@ -123,13 +141,19 @@ const DashboardList = () => {
             )}
           </div>
           <ul>
-            {invitationList.length > 0 && (
-              <li className='hidden px-28 text-gray-400 tablet:flex pc:px-76'>
-                <span className='w-3/10'>이름</span>
-                <span className='w-2/10'>초대자</span>
-                <span className='w-4/10 text-center'>수락 여부</span>
-              </li>
-            )}
+            {initialInvitationData.invitationList.invitations.length > 0 &&
+              (invitationList.length > 0 ? (
+                <li className='hidden px-28 text-gray-400 tablet:flex pc:px-76'>
+                  <span className='w-3/10'>이름</span>
+                  <span className='w-2/10'>초대자</span>
+                  <span className='w-4/10 text-center'>수락 여부</span>
+                </li>
+              ) : (
+                <div className='flex flex-col items-center justify-center gap-16 pt-105 pb-80 tablet:gap-24 tablet:pt-64 tablet:pb-120'>
+                  <NoInvitation className='size-53 tablet:size-88' />
+                  <p className='text-md font-normal text-gray-400 tablet:text-2lg'>검색한 대시보드가 없어요</p>
+                </div>
+              ))}
             {invitationList.map((item) => (
               <li
                 key={item.id}
