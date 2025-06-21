@@ -9,7 +9,6 @@ const Invitations = ({ invitationId, email, isLast, onDelete }: InvitationsProps
         <Button
           className='w-52 tablet:w-84 tablet:text-md'
           size='sm'
-          type='button'
           variant='outlined'
           onClick={() => onDelete(invitationId)}
         >
