@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import createAuthSlice from './slices';
-import type { AuthSlice } from './types';
+import createAuthSlice from './slices/authSlice';
+import { createSidebarSlice } from './slices/sidebarSlice';
+import type { BoundState } from './types';
 
-export const useKabanaStore = create<AuthSlice>()(
+export const useKabanaStore = create<BoundState>()(
   persist(
     (...args) => ({
       ...createAuthSlice(...args),
+      ...createSidebarSlice(...args),
     }),
     {
       name: 'auth-storage',
@@ -15,6 +17,7 @@ export const useKabanaStore = create<AuthSlice>()(
         accessToken: state.accessToken,
         user: state.user,
         isLoggedIn: state.isLoggedIn,
+        isSidebarOpen: state.isSidebarOpen,
       }),
     },
   ),

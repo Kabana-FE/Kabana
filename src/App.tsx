@@ -22,7 +22,7 @@ const App = () => {
 
   // 최소 splash 시간 보장 - 영상 찍을때 필요.
   useEffect(() => {
-    const timeout = setTimeout(() => setMinSplashTime(true), 1500);
+    const timeout = setTimeout(() => setMinSplashTime(true), 0);
     return () => clearTimeout(timeout);
   }, []);
 
