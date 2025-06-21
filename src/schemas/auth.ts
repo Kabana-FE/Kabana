@@ -22,11 +22,11 @@ export const userSchema = z.object({
 export const loginRequestSchema = z.object({
   email: z
     .string()
-    .nonempty({ message: UI_ERRORS.VALIDATION.REQUIRED('이메일') })
+    .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('이메일') })
     .email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
   password: z
     .string()
-    .nonempty({ message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호') })
+    .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호') })
     .min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
 });
 
@@ -47,19 +47,19 @@ export const signupRequestSchema = z
   .object({
     email: z
       .string()
-      .nonempty({ message: UI_ERRORS.VALIDATION.REQUIRED('이메일') })
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('이메일') })
       .email({ message: UI_ERRORS.VALIDATION.FORMAT('이메일') }),
     nickname: z
       .string()
-      .nonempty({ message: UI_ERRORS.VALIDATION.REQUIRED('닉네임') })
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('닉네임') })
       .max(10, { message: UI_ERRORS.VALIDATION.STRING_MAX(10) }),
     password: z
       .string()
-      .nonempty({ message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호') })
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호') })
       .min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
     checkPassword: z
       .string()
-      .nonempty({ message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호 확인') })
+      .min(1, { message: UI_ERRORS.VALIDATION.REQUIRED('비밀번호 확인') })
       .min(8, { message: UI_ERRORS.VALIDATION.STRING_MIN(8) }),
     agreeToTerms: z.boolean().refine((v) => v === true, {
       message: '약관에 동의해야 가입할 수 있습니다.',
