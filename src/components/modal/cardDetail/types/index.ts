@@ -7,6 +7,8 @@ export interface ModalType {
 }
 export interface DetailType extends ModalType {
   data: CardType;
+  toggleDeleteAlert: () => void;
+  toggleEditTodo: () => void;
 }
 
 export interface CommentPropsType {
