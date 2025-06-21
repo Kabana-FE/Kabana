@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLoaderData, useParams } from 'react-router';
+import { useLoaderData, useNavigate, useParams } from 'react-router';
 
-import { cancelInvitee, getInviteeList } from '@/apis/dashboard';
+import { cancelInvitee, deleteDashboard, getInviteeList } from '@/apis/dashboard';
 import { deleteMember, getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
@@ -11,6 +11,7 @@ import Invitations from '@/components/dashboardEdit/invitations';
 import Members from '@/components/dashboardEdit/members';
 import InviteMember from '@/components/modal/InviteMember';
 import Pagination from '@/components/pagination';
+import { ROUTES } from '@/constants/paths';
 import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
 import { inviteeListSchema } from '@/schemas/dashboard';
 import type { Invitation } from '@/schemas/invitation';
@@ -18,6 +19,7 @@ import type { Member } from '@/schemas/member';
 import { memberListResponseSchema } from '@/schemas/member';
 
 const DashboardEdit = () => {
+  const navigate = useNavigate();
   const { dashboardId } = useParams();
   const dashboardIdNumber = Number(dashboardId);
   const initialData = useLoaderData() as DashboardEditLoaderData;
@@ -109,6 +111,15 @@ const DashboardEdit = () => {
     }
   };
 
+  const handleDelete = async (dashboardId: number) => {
+    try {
+      await deleteDashboard(dashboardId);
+      navigate(ROUTES.DASHBOARD_LIST);
+    } catch (error) {
+      console.error('🩺대시보드 삭제 실패:', error);
+    }
+  };
+
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16'>
       <div className='flex items-center gap-8'>
@@ -195,7 +206,6 @@ const DashboardEdit = () => {
                 <AddBoxIcon className='tablet:size-16' color='var(--color-white)' size={10} />
                 초대하기
               </Button>
-              <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
             </div>
             <ul>
               {inviteeList.map((member, index, arr) => {
@@ -215,10 +225,16 @@ const DashboardEdit = () => {
             </ul>
           </section>
         </div>
-        <Button className='max-w-320 rounded-lg text-gray-700 tablet:h-62' size='lg' variant='outlined'>
+        <Button
+          className='max-w-320 rounded-lg text-gray-700 tablet:h-62'
+          size='lg'
+          variant='outlined'
+          onClick={() => handleDelete(dashboardIdNumber)}
+        >
           대시보드 삭제하기
         </Button>
       </div>
+      <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
     </div>
   );
 };
