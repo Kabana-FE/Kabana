@@ -7,6 +7,7 @@ import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeOffIcon from '@/assets/icons/EyeOffIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import { ROUTES } from '@/constants/paths/routes';
 import { useAuth } from '@/hooks/useAuth';
 import type { LoginRequest } from '@/schemas/auth';
 import { loginRequestSchema } from '@/schemas/auth';
@@ -20,7 +21,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<LoginRequest>({
     resolver: zodResolver(loginRequestSchema),
     mode: 'onBlur',
@@ -33,7 +34,7 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginRequest) => {
     try {
       await login(data);
-      navigate('/dashboards', { replace: true });
+      navigate(ROUTES.DASHBOARD_LIST, { replace: true });
     } catch (error) {
       // 토스트 메세지로 변경 예정
       alert(`로그인 실패: ${error}`);
@@ -76,11 +77,7 @@ const LoginForm = () => {
         />
         <Input.ErrorMessage>{errors.password?.message}</Input.ErrorMessage>
       </Input.Root>
-      <Button
-        className='rounded-md'
-        disabled={isSubmitting || !isDirty || Object.keys(errors).length > 0}
-        type='submit'
-      >
+      <Button className='rounded-md' disabled={isSubmitting || !isValid} type='submit'>
         {isSubmitting ? '로그인 중...' : '로그인'}
       </Button>
     </form>

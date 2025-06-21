@@ -1,4 +1,6 @@
+
 import { useKabanaStore } from '@/stores';
+
 
 /**
  * @description Zustand로 구현된 토스트 상태를 사용하는 커스텀 훅입니다.
@@ -21,6 +23,7 @@ import { useKabanaStore } from '@/stores';
  * ```
  */
 export const useToast = () => {
+
   const addToast = useKabanaStore((state) => state.addToast);
   const removeToast = useKabanaStore((state) => state.removeToast);
   const showSuccess = (message: string, duration?: number) => addToast(message, 'success', duration);
@@ -28,4 +31,5 @@ export const useToast = () => {
   const showInfo = (message: string, duration?: number) => addToast(message, 'info', duration);
   const showWarning = (message: string, duration?: number) => addToast(message, 'warning', duration);
   return { addToast, removeToast, showSuccess, showError, showInfo, showWarning };
+
 };

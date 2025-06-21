@@ -66,6 +66,7 @@ const router = createBrowserRouter([
           const { authGuardLoader } = await import('@/loaders/authGuardLoader');
           return { Component: DashboardLayout, loader: () => authGuardLoader(true) };
         },
+        id: 'dashboard',
         children: [
           {
             errorElement: <ApiErrorBoundary />,
@@ -90,6 +91,7 @@ const router = createBrowserRouter([
               },
               {
                 path: DASHBOARD_DETAIL,
+                id: 'detail',
                 lazy: async () => {
                   const { default: Component } = await import('@/pages/dashboards/DashboardDetail');
                   const { loader } = await import('@/loaders/dashboard/detailLoader');
@@ -99,6 +101,7 @@ const router = createBrowserRouter([
               },
               {
                 path: DASHBOARD_EDIT,
+                id: 'edit',
                 lazy: async () => {
                   const { default: Component } = await import('@/pages/dashboards/DashboardEdit');
                   const { loader } = await import('@/loaders/dashboard/editLoader');
@@ -123,6 +126,17 @@ const router = createBrowserRouter([
             {
               path: 'test-global-error',
               loader: errorTestLoader,
+            },
+          ]
+        : []),
+      ...(import.meta.env.DEV
+        ? [
+            {
+              path: 'playground',
+              lazy: async () => {
+                const { default: Component } = await import('@/pages/test');
+                return { Component };
+              },
             },
           ]
         : []),

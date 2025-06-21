@@ -1,12 +1,89 @@
+import { useEffect, useRef, useState } from 'react';
+import { useLoaderData, useParams } from 'react-router';
+
+import { getInviteeList } from '@/apis/dashboard';
+import { getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
-import DotIcon from '@/assets/icons/DotIcon';
+import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
+import Invitations from '@/components/dashboardEdit/invitations';
+import Members from '@/components/dashboardEdit/members';
 import Pagination from '@/components/pagination';
+import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
+import { inviteeListSchema } from '@/schemas/dashboard';
+import type { Invitation } from '@/schemas/invitation';
+import type { Member } from '@/schemas/member';
+import { memberListResponseSchema } from '@/schemas/member';
 
 const DashboardEdit = () => {
-  // 임시 설정
-  const profileImageUrl = '';
+  const { dashboardId } = useParams();
+  const dashboardIdNumber = Number(dashboardId);
+  const initialData = useLoaderData() as DashboardEditLoaderData;
+  const [memberList, setMemberList] = useState<Member[]>(initialData.memberList.members);
+  const [memberPage, setMemberPage] = useState<number>(1);
+  const [isMemberLoading, setIsMemberLoading] = useState<boolean>(false);
+  const totalMemberCount = initialData.memberList.totalCount;
+  const totalMemberPage = Math.ceil(totalMemberCount / 4);
+
+  const [inviteeList, setInviteeList] = useState<Invitation[]>(initialData.inviteeList.invitations);
+  const [inviteePage, setInviteePage] = useState<number>(1);
+  const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
+  const totalInviteeCount = initialData.inviteeList.totalCount;
+  const totalInviteePage = Math.ceil(totalInviteeCount / 5);
+
+  const isMemberRender = useRef(true);
+
+  useEffect(() => {
+    if (isMemberRender.current) {
+      isMemberRender.current = false;
+      return;
+    }
+
+    const fetchMember = async () => {
+      if (isMemberLoading) return;
+      setIsMemberLoading(true);
+      try {
+        const rawMemberList = await getMemberList({ dashboardId: dashboardIdNumber, size: 4, page: memberPage });
+        const memberList = memberListResponseSchema.parse(rawMemberList);
+        setMemberList(memberList.members);
+      } catch (err) {
+        console.error('🩺구성원 조회 실패:', err);
+      } finally {
+        setIsMemberLoading(false);
+      }
+    };
+    fetchMember();
+  }, [memberPage]);
+
+  const isInviteeRender = useRef(true);
+
+  useEffect(() => {
+    if (isInviteeRender.current) {
+      isInviteeRender.current = false;
+      return;
+    }
+
+    const fetchInvitation = async () => {
+      if (isInviteeLoading) return;
+      setIsInviteeLoading(true);
+      try {
+        const rawInviteeList = await getInviteeList({
+          dashboardId: dashboardIdNumber,
+          size: 5,
+          page: inviteePage,
+        });
+        const inviteeList = inviteeListSchema.parse(rawInviteeList);
+        setInviteeList(inviteeList.invitations);
+      } catch (err) {
+        console.error('🩺초대내역 조회 실패:', err);
+      } finally {
+        setIsInviteeLoading(false);
+      }
+    };
+    fetchInvitation();
+  }, [inviteePage]);
+
   return (
     <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16'>
       <div className='flex items-center gap-8'>
@@ -17,7 +94,7 @@ const DashboardEdit = () => {
       </div>
       <div className='flex flex-col gap-24'>
         <div className='flex flex-col gap-16'>
-          <section className='flex h-312 max-w-620 flex-col gap-32 rounded-lg bg-white px-16 py-20 tablet:h-344 tablet:gap-40 tablet:px-28 tablet:py-32'>
+          <section className='flex max-w-620 flex-col gap-32 rounded-lg bg-white px-16 py-20 tablet:gap-40 tablet:px-28 tablet:py-32'>
             <div className='flex flex-col gap-24'>
               <h2 className='text-xl font-bold tablet:text-2xl'>비브리지</h2>
               <div className='flex flex-col gap-16'>
@@ -30,14 +107,7 @@ const DashboardEdit = () => {
                     type='text'
                   />
                 </label>
-                {/* 버튼, 반복으로 수정 예정 */}
-                <div className='flex gap-8'>
-                  <DotIcon color='var(--color-green)' size={30} />
-                  <DotIcon color='var(--color-purple)' size={30} />
-                  <DotIcon color='var(--color-orange)' size={30} />
-                  <DotIcon color='var(--color-blue)' size={30} />
-                  <DotIcon color='var(--color-pink)' size={30} />
-                </div>
+                <ColorSelector value='color' onChange={() => {}} />
               </div>
             </div>
             <Button className='rounded-lg' size='lg' type='submit' variant='filled'>
@@ -46,34 +116,46 @@ const DashboardEdit = () => {
           </section>
           <section className='flex h-337 max-w-620 flex-col rounded-lg bg-white tablet:h-404'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
-              <h2 className='text-xl font-bold tablet:text-2xl'>구성원</h2>
-              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>1 페이지 중 1</span>
-              {/* props 필수라 임의 값 지정 */}
-              <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
+              <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>구성원</h2>
+              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
+                {totalMemberPage} 페이지 중 {memberPage}
+              </span>
+              <Pagination
+                currentPage={memberPage}
+                isLoading={isMemberLoading}
+                totalPages={totalMemberPage}
+                onPageChange={setMemberPage}
+              />
             </div>
             <div className='px-20 text-md text-gray-400 tablet:px-28 tablet:text-lg'>이름</div>
             <ul>
-              <li className='flex items-center justify-between border-b border-gray-200 px-20 py-12 tablet:px-28 tablet:py-16'>
-                <div className='flex items-center justify-between gap-8'>
-                  {profileImageUrl ? (
-                    <img alt='profile' className='size-34' src={profileImageUrl} />
-                  ) : (
-                    <DotIcon className='tablet:size-38' size={34} />
-                  )}
-                  <span className='text-md tablet:text-lg'>nickname</span>
-                </div>
-                <Button className='w-52 p-0 tablet:w-84 tablet:text-md' size='sm' variant='outlined'>
-                  삭제
-                </Button>
-              </li>
+              {memberList.map((member, index, arr) => {
+                const { userId, nickname, profileImageUrl, isOwner } = member;
+                const isLast = index === arr.length - 1;
+                return (
+                  <Members
+                    key={userId}
+                    isLast={isLast}
+                    isOwner={isOwner}
+                    nickname={nickname}
+                    profileImg={profileImageUrl ?? undefined}
+                  />
+                );
+              })}
             </ul>
           </section>
           <section className='h-406 max-w-620 rounded-lg bg-white tablet:h-477'>
             <div className='flex items-center justify-between p-20 tablet:p-28'>
-              <h2 className='text-xl font-bold tablet:text-2xl'>초대내역</h2>
-              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>1 페이지 중 1</span>
-              {/* props 필수라 임의 값 지정 */}
-              <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
+              <h2 className='flex-grow text-xl font-bold tablet:text-2xl'>초대내역</h2>
+              <span className='pr-12 text-xs tablet:pr-16 tablet:text-md'>
+                {totalInviteePage} 페이지 중 {inviteePage}
+              </span>
+              <Pagination
+                currentPage={inviteePage}
+                isLoading={isInviteeLoading}
+                totalPages={totalInviteePage}
+                onPageChange={setInviteePage}
+              />
             </div>
             <div className='flex justify-between px-20 pb-10 tablet:px-28'>
               <div className='text-gray-400'>이메일</div>
@@ -87,12 +169,12 @@ const DashboardEdit = () => {
               </Button>
             </div>
             <ul>
-              <li className='flex items-center justify-between border-b border-gray-200 px-20 py-12 tablet:px-28 tablet:py-16'>
-                <div className='text-md tablet:text-lg'>jihyun@naver.com</div>
-                <Button className='w-52 p-0 tablet:w-84 tablet:text-md' size='sm' variant='outlined'>
-                  취소
-                </Button>
-              </li>
+              {inviteeList.map((member, index, arr) => {
+                const { id } = member;
+                const { email } = member.invitee;
+                const isLast = index === arr.length - 1;
+                return <Invitations key={id} email={email} isLast={isLast} />;
+              })}
             </ul>
           </section>
         </div>
