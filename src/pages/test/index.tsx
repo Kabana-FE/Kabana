@@ -7,6 +7,7 @@ import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Button from '@/components/common/button';
 import Dropdown from '@/components/common/dropdown';
 import type { DropdownOption } from '@/components/common/dropdown/types';
+import { LoadingSpinner } from '@/components/common/loadingStatus';
 import { ROUTES } from '@/constants/paths';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/useToast';
@@ -73,6 +74,11 @@ const Playground = () => {
   return (
     <div className='p-10'>
       <h1 className='mb-4 text-xl font-bold'>🧪 Playground</h1>
+      <div className='my-8 h-100 rounded-lg border p-4'>
+        <h2 className='mb-4 text-lg font-semibold'>LoadingSpinner 테스트</h2>
+        <LoadingSpinner />
+      </div>
+
       <Button onClick={() => showSuccess('작업이 성공적으로 완료되었습니다!')}>성공 토스트</Button>
       <Button onClick={() => showError('오류가 발생했습니다. 다시 시도해주세요.')}>에러 토스트</Button>
       <Button onClick={() => showInfo('새로운 알림이 있습니다.')}>정보 토스트</Button>

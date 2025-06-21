@@ -59,7 +59,7 @@ const DashboardList = () => {
         setTotalDashboardCount(dashboardList.totalCount);
       } catch (error) {
         showError(TOAST_MESSAGES.API.FETCH_FAILURE('대시보드'));
-        console.error(error); // 에러 미구현
+        console.error(error);
       } finally {
         setIsDashboardLoading(false);
       }
@@ -80,7 +80,7 @@ const DashboardList = () => {
       setCursorId(invitationList.cursorId);
     } catch (error) {
       showError(TOAST_MESSAGES.API.FETCH_FAILURE('초대 목록'));
-      console.error(error); // 에러 미구현
+      console.error(error);
     } finally {
       setIsInvitationLoading(false);
     }
@@ -99,7 +99,7 @@ const DashboardList = () => {
       setCursorId(invitationList.cursorId);
     } catch (error) {
       showError(TOAST_MESSAGES.API.FETCH_FAILURE('검색 결과'));
-      console.error(error); // 에러 미구현
+      console.error(error);
     }
   }, []);
 
@@ -121,7 +121,7 @@ const DashboardList = () => {
         }
       } catch (error) {
         showError(TOAST_MESSAGES.INVITATION.RESPONSE_FAILURE);
-        console.error(error); // 에러 미구현
+        console.error(error);
       }
     },
     [page],

@@ -61,12 +61,14 @@ const MyPage = () => {
       const updatedProfile = await updateMyInfo(updatedData);
       setMyProfile(updatedProfile);
       setUser(updatedProfile);
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('프로필'));
       if (selectedFile && previewUrl) {
         URL.revokeObjectURL(previewUrl);
         setPreviewUrl(null);
         setSelectedFile(null);
       }
     } catch (err) {
+      showSuccess(TOAST_MESSAGES.API.UPDATE_FAILURE('프로필'));
       console.error('🩺프로필 수정 실패:', err);
     }
   };
