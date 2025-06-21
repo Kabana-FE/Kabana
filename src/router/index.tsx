@@ -45,16 +45,14 @@ const router = createBrowserRouter([
             path: SIGNUP,
             lazy: async () => {
               const { default: Component } = await import('@/pages/auth/Signup');
-              const { action } = await import('@/actions/auth/signupAction');
-              return { Component, action };
+              return { Component };
             },
           },
           {
             path: SIGNIN,
             lazy: async () => {
               const { default: Component } = await import('@/pages/auth/Signin');
-              const { action } = await import('@/actions/auth/signinAction');
-              return { Component, action };
+              return { Component };
             },
           },
         ],
