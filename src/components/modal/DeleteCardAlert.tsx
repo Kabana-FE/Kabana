@@ -1,4 +1,4 @@
-import { deleteColumn } from '@/apis/column';
+import { deleteCard } from '@/apis/card';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import type { DeleteCardAlertType } from '@/components/modal/types';
@@ -17,7 +17,7 @@ import type { DeleteCardAlertType } from '@/components/modal/types';
 const DeleteCardAlert = ({ cardId, isModalOpen, toggleModal }: DeleteCardAlertType) => {
   const handleDelete = async () => {
     try {
-      await deleteColumn(cardId);
+      await deleteCard(cardId);
       toggleModal();
     } catch (error) {
       console.error('🩺카드 삭제 실패:', error);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useSubmit } from 'react-router';
 
 import { getComments } from '@/apis/comment';
@@ -17,10 +17,11 @@ import type { DetailType } from './types';
 
 const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleEditTodo }: DetailType) => {
   const [commentList, setCommentList] = useState<CommentsType>([]);
+  const isInitialRender = useRef(true);
   const params = useParams();
   const submit = useSubmit();
 
-  const handleOptionSelect1 = async (value: string | number) => {
+  const handleOptionSelect = async (value: string | number) => {
     if (value === 'edit') {
       console.log('수정하기 클릭');
       toggleModal();
@@ -41,8 +42,10 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
     }
   };
   useEffect(() => {
-    if (!data?.id) return;
-
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
     const fetch = async () => {
       const result = await getComments(data.id);
       setCommentList(result.comments);
@@ -51,7 +54,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
     fetch();
 
     return () => setCommentList([]);
-  }, [data.id]);
+  }, [data.id, isModalOpen]);
   return (
     <Dialog.Root
       className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
@@ -72,7 +75,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
               ]}
               trigger={<MoreVertIcon aria-label='더보기 옵션' size={24} />}
               triggerClassName='px-2 py-1 hover:bg-gray-100'
-              onSelect={handleOptionSelect1}
+              onSelect={handleOptionSelect}
             />
           </span>
         </div>

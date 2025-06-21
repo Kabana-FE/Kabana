@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, useLoaderData, useSubmit } from 'react-router-dom';
 
-import { uploadProfileImg } from '@/apis/user';
 import AddIcon from '@/assets/icons/AddIcon';
 import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Button from '@/components/common/button';
@@ -18,7 +17,7 @@ import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
 import type { Column } from '@/schemas/column';
 
-import { type TagListType } from './createTodo/types';
+import type { TagListType } from './createTodo/types';
 import type { EditTodoType } from './types';
 const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoType) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -28,14 +27,17 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
   const memberList = loader.memberListResponse.members;
+
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.id,
   }));
+
   const statusOptions2: DropdownOption[] = loader.columns.data.map((column: Column) => ({
     label: column.title,
     value: column.id,
   }));
+
   const dropDownContainer = useRef<HTMLDivElement>(null);
   const dropDownContainer2 = useRef<HTMLDivElement>(null);
   const defaultValues: CreateTodoType = {
@@ -119,21 +121,27 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const updatedProfile = await uploadProfileImg(formData);
-      setValue('imageUrl', updatedProfile.profileImageUrl);
+      setValue('imageUrl', preview);
     } catch (error) {
       console.error('🩺이미지 업로드 실패:', error);
     }
   };
 
   const handleOptionSelect = async (value: string | number) => {
-    // 선택된 값(value)에 해당하는 옵션 객체(label, value)를 찾습니다.
     const selected = statusOptions.find((option) => option.value === value);
     if (selected) {
       setSelectedStatus(selected);
       setValue('assigneeUserId', Number(value));
     }
   };
+  const handleOptionSelect2 = async (value: string | number) => {
+    const selected = statusOptions2.find((option) => option.value === value);
+    if (selected) {
+      setSelectedStatus2(selected);
+      setValue('columnId', Number(value));
+    }
+  };
+
   useEffect(() => {
     const tags = tagList.map((tag) => tag.label);
     setValue('tags', tags);
@@ -178,9 +186,9 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
               align='start'
               contentClassName='w-287 tablet:w-552 '
               optionClassName='text-left h-40'
-              options={statusOptions}
+              options={statusOptions2}
               positionRef={dropDownContainer2}
-              selectedValue={selectedStatus?.value}
+              selectedValue={selectedStatus2?.value}
               trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
               triggerClassName='p-2 hover:bg-gray-100 rounded'
               onSelect={handleOptionSelect}
@@ -280,7 +288,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
           취소
         </Button>
         <Button className='w-1/2' disabled={isSubmitting} form='createTodo' type='submit'>
-          생성
+          수정
         </Button>
       </Dialog.ButtonArea>
     </Dialog.Root>

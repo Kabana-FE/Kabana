@@ -18,7 +18,7 @@ export const createTodoSchema = z.object({
   tags: z
     .array(z.string(), { message: 'error' })
     .min(1, { message: '1개 이상의 태그를 추가해주세요' })
-    .max(3, { message: '태그는 4개까지 추가할 수 있습니다' }),
+    .max(4, { message: '태그는 4개까지 추가할 수 있습니다' }),
   imageUrl: z.string().optional().nullable(),
 });
 

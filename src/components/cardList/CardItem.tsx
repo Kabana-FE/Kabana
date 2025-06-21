@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 
 import CalendarIcon from '@/assets/icons/CalendarIcon';
+import Avatar from '@/components/Avatar';
 import CardDetail from '@/components/modal/cardDetail';
+import DeleteCardAlert from '@/components/modal/DeleteCardAlert';
+import EditTodo from '@/components/modal/EditTodo';
+import Tag from '@/components/tag';
 
-import Avatar from '../Avatar';
-import DeleteCardAlert from '../modal/DeleteCardAlert';
-import EditTodo from '../modal/EditTodo';
-import Tag from '../tag';
 import type { CardItemType } from './types';
 
 const CardItem = ({ card }: CardItemType) => {
