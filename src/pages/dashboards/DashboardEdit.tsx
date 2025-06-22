@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useFetcher, useLoaderData, useNavigate, useParams } from 'react-router';
 
 import { deleteDashboard, getInviteeList } from '@/apis/dashboard';
-import { deleteMember, getMemberList } from '@/apis/member';
+import { getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import ColorSelector from '@/components/colorSelector';
@@ -99,15 +99,44 @@ const DashboardEdit = () => {
     fetchMember();
   }, [memberPage, dashboardIdNumber]);
 
-  const handleDeleteMember = async (id: number) => {
-    try {
-      await deleteMember(id);
-      setMemberList((prev) => prev.filter((member) => member.id !== id));
-    } catch (err) {
-      console.error('🩺 멤버 삭제 실패:', err);
-      alert('삭제 중 오류가 발생했습니다.');
-    }
+  // const handleDeleteMember = async (id: number) => {
+  //   try {
+  //     await deleteMember(id);
+  //     setMemberList((prev) => prev.filter((member) => member.id !== id));
+  //   } catch (err) {
+  //     console.error('🩺 멤버 삭제 실패:', err);
+  //     alert('삭제 중 오류가 발생했습니다.');
+  //   }
+  // };
+  const memberFetcher = useFetcher();
+  const handleDeleteMember = (id: number) => {
+    const formData = new FormData();
+    formData.append('intent', 'deleteMember');
+    formData.append('memberId', String(id));
+
+    memberFetcher.submit(formData, { method: 'post' });
   };
+
+  useEffect(() => {
+    if (memberFetcher.state === 'idle' && memberFetcher.data == null) return;
+    if (memberFetcher.formData?.get('intent') !== 'deleteMember') return;
+
+    const fetchMember = async () => {
+      if (isMemberLoading) return;
+      setIsMemberLoading(true);
+      try {
+        const rawMemberList = await getMemberList({ dashboardId: dashboardIdNumber, size: 4, page: memberPage });
+        const memberList = memberListResponseSchema.parse(rawMemberList);
+        setMemberList(memberList.members);
+      } catch (err) {
+        console.error('🩺구성원 재조회 실패:', err);
+      } finally {
+        setIsMemberLoading(false);
+      }
+    };
+
+    fetchMember();
+  }, [memberFetcher.state, memberPage]);
 
   const isInviteeRender = useRef(true);
 
