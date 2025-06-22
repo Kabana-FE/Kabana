@@ -15,8 +15,8 @@ const DashboardDetail = () => {
   const [createColumn, setCreateColumn] = useState(false);
 
   return (
-    <div className='mt-60 w-full bg-gray-100 tablet:mt-70'>
-      <section className='flex w-full flex-col px-20 pc:flex-row pc:overflow-x-scroll'>
+    <div className='w-full bg-gray-100'>
+      <section className='flex w-full flex-col pc:flex-row'>
         {data.cardList &&
           data.cardList.map((cardItem: GetCardListType, idx: number) => {
             return (
@@ -29,16 +29,18 @@ const DashboardDetail = () => {
               />
             );
           })}
-        <Button
-          className='w-full shrink-0 pc:mt-10 pc:flex-1/4'
-          variant='outlined'
-          onClick={() => {
-            setCreateColumn(!createColumn);
-          }}
-        >
-          새로운 컬럼 추가하기
-          <AddIcon className='ml-15 w-16 bg-cream' />
-        </Button>
+        <div className='px-12 pt-16 pb-49 tablet:px-20 tablet:pt-20'>
+          <Button
+            className='h-66 w-full shrink-0 rounded-lg pc:mt-78 pc:h-70 pc:w-354'
+            variant='outlined'
+            onClick={() => {
+              setCreateColumn(!createColumn);
+            }}
+          >
+            새로운 컬럼 추가하기
+            <AddIcon className='size-20 rounded-sm bg-cream p-5 tablet:size-22 tablet:p-6 pc:ml-12' />
+          </Button>
+        </div>
       </section>
       {createColumn && (
         <CreateColumn

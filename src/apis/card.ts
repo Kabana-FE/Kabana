@@ -16,8 +16,8 @@ export const createCard = async (data: CreateTodoType) => {
 export const editCard = async (data: EditTodoType, cardId: number) => {
   return requestPut<EditTodoResponseType, EditTodoType>(CARD_ENDPOINTS.UPDATE(String(cardId)), data);
 };
-export const getCardList = async (columnId: number) => {
-  return requestGet<GetCardListType>(`cards?size=10&columnId=${columnId}`);
+export const getCardList = async ({ columnId, cursorId }: { columnId: number; cursorId?: number }) => {
+  return requestGet<GetCardListType>(`cards?size=10&${cursorId ? `cursorId=${cursorId}&` : ''}columnId=${columnId}`);
 };
 
 export const uploadCardImage = async (columnId: number, data: FormData) => {

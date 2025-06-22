@@ -17,7 +17,7 @@ const CardItem = ({ card }: CardItemType) => {
   const params = useParams();
   return (
     <div
-      className='my-10 flex flex-col rounded-md border-1 border-gray-300 bg-white p-12 tablet:my-16 tablet:flex-row tablet:justify-between tablet:px-14 tablet:py-20 pc:flex-col'
+      className='flex flex-col rounded-md border-1 border-gray-300 bg-white p-12 transition-colors duration-200 ease-in-out hover:border-capybara hover:bg-[#f9f5f5] active:bg-[#f1e8e8] tablet:flex-row tablet:justify-between tablet:px-14 tablet:py-20 pc:flex-col'
       onClick={() => setCardDetail(!cardDetail)}
     >
       <img
