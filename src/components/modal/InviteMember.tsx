@@ -13,7 +13,7 @@ import type { InviteMemberInput } from '@/schemas/invitation';
 import { inviteMemberSchema } from '@/schemas/invitation';
 
 const InviteMember = ({ dashboardId, isModalOpen, toggleModal, onInviteSuccess }: InviteMemberProps) => {
-  const { showSuccess, showError } = useToast();
+  const { showSuccess } = useToast();
   const fetcher = useFetcher();
 
   const {
