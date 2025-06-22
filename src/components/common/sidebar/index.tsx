@@ -13,7 +13,13 @@ import Button from '@/components/common/button';
 import Tooltip from '@/components/common/tooltip';
 import CreateDashboard from '@/components/modal/CreateDashboard';
 import Pagination from '@/components/pagination';
+
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+
+import { useToast } from '@/hooks/useToast';
+
 import { getDashboardDetailPath, ROUTES } from '@/constants/paths';
+
 import type { authGuardLoaderData } from '@/loaders/types';
 import { type Dashboard, dashboardListResponseSchema } from '@/schemas/dashboard';
 import { useKabanaStore } from '@/stores';
@@ -41,15 +47,14 @@ const Sidebar = () => {
   const { isSidebarOpen, toggleSidebar } = useKabanaStore();
   const loaderData = useLoaderData() as authGuardLoaderData;
   const PAGE_SIZE = loaderData?.pageSize || 10;
+  const { showError } = useToast();
 
-  // --- 페이지네이션 상태 관리 ---
   const [dashboards, setDashboards] = useState<Dashboard[]>(loaderData?.dashboards || []);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(loaderData?.totalCount || 0);
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
-  // --- 기존 상태 (모달, 툴팁) ---
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const toggleCreateModal = () => setIsCreateModalOpen((prev) => !prev);
   const [tooltipContent, setTooltipContent] = useState<string | null>(null);
@@ -58,7 +63,6 @@ const Sidebar = () => {
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null); // 플러스 아이콘 버튼을 위한 ref 생성
   const addDashboardButtonRef = useRef<HTMLButtonElement>(null);
 
-  // --- 페이지 변경 핸들러 ---
   const handlePageChange = useCallback(
     async (page: number) => {
       if (isLoading || page < 1 || page > totalPages) return;
@@ -74,9 +78,8 @@ const Sidebar = () => {
         setCurrentPage(page);
         setTotalCount(parsedData.totalCount);
       } catch (error) {
-        console.error('🩺 대시보드 페이지 변경 실패:', error);
-        // TODO: Toast 메시지 표시
-        // showToast({ type: 'error', message: '대시보드 목록을 불러오는데 실패했습니다.' });
+        console.error('🩺 대시보드 리스트 더 불러오기 실패:', error);
+        showError(TOAST_MESSAGES.API.FETCH_FAILURE('대시보드'));
       } finally {
         setIsLoading(false);
       }
@@ -84,7 +87,6 @@ const Sidebar = () => {
     [isLoading, PAGE_SIZE, totalPages],
   );
 
-  // --- 툴팁 관련 핸들러 (기존과 동일) ---
   const showTooltip = (targetElement: HTMLElement, content: string) => {
     setTooltipTargetRect(targetElement.getBoundingClientRect());
     setTooltipContent(content);
@@ -95,13 +97,11 @@ const Sidebar = () => {
     setTooltipTargetRect(null);
   };
 
-  // 터치를 시작하면 0.5초 뒤 showTooltip을 호출하는 핸들러
   const handleTouchStart = (id: number, content: string) => {
-    // 기존 타이머가 있다면 해제
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
     }
-    // 0.5초 뒤 툴팁을 표시하는 타이머 설정
+
     const target = itemRefs.current[id];
     if (!target) return;
 
@@ -110,7 +110,6 @@ const Sidebar = () => {
     }, 500);
   };
 
-  // 터치가 끝나면 타이머를 해제하고 hideTooltip을 호출하는 핸들러
   const handleTouchEnd = () => {
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
@@ -127,11 +126,10 @@ const Sidebar = () => {
   }, []);
 
   const sidebarClasses = twMerge(
-    'fixed left-0 h-[calc(100vh-50px)] flex items-center justify-center flex-col border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out',
-    // 모바일: 화면이 작으니까 사이드바가 아예 없어질수도 있게.
-    isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
 
-    // 태블릿 이상: 항상 보임 (단, 열림 여부에 따라 너비 조절)
+    'fixed top-50 left-0 h-[calc(100vh-50px)] flex items-center justify-center flex-col border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out',
+
+    isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
     'tablet:translate-x-0',
     isSidebarOpen ? 'w-70 tablet:w-160 pc:w-300' : 'tablet:w-70',
   );
@@ -167,8 +165,9 @@ const Sidebar = () => {
             size='none'
             variant='none'
             onMouseEnter={() => {
-              if (addDashboardButtonRef.current) {
-                showTooltip(addDashboardButtonRef.current, '새로운 대시보드');
+              const target = addDashboardButtonRef.current?.parentElement;
+              if (target) {
+                showTooltip(target, '새로운 대시보드');
               }
             }}
             onMouseLeave={hideTooltip}

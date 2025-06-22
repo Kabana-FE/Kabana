@@ -4,19 +4,23 @@ import { twMerge } from 'tailwind-merge';
 
 import MoreVertIcon from '@/assets/icons/MoreVertIcon';
 import TriangleIcon from '@/assets/icons/TriangleIcon';
+import Button from '@/components/common/button';
 import Dropdown from '@/components/common/dropdown';
 import type { DropdownOption } from '@/components/common/dropdown/types';
+import { LoadingSpinner } from '@/components/common/loadingStatus';
 import { ROUTES } from '@/constants/paths';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 
 // --- API에서 받아온 데이터라고 가정 ---
 const statusData = [
-  { id: 'todo', name: 'To Do' },
-  { id: 'inProgress', name: 'In Progress' },
-  { id: 'done', name: 'Done' },
+  { id: 'todo', name: 'To Do', withCheck: true },
+  { id: 'inProgress', name: 'In Progress', withCheck: true },
+  { id: 'done', name: 'Done', withCheck: true },
 ];
 
 const Playground = () => {
+  const { showSuccess, showError, showInfo, showWarning } = useToast();
   const { logout } = useAuth();
   const navigate = useNavigate();
   // 위치 기준으로 삼을 div 요소의 ref를 생성합니다.
@@ -27,6 +31,7 @@ const Playground = () => {
   const statusOptions: DropdownOption[] = statusData.map((status) => ({
     label: status.name,
     value: status.id,
+    withCheck: status.withCheck,
   }));
 
   // 두 번째 드롭다운의 선택된 상태를 관리하기 위한 state를 추가합니다.
@@ -70,7 +75,15 @@ const Playground = () => {
   return (
     <div className='p-10'>
       <h1 className='mb-4 text-xl font-bold'>🧪 Playground</h1>
-      <p className='mb-4 text-lg text-gray-500'>여기서 임시 UI, 컴포넌트, API 테스트 등을 자유롭게 구현하세요.</p>
+      <div className='my-8 h-100 rounded-lg border p-4'>
+        <h2 className='mb-4 text-lg font-semibold'>LoadingSpinner 테스트</h2>
+        <LoadingSpinner />
+      </div>
+
+      <Button onClick={() => showSuccess('작업이 성공적으로 완료되었습니다!')}>성공 토스트</Button>
+      <Button onClick={() => showError('오류가 발생했습니다. 다시 시도해주세요.')}>에러 토스트</Button>
+      <Button onClick={() => showInfo('새로운 알림이 있습니다.')}>정보 토스트</Button>
+      <Button onClick={() => showWarning('주의! 민감한 작업입니다.')}>경고 토스트</Button>
 
       {/* <DropdownTest /> */}
       <div ref={dropdownContainerRef1} className='flex w-fit items-center rounded border border-gray-300 p-4'>
@@ -78,6 +91,7 @@ const Playground = () => {
         <Dropdown
           align='end'
           contentClassName=''
+          optionAlign='center'
           optionClassName='text-center'
           options={[
             { label: '수정하기', value: 'edit' },
@@ -86,6 +100,7 @@ const Playground = () => {
             { label: '로그아웃', value: 'logout' },
           ]}
           positionRef={dropdownContainerRef1}
+          selectedValue={selectedStatus?.value ?? null}
           trigger={<MoreVertIcon aria-label='더보기 옵션' size={24} />}
           triggerClassName='px-2 py-1 hover:bg-gray-100'
           onSelect={handleOptionSelect1}
@@ -101,10 +116,11 @@ const Playground = () => {
         <Dropdown
           align='start'
           contentClassName='w-300'
-          optionClassName='text-left'
+          optionAlign='start'
+          optionClassName=''
           options={statusOptions}
           positionRef={dropdownContainerRef2}
-          selectedValue={selectedStatus?.value}
+          selectedValue={selectedStatus?.value ?? null}
           trigger={<TriangleIcon aria-label='OOO 옵션' size={12} />}
           onSelect={handleOptionSelect2}
         />

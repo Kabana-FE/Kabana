@@ -26,7 +26,6 @@ import type PaginationProps from './types';
 const Pagination = ({ currentPage, totalPages, onPageChange, isLoading, children }: PaginationProps) => {
   const paginationBtnStyle =
     ' border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
-
   return (
     <div className='flex'>
       <Button

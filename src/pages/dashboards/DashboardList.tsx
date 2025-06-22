@@ -11,7 +11,9 @@ import InvitationItem from '@/components/invitationItem';
 import CreateDashboard from '@/components/modal/CreateDashboard';
 import Pagination from '@/components/pagination';
 import Search from '@/components/search';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { useToast } from '@/hooks/useToast';
 import type { DashboardListLoaderData } from '@/loaders/dashboard/types';
 import type { authGuardLoaderData } from '@/loaders/types';
 import type { Dashboard } from '@/schemas/dashboard';
@@ -39,6 +41,8 @@ const DashboardList = () => {
 
   const isInitialRender = useRef(true);
 
+  const { showSuccess, showError } = useToast();
+
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false;
@@ -54,7 +58,8 @@ const DashboardList = () => {
         setDashboardList(dashboardList.dashboards);
         setTotalDashboardCount(dashboardList.totalCount);
       } catch (error) {
-        console.error(error); // 에러 미구현
+        showError(TOAST_MESSAGES.API.FETCH_FAILURE('대시보드'));
+        console.error(error);
       } finally {
         setIsDashboardLoading(false);
       }
@@ -74,7 +79,8 @@ const DashboardList = () => {
       setInvitationList((prev) => [...prev, ...invitationList.invitations]);
       setCursorId(invitationList.cursorId);
     } catch (error) {
-      console.error(error); // 에러 미구현
+      showError(TOAST_MESSAGES.API.FETCH_FAILURE('초대 목록'));
+      console.error(error);
     } finally {
       setIsInvitationLoading(false);
     }
@@ -92,7 +98,8 @@ const DashboardList = () => {
       setInvitationList(invitationList.invitations);
       setCursorId(invitationList.cursorId);
     } catch (error) {
-      console.error(error); // 에러 미구현
+      showError(TOAST_MESSAGES.API.FETCH_FAILURE('검색 결과'));
+      console.error(error);
     }
   }, []);
 
@@ -105,8 +112,16 @@ const DashboardList = () => {
         const dashboardList = dashboardListResponseSchema.parse(rawDashboardList);
         setDashboardList(dashboardList.dashboards);
         setTotalDashboardCount(dashboardList.totalCount);
+
+        // 응답(response)이 true이면 수락, false이면 거절 토스트를 띄웁니다.
+        if (response) {
+          showSuccess(TOAST_MESSAGES.INVITATION.ACCEPT_SUCCESS);
+        } else {
+          showSuccess(TOAST_MESSAGES.INVITATION.REJECT_SUCCESS);
+        }
       } catch (error) {
-        console.error(error); // 에러 미구현
+        showError(TOAST_MESSAGES.INVITATION.RESPONSE_FAILURE);
+        console.error(error);
       }
     },
     [page],

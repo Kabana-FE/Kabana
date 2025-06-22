@@ -16,6 +16,7 @@ import { useKabanaStore } from '@/stores';
 
 const DashboardHeader = () => {
   const location = useLocation();
+  const { isSidebarOpen, toggleSidebar } = useKabanaStore();
 
   const { isSidebarOpen, toggleSidebar } = useKabanaStore();
   const user = useKabanaStore((state) => state.user);
@@ -31,6 +32,7 @@ const DashboardHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
+
     <>
       <header
         className={twMerge(
@@ -123,7 +125,7 @@ const DashboardHeader = () => {
           toggleModal={() => setIsModalOpen((prev) => !prev)}
         />
       )}
-    </>
+    </div>
   );
 };
 

@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import CloseIcon from '@/assets/icons/CloseIcon';
-import ErrorIcon from '@/assets/icons/ErrorIcon';
-import InfoIcon from '@/assets/icons/InfoIcon';
-import SuccessIcon from '@/assets/icons/SuccessIcon';
-import WarningIcon from '@/assets/icons/WarningIcon';
+import DotIcon from '@/assets/icons/DotIcon';
 import Button from '@/components/common/button';
 import { useToast } from '@/hooks/useToast';
 
@@ -17,31 +14,31 @@ const typeStyles = {
     border: 'border-l-green',
     color: 'bg-green',
     title: 'Success',
-    icon: <SuccessIcon />,
+    icon: <DotIcon color='var(--color-green)' />,
   },
   error: {
     border: 'border-l-red',
     color: 'bg-red',
     title: 'Error',
-    icon: <ErrorIcon />,
+    icon: <DotIcon color='var(--color-red)' />,
   },
   info: {
     border: 'border-l-blue',
     color: 'bg-blue',
     title: 'Info',
-    icon: <InfoIcon />,
+    icon: <DotIcon color='var(--color-blue)' />,
   },
   warning: {
     border: 'border-l-orange',
     color: 'bg-orange',
     title: 'Warning',
-    icon: <WarningIcon />,
+    icon: <DotIcon color='var(--color-orange)' />,
   },
   default: {
     border: 'border-l-capybara',
     color: 'bg-capybara',
     title: 'Notice',
-    icon: <InfoIcon />,
+    icon: <DotIcon color='var(--color-blue)' />,
   },
 };
 
