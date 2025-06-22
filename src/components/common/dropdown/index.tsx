@@ -95,7 +95,8 @@ const Dropdown = ({
 
   useEffect(() => {
     if (isOpen && listRef.current) {
-      (listRef.current.querySelector('[role="menuitem"]') as HTMLElement)?.focus();
+      const firstItem = listRef.current.querySelector('[role="menuitem"]') as HTMLElement;
+      if (firstItem) firstItem.focus({ preventScroll: true });
     }
   }, [isOpen]);
 
