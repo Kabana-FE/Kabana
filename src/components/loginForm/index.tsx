@@ -37,8 +37,8 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginRequest) => {
     try {
       await login(data);
+      await navigate(ROUTES.DASHBOARD_LIST, { replace: true });
       showSuccess(TOAST_MESSAGES.AUTH.LOGIN_SUCCESS);
-      navigate(ROUTES.DASHBOARD_LIST, { replace: true });
     } catch (error) {
       // 토스트 메세지로 변경 예정
       // alert(`로그인 실패: ${error}`);

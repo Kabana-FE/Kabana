@@ -37,10 +37,10 @@ const InviteMember = ({ dashboardId, isModalOpen, toggleModal }: InviteMemberPro
     try {
       await inviteMember(dashboardId, data);
       toggleModal();
-      showSuccess(TOAST_MESSAGES.INVITATION.INVITE_SUCCESS(data.email));
+      showSuccess(TOAST_MESSAGES.INVITATION.SUCCESS(data.email));
       reset();
     } catch (err) {
-      showError(TOAST_MESSAGES.INVITATION.INVITE_FAILURE);
+      showError(TOAST_MESSAGES.INVITATION.FAILURE);
       console.error('🩺 구성원 초대 실패:', err);
     }
   };

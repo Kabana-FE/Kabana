@@ -41,7 +41,7 @@ const ToastTimer = ({ duration, isVisible, color }: ToastTimerProps) => {
 
       const animate = () => {
         const elapsed = Date.now() - startTimeRef.current;
-        console.log('Frame at', elapsed, 'ms');
+        // console.log('Frame at', elapsed, 'ms');
         const remainingTime = Math.max(0, duration - elapsed);
         const newProgress = (remainingTime / duration) * 100;
 
