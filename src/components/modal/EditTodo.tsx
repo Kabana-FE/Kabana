@@ -286,7 +286,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
               <AddIcon className='tablet:size-18' size={12} />
             )}
           </Input.Label>
-          <Input.Field className='hidden' id='file' type='file' onChange={handleFileChange} />
+          <Input.Field accept='image/*' className='hidden' id='file' type='file' onChange={handleFileChange} />
         </Input.Root>
       </Dialog.Content>
       <Dialog.ButtonArea className='mt-32 flex justify-between gap-8'>
