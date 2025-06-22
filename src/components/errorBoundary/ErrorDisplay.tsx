@@ -11,12 +11,34 @@ import type { ErrorDisplayProps } from './types';
  * @param {number} status - 표시할 HTTP 상태 코드 (옵션)
  * @param {string} title - 에러의 주 제목
  * @param {string} message - 에러의 상세 메시지
- * @param {'back' | 'retry' } variant - 표시할 버튼 종류
+ * @param {Array<'back' | 'retry' | 'home'>} variant - 표시할 버튼 종류
  * @param {() => void} onRetry - '다시 시도' 버튼 클릭 시 실행될 함수
  */
 /** */
-const ErrorDisplay = ({ status, title, message, variant, onRetry }: ErrorDisplayProps) => {
+const ErrorDisplay = ({ status, title, message, variant = [], onRetry }: ErrorDisplayProps) => {
   const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  const handleGoHome = () => {
+    navigate(ROUTES.APP);
+  };
+
+  const handleRetry = () => {
+    if (onRetry) {
+      onRetry();
+    } else {
+      window.location.reload();
+    }
+  };
+
+  const buttonConfig = {
+    home: { text: '홈으로', action: handleGoHome },
+    back: { text: '뒤로 가기', action: handleGoBack },
+    retry: { text: '다시 시도', action: handleRetry },
+  };
 
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-10 bg-Magnolia' role='alert'>
@@ -28,18 +50,17 @@ const ErrorDisplay = ({ status, title, message, variant, onRetry }: ErrorDisplay
           {status && <p className='text-lg font-bold text-red'>{status}</p>}
           <p className='text-md text-gray-500'>{message}</p>
         </div>
-        <div className='mt-4 flex gap-x-3'>
-          {variant === 'back' && (
-            <Button variant='outlined' onClick={() => navigate(-1)}>
-              이전 페이지로
-            </Button>
-          )}
-          {variant === 'retry' && onRetry && (
-            <Button variant='outlined' onClick={onRetry}>
-              다시 시도
-            </Button>
-          )}
-          <Button onClick={() => navigate(ROUTES.APP, { replace: true })}>홈으로 가기</Button>
+        <div className='mt-4 flex gap-8'>
+          {variant.map((key) => {
+            const config = buttonConfig[key];
+            if (!config) return null;
+
+            return (
+              <Button key={key} onClick={config.action}>
+                {config.text}
+              </Button>
+            );
+          })}
         </div>
       </div>
     </div>
