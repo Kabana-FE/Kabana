@@ -112,6 +112,8 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
       encType: 'multipart/form-data',
     });
     toggleModal();
+    reset();
+    setTagList([]);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +143,8 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
       toggleModal={() => {
         toggleModal();
         reset();
+        setTagList([]);
+        setPreviewUrl(null);
       }}
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
@@ -252,6 +256,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
             toggleModal();
             reset();
             setTagList([]);
+            setPreviewUrl(null);
           }}
         >
           취소

@@ -2,7 +2,7 @@ import Avatar from '@/components/Avatar';
 
 import type { CommentPropsType } from './types';
 
-const Comment = ({ data }: CommentPropsType) => {
+const Comment = ({ data, onEdit, onDelete }: CommentPropsType) => {
   return (
     <div className='my-10 flex gap-8'>
       <Avatar nickname={data.author.nickname} src={data.author.profileImageUrl && data.author.profileImageUrl} />
@@ -13,8 +13,15 @@ const Comment = ({ data }: CommentPropsType) => {
         </div>
         <div className='text-xs/18 tablet:text-md/24'>{data.content}</div>
         <div className='flex gap-8'>
-          <span className='text-[10px] text-gray-400 underline tablet:text-xs'>수정</span>
-          <span className='text-[10px] text-gray-400 underline tablet:text-xs'>삭제</span>
+          <span
+            className='cursor-pointer text-[10px] text-gray-400 underline tablet:text-xs'
+            onClick={() => onEdit(data)}
+          >
+            수정
+          </span>
+          <span className='cursor-pointer text-[10px] text-gray-400 underline tablet:text-xs' onClick={onDelete}>
+            삭제
+          </span>
         </div>
       </div>
     </div>
