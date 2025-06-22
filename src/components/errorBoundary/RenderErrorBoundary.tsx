@@ -15,7 +15,7 @@ const RenderErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const displayProps: ErrorDisplayProps = {
     message: UI_ERRORS.CLIENT,
     title: UI_ERRORS.BOUNDARY_TITLES.RENDER,
-    variant: 'retry',
+    variant: ['retry'],
     onRetry: resetErrorBoundary,
   };
 

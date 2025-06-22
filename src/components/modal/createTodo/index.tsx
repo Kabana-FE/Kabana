@@ -29,6 +29,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.userId,
+    withCheck: true,
   }));
 
   const dropDownContainer = useRef<HTMLDivElement>(null);
@@ -153,7 +154,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
           <Dropdown
             contentClassName='w-287 tablet:w-552 '
             optionAlign='start'
-            optionClassName='text-left h-40'
+            optionClassName=' h-40'
             options={statusOptions}
             positionRef={dropDownContainer}
             selectedValue={selectedStatus?.value}

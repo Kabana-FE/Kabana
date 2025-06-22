@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useNavigate, useRevalidator } from 'react-router-dom';
 
 import { createDashboard } from '@/apis/dashboard';
 import ColorSelector from '@/components/colorSelector';
@@ -29,6 +29,7 @@ import { createDashboardSchema } from '@/schemas/dashboard';
 const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => {
   const navigate = useNavigate();
   const { showSuccess, showError } = useToast();
+  const { revalidate } = useRevalidator();
 
   const {
     register,
@@ -49,6 +50,7 @@ const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => 
       toggleModal();
       reset();
       showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('대시보드'));
+      revalidate(); // 이거 해야 사이드바도 같이 업데이트 되요.
       navigate(getDashboardDetailPath(String(dashboard.id)));
     } catch (err) {
       showError(TOAST_MESSAGES.API.CREATE_FAILURE('대시보드'));
