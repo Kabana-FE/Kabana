@@ -11,7 +11,7 @@ import type { ErrorDisplayProps, RenderErrorBoundaryProps } from './types';
  * react-error-boundary 라이브러리의 FallbackProps를 받습니다.
  * @param {Error} error - 발생한 렌더링 에러 객체.
  */
-const RenderErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
+const RenderErrorFallback = ({ resetErrorBoundary }: FallbackProps) => {
   const displayProps: ErrorDisplayProps = {
     message: UI_ERRORS.CLIENT,
     title: UI_ERRORS.BOUNDARY_TITLES.RENDER,
