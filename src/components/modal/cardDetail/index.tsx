@@ -17,7 +17,7 @@ import { type CommentsType, type CommentType, type CreateComment, createCommentS
 import Comment from './Comment';
 import type { DetailType } from './types';
 
-const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo }: DetailType) => {
+const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: DetailType) => {
   const params = useParams();
   const actionData = useActionData();
   const defaultValues: CreateComment = {
@@ -140,7 +140,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo }: DetailTy
         <section className='tablet:w-420 pc:w-445'>
           <div className='mt-16 flex tablet:mt-0'>
             <div className='border-r-1 border-r-gray-300 pr-12 tablet:pr-20'>
-              <Badge>{data.title}</Badge>
+              <Badge>{title}</Badge>
             </div>
             <div className='ml-12 flex h-fit flex-wrap items-center gap-8 tablet:ml-20'>
               {data?.tags?.map((tag) => {

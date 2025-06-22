@@ -9,4 +9,5 @@ export interface CardListType {
 
 export interface CardItemType {
   card: CardType;
+  title: string;
 }
