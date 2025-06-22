@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useFetcher, useLoaderData, useNavigate, useParams } from 'react-router';
+import { useFetcher, useLoaderData, useNavigate, useParams, useRevalidator } from 'react-router';
 
 import { deleteDashboard, getInviteeList } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
@@ -50,6 +50,8 @@ const DashboardEdit = () => {
   const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
   const totalInviteePage = Math.ceil(initialData.inviteeList.totalCount / 5);
 
+  const { revalidate } = useRevalidator();
+
   const {
     register,
     handleSubmit,
@@ -72,6 +74,7 @@ const DashboardEdit = () => {
     formData.append('color', String(data.color));
     try {
       fetcher.submit(formData, { method: 'post', encType: 'multipart/form-data' });
+      revalidate();
     } catch (err) {
       showError(TOAST_MESSAGES.API.UPDATE_FAILURE('대시보드'));
       console.error('🩺대시보드 수정 실패:', err);
@@ -144,6 +147,7 @@ const DashboardEdit = () => {
     try {
       await deleteDashboard(dashboardId);
       showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('대시보드'));
+      revalidate();
       navigate(ROUTES.DASHBOARD_LIST);
     } catch (error) {
       showError(TOAST_MESSAGES.API.DELETE_FAILURE('대시보드'));

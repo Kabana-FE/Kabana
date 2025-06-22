@@ -19,7 +19,7 @@ const SidebarPagination = ({
         </Pagination>
       </div>
       <div className='w-full pt-5 text-xs text-gray-400'>
-        {isSidebarOpen && <div className='mt-2 hidden text-center tablet:block'>Powered by Capybara 🦫</div>}
+        {isSidebarOpen && <div className='mt-2 hidden text-center tablet:block'>Powered by Capybara</div>}
       </div>
     </div>
   );
