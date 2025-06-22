@@ -1,6 +1,8 @@
 import type { ActionFunctionArgs } from 'react-router';
 
-import { createCard, deleteCard, editCard } from '@/apis/card';
+import { createCard } from '@/apis/card';
+import { createColumn } from '@/apis/column';
+import type { CreateColumnInput } from '@/schemas/column';
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   // const detailIdString: string | undefined = params.dashboardId;
@@ -29,44 +31,24 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    case 'editTodo': {
-      const assigneeUserId = Number(formData.get('assigneeUserId'));
-      const columnId = Number(formData.get('columnId'));
-      const rawDueDate = formData.get('dueDate') as string;
-      const title = formData.get('title') as string;
-      const description = formData.get('description') as string;
-      const imageUrl = formData.get('imageUrl') as string;
-      const formattedDueDate = rawDueDate.replace('T', ' ');
-      const tags = JSON.parse(formData.get('tags') as string);
-      const cardId = Number(formData.get('cardId'));
-      return await editCard(
-        {
-          columnId,
-          assigneeUserId,
-          title,
-          description,
-          dueDate: formattedDueDate,
-          tags,
-          imageUrl,
-        },
-        cardId,
-      );
-    }
-
-    case 'deleteTodo':
-      {
-        const cardId = Number(formData.get('cardId'));
-        await deleteCard(cardId);
-      }
-      break;
     case 'createComment':
       break;
     case 'editComment':
       break;
     case 'deleteComment':
       break;
-    case 'createColumn':
-      break;
+    case 'createColumn': {
+      const title = String(formData.get('title'));
+      const dashboardId = Number(formData.get('dashboardId'));
+      if (typeof title !== 'string') throw new Error('Invalid title');
+      type CreateColumnWithDashboardId = CreateColumnInput & { dashboardId: number };
+      const payload: CreateColumnWithDashboardId = {
+        title,
+        dashboardId,
+      };
+      await createColumn(payload);
+      return null;
+    }
     case 'editColumn':
       break;
     case 'deleteColumn':

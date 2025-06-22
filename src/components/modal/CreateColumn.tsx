@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Form } from 'react-router';
+import { Form, useFetcher } from 'react-router';
 
-import { createColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
@@ -23,10 +23,12 @@ import { createColumnSchema } from '@/schemas/column';
  */
 const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnProps) => {
   const { showSuccess, showError } = useToast();
+  const fetcher = useFetcher();
+  const isSubmitting = fetcher.state === 'submitting';
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
     control,
   } = useForm<CreateColumnInput>({
@@ -34,17 +36,36 @@ const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnPro
   });
   const title = useWatch({ control, name: 'title' });
   const onSubmit = async (data: CreateColumnInput) => {
-    const payload = { ...data, dashboardId };
-    try {
-      await createColumn(payload);
-      toggleModal();
+    const formData = new FormData();
+    formData.append('intent', 'createColumn');
+    formData.append('dashboardId', String(dashboardId));
+    formData.append('title', data.title);
+
+    fetcher.submit(formData, { method: 'post' });
+    // const payload = { ...data, dashboardId };
+    // try {
+    //   await createColumn(payload);
+    //   toggleModal();
+    //   showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('컬럼'));
+    //   reset();
+    // } catch (err) {
+    //   showError(TOAST_MESSAGES.API.CREATE_FAILURE('컬럼'));
+    //   console.error('🩺컬럼 생성 실패:', err);
+    // }
+    toggleModal();
+  };
+
+  useEffect(() => {
+    if (fetcher.data?.success) {
       showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('컬럼'));
       reset();
-    } catch (err) {
-      showError(TOAST_MESSAGES.API.CREATE_FAILURE('컬럼'));
-      console.error('🩺컬럼 생성 실패:', err);
+      toggleModal();
+      // optional: 컬럼 리스트 리패치 트리거 함수 호출
     }
-  };
+    if (fetcher.data?.error) {
+      showError(TOAST_MESSAGES.API.CREATE_FAILURE('컬럼'));
+    }
+  }, [fetcher.data]);
 
   return (
     <Dialog.Root
