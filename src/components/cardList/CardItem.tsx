@@ -54,6 +54,7 @@ const CardItem = ({ card }: CardItemType) => {
       />
       <DeleteCardAlert cardId={card.id} isModalOpen={deleteAlert} toggleModal={() => setDeleteAlert(!deleteAlert)} />
       <EditTodo
+        cardId={card.id}
         columnId={card.columnId}
         dashboardId={Number(params.dashboardId)}
         data={card}
