@@ -17,6 +17,7 @@ import { useKabanaStore } from '@/stores';
 const DashboardHeader = () => {
   const location = useLocation();
   const { isSidebarOpen, toggleSidebar } = useKabanaStore();
+
   const user = useKabanaStore((state) => state.user);
   const userName = user?.nickname;
   const profileImageUrl = user?.profileImageUrl;

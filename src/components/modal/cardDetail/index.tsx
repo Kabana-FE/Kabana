@@ -1,5 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useSubmit } from 'react-router';
+import { useForm } from 'react-hook-form';
+import { Form, useSubmit } from 'react-router';
 
 import { getComments } from '@/apis/comment';
 import MoreVertIcon from '@/assets/icons/MoreVertIcon';
@@ -10,31 +12,35 @@ import Dialog from '@/components/common/dialog';
 import Dropdown from '@/components/common/dropdown';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
-import type { CommentsType } from '@/schemas/comment';
+import { type CommentsType, type CreateComment, createCommentSchema } from '@/schemas/comment';
 
 import Comment from './Comment';
 import type { DetailType } from './types';
 
 const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleEditTodo }: DetailType) => {
+  const {
+    register,
+    formState: { isSubmitting },
+    reset,
+  } = useForm<CreateComment>({
+    resolver: zodResolver(createCommentSchema),
+  });
   const [commentList, setCommentList] = useState<CommentsType>([]);
   const isInitialRender = useRef(true);
-  const params = useParams();
   const submit = useSubmit();
 
   const handleOptionSelect = async (value: string | number) => {
     if (value === 'edit') {
-      console.log('수정하기 클릭');
       toggleModal();
       toggleEditTodo();
     }
 
     if (value === 'delete') {
-      console.log('삭제하기 클릭');
       const formData = new FormData();
-      formData.append('intent', 'deleteCard');
+      formData.append('intent', 'deleteTodo');
       formData.append('cardId', String(data.id));
-
       try {
+        submit(formData, { method: 'delete' });
         toggleModal();
       } catch (error) {
         console.error('카드 삭제 실패:', error);
@@ -46,6 +52,9 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
       isInitialRender.current = false;
       return;
     }
+    if (!isModalOpen) {
+      return;
+    }
     const fetch = async () => {
       const result = await getComments(data.id);
       setCommentList(result.comments);
@@ -55,6 +64,11 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
 
     return () => setCommentList([]);
   }, [data.id, isModalOpen]);
+  const onSubmit = (submitData: CreateComment) => {
+    const formData = new FormData();
+
+    submit({});
+  };
   return (
     <Dialog.Root
       className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
@@ -66,8 +80,8 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
           <h1>{data.title}</h1>
           <span>
             <Dropdown
-              align='end'
               contentClassName=''
+              optionAlign='start'
               optionClassName='text-center'
               options={[
                 { label: '수정하기', value: 'edit' },
@@ -113,7 +127,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
             }}
           />
           <div className='relative mt-16'>
-            <form>
+            <Form>
               <Input.Root>
                 <Input.Label htmlFor='comment'>댓글</Input.Label>
                 <Input.Field id='comment' placeholder='댓글 작성하기' type='textarea' />
@@ -121,7 +135,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
               <Button className='absolute right-12 bottom-12 h-32 text-xs' type='submit' variant='outlined'>
                 입력
               </Button>
-            </form>
+            </Form>
           </div>
           <div className='max-h-160 overflow-y-auto'>
             {commentList &&
