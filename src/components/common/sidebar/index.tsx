@@ -145,8 +145,9 @@ const Sidebar = () => {
             size='none'
             variant='none'
             onMouseEnter={() => {
-              if (addDashboardButtonRef.current) {
-                showTooltip(addDashboardButtonRef.current, '새로운 대시보드');
+              const target = addDashboardButtonRef.current?.parentElement;
+              if (target) {
+                showTooltip(target, '새로운 대시보드');
               }
             }}
             onMouseLeave={hideTooltip}
