@@ -42,8 +42,8 @@ const SignupForm = () => {
   const onSubmit = async (data: SignupRequest) => {
     try {
       await signup(data);
+      await navigate(ROUTES.SIGNIN, { replace: true });
       showSuccess(TOAST_MESSAGES.AUTH.SIGNUP_SUCCESS);
-      navigate(ROUTES.SIGNIN, { replace: true });
     } catch (error) {
       // 토스트 메세지로 변경 예정
       // alert(`회원가입 실패: ${error}`);

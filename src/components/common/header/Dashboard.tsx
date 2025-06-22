@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useLocation, useRouteLoaderData } from 'react-router';
+import { useRef, useState } from 'react';
+import { Link, useLocation, useNavigate, useRouteLoaderData } from 'react-router';
 import { twMerge } from 'tailwind-merge';
 
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
@@ -11,8 +11,11 @@ import Group from '@/components/Avatar/Group';
 import Button from '@/components/common/button';
 import InviteMember from '@/components/modal/InviteMember';
 import { ROUTES } from '@/constants/paths/routes';
+import { useAuth } from '@/hooks/useAuth';
 import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import { useKabanaStore } from '@/stores';
+
+import Dropdown from '../dropdown';
 
 const DashboardHeader = () => {
   const location = useLocation();
@@ -29,6 +32,16 @@ const DashboardHeader = () => {
   const memberList = data?.memberList;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const handleOption = (value: string | number) => {
+    if (value === 'logout') {
+      logout();
+      navigate(ROUTES.APP);
+    }
+  };
 
   return (
     <>
@@ -109,10 +122,22 @@ const DashboardHeader = () => {
             </>
           )}
           <div className='border-l border-gray-300 pl-16 tablet:pl-32 pc:pl-36'>
-            <Link className='flex items-center gap-12' to={ROUTES.MYPAGE}>
-              <Avatar nickname={userName || ''} src={profileImageUrl ?? undefined} />
-              <span className='hidden text-lg font-medium text-gray-700 tablet:block'>{userName}</span>
-            </Link>
+            <Dropdown
+              optionAlign='center'
+              options={[
+                { label: '마이페이지', value: 'mypage', to: ROUTES.MYPAGE },
+                { label: '로그아웃', value: 'logout' },
+              ]}
+              positionRef={dropdownRef}
+              trigger={
+                <div ref={dropdownRef} className='flex w-full items-center gap-12'>
+                  <Avatar nickname={userName || ''} src={profileImageUrl ?? undefined} />
+                  <span className='hidden text-lg font-medium text-gray-700 tablet:block'>{userName}</span>
+                </div>
+              }
+              triggerClassName='w-full'
+              onSelect={handleOption}
+            />
           </div>
         </div>
       </header>
