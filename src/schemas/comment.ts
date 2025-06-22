@@ -14,6 +14,10 @@ export const commentSchema = z.object({
   }),
 });
 
+export const editCommentSchema = z.object({
+  content: z.string(),
+});
+
 export const createCommentSchema = z.object({
   content: z.string().min(1, { message: UI_ERRORS.VALIDATION.STRING_MIN(1) }),
   cardId: z.number(),
@@ -32,3 +36,4 @@ export type GetCommentsType = z.infer<typeof getCommentsSchema>;
 export type CommentsType = z.infer<typeof commentsSchema>;
 export type CommentType = z.infer<typeof commentSchema>;
 export type CreateComment = z.infer<typeof createCommentSchema>;
+export type EditComment = z.infer<typeof editCommentSchema>;

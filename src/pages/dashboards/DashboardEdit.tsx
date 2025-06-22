@@ -304,12 +304,14 @@ const DashboardEdit = () => {
         </Button>
       </div>
 
-      <InviteMember
-        dashboardId={dashboardIdNumber}
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        onInviteSuccess={handleInviteSuccess}
-      />
+      {isModalOpen && (
+        <InviteMember
+          dashboardId={dashboardIdNumber}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          onInviteSuccess={handleInviteSuccess}
+        />
+      )}
     </div>
   );
 };
