@@ -102,6 +102,7 @@ export interface DropdownProps {
   align?: 'start' | 'end';
   /** 드롭다운 옵션 각각 정렬 기준*/
   optionAlign: 'start' | 'center';
+  triggerAs?: React.ElementType;
 }
 
 /**

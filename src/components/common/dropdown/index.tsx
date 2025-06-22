@@ -72,6 +72,7 @@ const DropdownItem = ({ option, isSelected, optionClassName, optionAlign, onSele
  */
 const Dropdown = ({
   trigger,
+  triggerAs = 'div',
   options,
   onSelect,
   contentClassName,
@@ -95,7 +96,8 @@ const Dropdown = ({
 
   useEffect(() => {
     if (isOpen && listRef.current) {
-      (listRef.current.querySelector('[role="menuitem"]') as HTMLElement)?.focus();
+      const firstItem = listRef.current.querySelector('[role="menuitem"]') as HTMLElement;
+      if (firstItem) firstItem.focus({ preventScroll: true });
     }
   }, [isOpen]);
 
@@ -153,10 +155,10 @@ const Dropdown = ({
       toggle={toggle}
       triggerRef={triggerRef}
     >
-      <Popover.Trigger as='button' className={triggerClassName} triggerRef={triggerRef} onToggle={toggle}>
+      <Popover.Trigger as={triggerAs} className={triggerClassName} triggerRef={triggerRef} onToggle={toggle}>
         {trigger}
       </Popover.Trigger>
-      <Popover.Content className={contentClassName} close={close} contentRef={contentRef}>
+      <Popover.Content className={twMerge('w-full', contentClassName)} close={close} contentRef={contentRef}>
         {({ close: closeFn }) => (
           <ul ref={listRef} className='flex flex-col' role='menu' onKeyDown={handleKeyDown}>
             {options.map((option) => (
