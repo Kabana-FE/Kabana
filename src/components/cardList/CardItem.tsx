@@ -45,22 +45,28 @@ const CardItem = ({ card }: CardItemType) => {
           />
         </div>
       </div>
-      <CardDetail
-        data={card}
-        isModalOpen={cardDetail}
-        toggleDeleteAlert={() => setDeleteAlert(!deleteAlert)}
-        toggleEditTodo={() => setEditTodo(!editTodo)}
-        toggleModal={() => setCardDetail(!cardDetail)}
-      />
-      <DeleteCardAlert cardId={card.id} isModalOpen={deleteAlert} toggleModal={() => setDeleteAlert(!deleteAlert)} />
-      <EditTodo
-        cardId={card.id}
-        columnId={card.columnId}
-        dashboardId={Number(params.dashboardId)}
-        data={card}
-        isModalOpen={editTodo}
-        toggleModal={() => setEditTodo(!editTodo)}
-      />
+      {cardDetail && (
+        <CardDetail
+          data={card}
+          isModalOpen={cardDetail}
+          toggleDeleteAlert={() => setDeleteAlert(!deleteAlert)}
+          toggleEditTodo={() => setEditTodo(!editTodo)}
+          toggleModal={() => setCardDetail(!cardDetail)}
+        />
+      )}
+      {deleteAlert && (
+        <DeleteCardAlert cardId={card.id} isModalOpen={deleteAlert} toggleModal={() => setDeleteAlert(!deleteAlert)} />
+      )}
+      {editTodo && (
+        <EditTodo
+          cardId={card.id}
+          columnId={card.columnId}
+          dashboardId={Number(params.dashboardId)}
+          data={card}
+          isModalOpen={editTodo}
+          toggleModal={() => setEditTodo(!editTodo)}
+        />
+      )}
     </div>
   );
 };

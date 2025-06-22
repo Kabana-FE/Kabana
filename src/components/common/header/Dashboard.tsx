@@ -141,7 +141,7 @@ const DashboardHeader = () => {
           </div>
         </div>
       </header>
-      {dashboardDetail && (
+      {dashboardDetail && isModalOpen && (
         <InviteMember
           dashboardId={dashboardDetail.id}
           isModalOpen={isModalOpen}

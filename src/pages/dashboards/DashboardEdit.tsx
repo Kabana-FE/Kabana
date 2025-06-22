@@ -263,7 +263,9 @@ const DashboardEdit = () => {
         </Button>
       </div>
 
-      <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      {isModalOpen && (
+        <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      )}
     </div>
   );
 };

@@ -40,11 +40,13 @@ const DashboardDetail = () => {
           <AddIcon className='ml-15 w-16 bg-cream' />
         </Button>
       </section>
-      <CreateColumn
-        dashboardId={dashboardId}
-        isModalOpen={createColumn}
-        toggleModal={() => setCreateColumn(!createColumn)}
-      />
+      {createColumn && (
+        <CreateColumn
+          dashboardId={dashboardId}
+          isModalOpen={createColumn}
+          toggleModal={() => setCreateColumn(!createColumn)}
+        />
+      )}
     </div>
   );
 };
