@@ -154,10 +154,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
           <Dropdown
             contentClassName='w-287 tablet:w-552 '
             optionAlign='start'
-
             optionClassName=' h-40'
-
-
             options={statusOptions}
             positionRef={dropDownContainer}
             selectedValue={selectedStatus?.value}
@@ -216,7 +213,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
             <Input.Field id='tags' onKeyDown={createDeleteTags} />
             <Input.ErrorMessage>{errors.tags?.message}</Input.ErrorMessage>
           </Input.Root>
-          <div>
+          <div className='mt-10 flex gap-2'>
             {tagList.map((tag, idx) => (
               <Tag key={tag.label ?? idx} className={`${tag.color ?? 'bg-gray-200'}`}>
                 {tag.label ?? '빈값'}
