@@ -12,9 +12,11 @@ import Dialog from '@/components/common/dialog';
 import Dropdown from '@/components/common/dropdown';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { type CommentsType, type CommentType, type CreateComment, createCommentSchema } from '@/schemas/comment';
 
 import Comment from './Comment';
+import SkeletonComment from './SkeletonComment';
 import type { DetailType } from './types';
 
 const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: DetailType) => {
@@ -31,6 +33,8 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
     resolver: zodResolver(createCommentSchema),
   });
   const [commentList, setCommentList] = useState<CommentsType>([]);
+  const [cursorId, setCursorId] = useState<number | null>(null);
+  const [isCommentLoading, setIsCommentLoading] = useState(false);
   const [selectedComment, setSelectedComment] = useState<CommentType | null>();
   const submit = useSubmit();
   const handleOptionSelect = async (value: string | number) => {
@@ -53,14 +57,17 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
   };
 
   useEffect(() => {
-    if (!isModalOpen) {
+    if (!isModalOpen || isCommentLoading) {
       return;
     }
     const fetch = async () => {
       const result = await getComments(data.id);
       setCommentList(result.comments);
+      setCursorId(result.cursorId);
+      setIsCommentLoading(false);
     };
 
+    setIsCommentLoading(true);
     fetch();
 
     return () => setCommentList([]);
@@ -97,6 +104,18 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
     formData.append('commentId', String(commentId));
     submit(formData, { method: 'delete', encType: 'multipart/form-data' });
   };
+
+  const fetchMoreComment = async () => {
+    if (cursorId === null || isCommentLoading) return;
+    setIsCommentLoading(true);
+
+    const moreComment = await getComments(data.id, cursorId);
+    setCommentList((prev) => [...prev, ...moreComment.comments]);
+    setCursorId(moreComment.cursorId);
+
+    setIsCommentLoading(false);
+  };
+  const ref = useInfiniteScroll({ callback: fetchMoreComment, isMoreData: cursorId !== null });
 
   return (
     <Dialog.Root
@@ -204,6 +223,8 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
                   />
                 );
               })}
+            {isCommentLoading && [1, 2, 3].map(() => <SkeletonComment />)}
+            <div ref={ref} className='h-1' />
           </div>
         </section>
         <section className='flex justify-between rounded-lg border-1 border-gray-300 px-16 py-9 tablet:h-155 tablet:w-181 tablet:flex-col tablet:px-16 tablet:py-14.5 pc:w-200'>
