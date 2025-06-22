@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 
 import { changePassword } from '@/apis/auth';
 import { updateMyInfo, uploadProfileImg } from '@/apis/user';
@@ -10,6 +10,7 @@ import ChevronIcon from '@/assets/icons/ChevronIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
 import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { ROUTES } from '@/constants/paths';
 import { useToast } from '@/hooks/useToast';
 import type { MypageLoaderData } from '@/loaders/myPage/types';
 import type { ChangePasswordRequest } from '@/schemas/auth';
@@ -19,12 +20,17 @@ import { updateUserInfoSchema } from '@/schemas/user';
 import { useKabanaStore } from '@/stores';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const { showSuccess, showError } = useToast();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const setUser = useKabanaStore((state) => state.setUser);
+
+  const handleMovePage = () => {
+    navigate(ROUTES.DASHBOARD_LIST);
+  };
 
   const {
     register: registerInfo,
@@ -101,11 +107,13 @@ const MyPage = () => {
   };
 
   return (
-    <div className='flex min-h-screen flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
-      <nav className='flex items-center gap-8'>
-        <ChevronIcon direction='left' size={18} />
-        <span>돌아가기</span>
-      </nav>
+    <div className='flex min-h-screen w-full flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
+      <div className='flex items-center'>
+        <Button aria-label='돌아가기' className='gap-8' size='none' variant='none' onClick={handleMovePage}>
+          <ChevronIcon className='tablet:size-20' direction='left' size={18} />
+          <span className='text-md tablet:text-lg'>돌아가기</span>
+        </Button>
+      </div>
       <div className='flex flex-col gap-16 tablet:gap-24'>
         <section className='flex h-496 max-w-672 flex-col gap-40 rounded-lg bg-white p-16 tablet:h-366 tablet:gap-24 tablet:p-24'>
           <header>
