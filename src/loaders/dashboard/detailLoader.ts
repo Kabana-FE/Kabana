@@ -88,7 +88,7 @@ export const loader = async ({ params }: LoaderFunctionArgs): Promise<DashboardD
 
     const columnList = columnsRaw.data;
     // console.log('columnsRaw', columnsRaw);
-    const cardsRaw = await Promise.allSettled(columnList.map((column) => getCardList(column.id)));
+    const cardsRaw = await Promise.allSettled(columnList.map((column) => getCardList({ columnId: column.id })));
 
     const cardList = [];
     for (const result of cardsRaw) {

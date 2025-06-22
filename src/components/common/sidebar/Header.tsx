@@ -57,7 +57,7 @@ const SidebarHeader = ({ showTooltip, hideTooltip }: SidebarHeaderProps) => {
         </span>
       </div>
 
-      <CreateDashboard isModalOpen={isCreateModalOpen} toggleModal={toggleCreateModal} />
+      {isCreateModalOpen && <CreateDashboard isModalOpen={isCreateModalOpen} toggleModal={toggleCreateModal} />}
     </>
   );
 };
