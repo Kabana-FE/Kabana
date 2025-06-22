@@ -154,10 +154,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
           <Dropdown
             contentClassName='w-287 tablet:w-552 '
             optionAlign='start'
-
             optionClassName=' h-40'
-
-
             options={statusOptions}
             positionRef={dropDownContainer}
             selectedValue={selectedStatus?.value}
