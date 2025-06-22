@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, useActionData, useParams, useSubmit } from 'react-router';
 
@@ -32,7 +32,6 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
   });
   const [commentList, setCommentList] = useState<CommentsType>([]);
   const [selectedComment, setSelectedComment] = useState<CommentType | null>();
-  const isInitialRender = useRef(true);
   const submit = useSubmit();
   const handleOptionSelect = async (value: string | number) => {
     if (value === 'edit') {
@@ -54,10 +53,6 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
   };
 
   useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
-    }
     if (!isModalOpen) {
       return;
     }
