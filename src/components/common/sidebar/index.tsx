@@ -13,13 +13,9 @@ import Button from '@/components/common/button';
 import Tooltip from '@/components/common/tooltip';
 import CreateDashboard from '@/components/modal/CreateDashboard';
 import Pagination from '@/components/pagination';
-
 import TOAST_MESSAGES from '@/constants/messages/toastMessages';
-
-import { useToast } from '@/hooks/useToast';
-
 import { getDashboardDetailPath, ROUTES } from '@/constants/paths';
-
+import { useToast } from '@/hooks/useToast';
 import type { authGuardLoaderData } from '@/loaders/types';
 import { type Dashboard, dashboardListResponseSchema } from '@/schemas/dashboard';
 import { useKabanaStore } from '@/stores';
@@ -126,7 +122,6 @@ const Sidebar = () => {
   }, []);
 
   const sidebarClasses = twMerge(
-
     'fixed top-50 left-0 h-[calc(100vh-50px)] flex items-center justify-center flex-col border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out',
 
     isSidebarOpen ? 'translate-x-0' : '-translate-x-full',

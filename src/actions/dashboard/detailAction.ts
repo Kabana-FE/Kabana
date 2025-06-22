@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from 'react-router';
 
-import { createCard } from '@/apis/card';
+import { createCard, deleteCard, editCard } from '@/apis/card';
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   // const detailIdString: string | undefined = params.dashboardId;
@@ -29,6 +29,36 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
         headers: { 'Content-Type': 'application/json' },
       });
     }
+    case 'editTodo': {
+      const assigneeUserId = Number(formData.get('assigneeUserId'));
+      const columnId = Number(formData.get('columnId'));
+      const rawDueDate = formData.get('dueDate') as string;
+      const title = formData.get('title') as string;
+      const description = formData.get('description') as string;
+      const imageUrl = formData.get('imageUrl') as string;
+      const formattedDueDate = rawDueDate.replace('T', ' ');
+      const tags = JSON.parse(formData.get('tags') as string);
+      const cardId = Number(formData.get('cardId'));
+      return await editCard(
+        {
+          columnId,
+          assigneeUserId,
+          title,
+          description,
+          dueDate: formattedDueDate,
+          tags,
+          imageUrl,
+        },
+        cardId,
+      );
+    }
+
+    case 'deleteTodo':
+      {
+        const cardId = Number(formData.get('cardId'));
+        await deleteCard(cardId);
+      }
+      break;
     case 'createComment':
       break;
     case 'editComment':
