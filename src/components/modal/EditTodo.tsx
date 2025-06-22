@@ -161,7 +161,8 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
 
             <Dropdown
               align='end'
-              contentClassName='w-1/2 tablet:w-552 '
+              contentClassName='tablet:w-273'
+              optionAlign='start'
               optionClassName='text-left h-40'
               options={columnOptions}
               positionRef={dropDownContainer}
@@ -172,13 +173,14 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
             />
           </div>
           <div
-            ref={dropDownContainer}
+            ref={dropDownContainer2}
             className='flex w-1/2 items-center justify-between rounded border border-gray-300 px-16 py-11'
           >
             <div>{selectedAsignee ? selectedAsignee?.label : data.assignee.nickname}</div>
             <Dropdown
               align='end'
-              contentClassName='w-1/2 tablet:w-552 '
+              contentClassName='tablet:w-273'
+              optionAlign='start'
               optionClassName='text-left h-40'
               options={memberOptions}
               positionRef={dropDownContainer2}
