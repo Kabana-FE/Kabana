@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
-import { useLoaderData, useNavigate, useParams } from 'react-router';
+import { useForm } from 'react-hook-form';
+import { useFetcher, useLoaderData, useNavigate, useParams } from 'react-router';
 
-import { cancelInvitee, deleteDashboard, getInviteeList, updateDashboard } from '@/apis/dashboard';
+import { cancelInvitee, deleteDashboard, getInviteeList } from '@/apis/dashboard';
 import { deleteMember, getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
@@ -27,6 +27,8 @@ const DashboardEdit = () => {
   const { dashboardId } = useParams();
   const dashboardIdNumber = Number(dashboardId);
   const initialData = useLoaderData() as DashboardEditLoaderData;
+  const [color, setColor] = useState(initialData.dashboardDetail.color);
+
   const [memberList, setMemberList] = useState<Member[]>(initialData.memberList.members);
   const [memberPage, setMemberPage] = useState<number>(1);
   const [isMemberLoading, setIsMemberLoading] = useState<boolean>(false);
@@ -43,22 +45,31 @@ const DashboardEdit = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const fetcher = useFetcher();
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
-    control,
     setValue,
+    formState: { isSubmitting },
   } = useForm<UpdateDashboardInput>({
     resolver: zodResolver(updateDashboardSchema),
     mode: 'onChange',
+    defaultValues: {
+      title: initialData.dashboardDetail.title,
+      color: initialData.dashboardDetail.color,
+    },
   });
 
-  const title = useWatch({ control, name: 'title' });
-  const color = useWatch({ control, name: 'color' });
   const onSubmit = async (data: UpdateDashboardInput) => {
+    const formData = new FormData();
+    formData.append('intent', 'updateDashboard');
+    formData.append('title', String(data.title));
+    formData.append('color', String(data.color));
     try {
-      await updateDashboard(dashboardIdNumber, data);
+      fetcher.submit(formData, {
+        method: 'post',
+        encType: 'multipart/form-data',
+      });
     } catch (err) {
       console.error('🩺대시보드 수정 실패:', err);
     }
@@ -86,7 +97,7 @@ const DashboardEdit = () => {
       }
     };
     fetchMember();
-  }, [memberPage]);
+  }, [memberPage, dashboardIdNumber]);
 
   const handleDeleteMember = async (id: number) => {
     try {
@@ -124,7 +135,7 @@ const DashboardEdit = () => {
       }
     };
     fetchInvitation();
-  }, [inviteePage]);
+  }, [inviteePage, dashboardIdNumber]);
 
   const handleDeleteInvitee = async (invitationId: number) => {
     try {
@@ -163,14 +174,27 @@ const DashboardEdit = () => {
                   <Input.Label className='tablet:text-2lg' htmlFor='dashboardEdit'>
                     대시보드 이름
                   </Input.Label>
-                  <Input.Field {...register('title')} id='dashboardEdit' placeholder='뉴프로젝트' type='text' />
+                  <Input.Field
+                    {...register('title')}
+                    id='dashboardEdit'
+                    placeholder={initialData.dashboardDetail.title}
+                    type='text'
+                  />
                 </Input.Root>
-                <ColorSelector value={color} onChange={(hex) => setValue('color', hex, { shouldValidate: true })} />
+
+                <ColorSelector
+                  value={color}
+                  onChange={(hex) => {
+                    setColor(hex);
+                    setValue('color', hex, { shouldValidate: true });
+                  }}
+                />
+                <input type='hidden' {...register('color')} />
               </form>
             </div>
             <Button
               className='rounded-lg'
-              disabled={!title?.trim() || !color || isSubmitting}
+              disabled={isSubmitting}
               form='updateDashboard'
               size='lg'
               type='submit'
