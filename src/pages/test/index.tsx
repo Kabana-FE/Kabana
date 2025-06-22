@@ -14,9 +14,9 @@ import { useToast } from '@/hooks/useToast';
 
 // --- API에서 받아온 데이터라고 가정 ---
 const statusData = [
-  { id: 'todo', name: 'To Do', withCheck: true },
-  { id: 'inProgress', name: 'In Progress', withCheck: true },
-  { id: 'done', name: 'Done', withCheck: true },
+  { label: 'todo', value: 'To Do', withCheck: true },
+  { label: 'inProgress', value: 'In Progress', withCheck: true },
+  { label: 'done', value: 'Done', withCheck: true },
 ];
 
 const Playground = () => {
@@ -29,8 +29,8 @@ const Playground = () => {
 
   // 받아온 데이터를 Dropdown이 요구하는 형식({ label, value })으로 변환
   const statusOptions: DropdownOption[] = statusData.map((status) => ({
-    label: status.name,
-    value: status.id,
+    label: status.value,
+    value: status.label,
     withCheck: status.withCheck,
   }));
 

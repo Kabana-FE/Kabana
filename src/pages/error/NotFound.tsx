@@ -30,8 +30,9 @@ const NotFound = () => {
         </div>
       </main>
 
-      <footer className='mt-8'>
+      <footer className='mt-8 flex gap-8'>
         <Button onClick={() => navigate(ROUTES.APP, { replace: true })}>홈으로 돌아가기</Button>
+        <Button onClick={() => navigate(-1)}>이전 페이지로</Button>
       </footer>
     </div>
   );

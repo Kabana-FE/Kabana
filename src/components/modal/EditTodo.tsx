@@ -27,7 +27,17 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
   const memberList = loader.memberList.members;
+
+
+  const statusOptions: DropdownOption[] = memberList.map((member) => ({
+    label: member.nickname,
+    value: member.id,
+    withCheck: true,
+  }));
+
+
   const columnOptions: DropdownOption[] = loader.columns.data.map((column: Column) => ({
+
     label: column.title,
     value: column.id,
   }));
@@ -160,8 +170,13 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
             <div>{selectedColumn ? selectedColumn?.label : result?.label}</div>
 
             <Dropdown
-              align='end'
+
+              align='start'
+     
+
+
               contentClassName='tablet:w-273'
+
               optionAlign='start'
               optionClassName='text-left h-40'
               options={columnOptions}
@@ -172,6 +187,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
               onSelect={handleColumnSelect}
             />
           </div>
+
           <div
             ref={dropDownContainer2}
             className='flex w-1/2 items-center justify-between rounded border border-gray-300 px-16 py-11'
@@ -190,6 +206,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
               onSelect={handleAsigneeSelect}
             />
           </div>
+
         </div>
         <Form
           className='flex flex-col'
