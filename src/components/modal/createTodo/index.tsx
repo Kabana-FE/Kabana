@@ -152,7 +152,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
         >
           <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
           <Dropdown
-            contentClassName='w-287 tablet:w-552 '
+            contentClassName='w-295 tablet:w-552 '
             optionAlign='start'
             optionClassName=' h-40'
             options={statusOptions}

@@ -75,7 +75,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo }: DetailTy
           <span>
             <Dropdown
               contentClassName=''
-              optionAlign='start'
+              optionAlign='center'
               optionClassName='text-center'
               options={[
                 { label: '수정하기', value: 'edit' },

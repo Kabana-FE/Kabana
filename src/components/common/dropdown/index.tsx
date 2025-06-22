@@ -157,7 +157,7 @@ const Dropdown = ({
       <Popover.Trigger as='button' className={triggerClassName} triggerRef={triggerRef} onToggle={toggle}>
         {trigger}
       </Popover.Trigger>
-      <Popover.Content className={contentClassName} close={close} contentRef={contentRef}>
+      <Popover.Content className={twMerge('w-full', contentClassName)} close={close} contentRef={contentRef}>
         {({ close: closeFn }) => (
           <ul ref={listRef} className='flex flex-col' role='menu' onKeyDown={handleKeyDown}>
             {options.map((option) => (
