@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from 'react-router';
 
 import { createCard } from '@/apis/card';
-import { createColumn } from '@/apis/column';
+import { createColumn, updateColumn } from '@/apis/column';
 import type { CreateColumnInput } from '@/schemas/column';
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
@@ -41,6 +41,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
       const title = String(formData.get('title'));
       const dashboardId = Number(formData.get('dashboardId'));
       if (typeof title !== 'string') throw new Error('Invalid title');
+
       type CreateColumnWithDashboardId = CreateColumnInput & { dashboardId: number };
       const payload: CreateColumnWithDashboardId = {
         title,
@@ -49,8 +50,16 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
       await createColumn(payload);
       return null;
     }
-    case 'editColumn':
-      break;
+
+    case 'editColumn': {
+      const columnId = Number(formData.get('columnId'));
+      const title = String(formData.get('title'));
+      if (typeof title !== 'string' || !title.trim()) throw new Error('Invalid title');
+
+      await updateColumn(columnId, { title });
+      return null;
+    }
+
     case 'deleteColumn':
   }
 

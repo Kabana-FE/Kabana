@@ -42,16 +42,6 @@ const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnPro
     formData.append('title', data.title);
 
     fetcher.submit(formData, { method: 'post' });
-    // const payload = { ...data, dashboardId };
-    // try {
-    //   await createColumn(payload);
-    //   toggleModal();
-    //   showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('컬럼'));
-    //   reset();
-    // } catch (err) {
-    //   showError(TOAST_MESSAGES.API.CREATE_FAILURE('컬럼'));
-    //   console.error('🩺컬럼 생성 실패:', err);
-    // }
     toggleModal();
   };
 
@@ -60,7 +50,6 @@ const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnPro
       showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('컬럼'));
       reset();
       toggleModal();
-      // optional: 컬럼 리스트 리패치 트리거 함수 호출
     }
     if (fetcher.data?.error) {
       showError(TOAST_MESSAGES.API.CREATE_FAILURE('컬럼'));
