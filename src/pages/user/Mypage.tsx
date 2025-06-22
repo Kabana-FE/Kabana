@@ -108,10 +108,12 @@ const MyPage = () => {
 
   return (
     <div className='flex min-h-screen w-full flex-col gap-6 bg-gray-100 px-12 py-16 tablet:gap-18 tablet:px-16'>
-      <nav className='flex cursor-pointer items-center gap-8'>
-        <ChevronIcon direction='left' size={18} />
-        <span onClick={handleMovePage}>돌아가기</span>
-      </nav>
+      <div className='flex items-center' onClick={handleMovePage}>
+        <Button aria-label='돌아가기' className='gap-8' size='none' variant='none'>
+          <ChevronIcon className='tablet:size-20' direction='left' size={18} />
+          <span className='text-md tablet:text-lg'>돌아가기</span>
+        </Button>
+      </div>
       <div className='flex flex-col gap-16 tablet:gap-24'>
         <section className='flex h-496 max-w-672 flex-col gap-40 rounded-lg bg-white p-16 tablet:h-366 tablet:gap-24 tablet:p-24'>
           <header>
