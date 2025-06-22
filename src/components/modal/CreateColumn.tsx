@@ -7,6 +7,8 @@ import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import type { CreateColumnProps } from '@/components/modal/types';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 import type { CreateColumnInput } from '@/schemas/column';
 import { createColumnSchema } from '@/schemas/column';
 /**
@@ -20,6 +22,7 @@ import { createColumnSchema } from '@/schemas/column';
  * - 사용자는 제목을 입력하여 컬럼을 생성할 수 있습니다.
  */
 const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnProps) => {
+  const { showSuccess, showError } = useToast();
   const {
     register,
     handleSubmit,
@@ -35,8 +38,10 @@ const CreateColumn = ({ dashboardId, isModalOpen, toggleModal }: CreateColumnPro
     try {
       await createColumn(payload);
       toggleModal();
+      showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('컬럼'));
       reset();
     } catch (err) {
+      showError(TOAST_MESSAGES.API.CREATE_FAILURE('컬럼'));
       console.error('🩺컬럼 생성 실패:', err);
     }
   };

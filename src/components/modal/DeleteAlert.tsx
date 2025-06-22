@@ -2,6 +2,8 @@ import { deleteColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import type { DeleteAlertProps } from '@/components/modal/types';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 /**
  * 컬럼 삭제를 확인하는 모달 컴포넌트
  *
@@ -15,11 +17,14 @@ import type { DeleteAlertProps } from '@/components/modal/types';
  * - 취소 버튼을 누르면 단순히 모달이 닫힙니다.
  */
 const DeleteAlert = ({ columnId, isModalOpen, toggleModal }: DeleteAlertProps) => {
+  const { showSuccess, showError } = useToast();
   const handleDelete = async () => {
     try {
       await deleteColumn(columnId);
       toggleModal();
+      showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('컬럼'));
     } catch (error) {
+      showError(TOAST_MESSAGES.API.DELETE_FAILURE('컬럼'));
       console.error('🩺컬럼 삭제 실패:', error);
     }
   };

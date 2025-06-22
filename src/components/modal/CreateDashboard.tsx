@@ -8,7 +8,9 @@ import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import type { CreateDashboardProps } from '@/components/modal/types';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { getDashboardDetailPath } from '@/constants/paths';
+import { useToast } from '@/hooks/useToast';
 import type { CreateDashboardInput } from '@/schemas/dashboard';
 import { createDashboardSchema } from '@/schemas/dashboard';
 /**
@@ -26,6 +28,7 @@ import { createDashboardSchema } from '@/schemas/dashboard';
  */
 const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => {
   const navigate = useNavigate();
+  const { showSuccess, showError } = useToast();
 
   const {
     register,
@@ -45,8 +48,10 @@ const CreateDashboard = ({ isModalOpen, toggleModal }: CreateDashboardProps) => 
       const dashboard = await createDashboard(data);
       toggleModal();
       reset();
+      showSuccess(TOAST_MESSAGES.API.CREATE_SUCCESS('대시보드'));
       navigate(getDashboardDetailPath(String(dashboard.id)));
     } catch (err) {
+      showError(TOAST_MESSAGES.API.CREATE_FAILURE('대시보드'));
       console.error('🩺대시보드 생성 실패:', err);
     }
   };

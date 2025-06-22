@@ -14,12 +14,12 @@ const DashboardLayout = () => {
   );
 
   return (
-    <div className='relative flex min-h-screen flex-col'>
+    <div className='relative flex min-h-screen flex-col bg-gray-100'>
       <DashboardHeader />
-      <div className='relative flex w-full pt-50'>
+      <div className='relative flex w-full'>
         <Sidebar />
         <div className={mainContentClasses}>
-          <main className='flex flex-1 bg-gray-100'>
+          <main className='flex flex-1 pt-60 tablet:pt-70'>
             <Outlet />
           </main>
         </div>
@@ -27,6 +27,5 @@ const DashboardLayout = () => {
     </div>
   );
 };
-
 
 export default DashboardLayout;

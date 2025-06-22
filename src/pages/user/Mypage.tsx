@@ -9,16 +9,22 @@ import AddIcon from '@/assets/icons/AddIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 import type { MypageLoaderData } from '@/loaders/myPage/types';
 import type { ChangePasswordRequest } from '@/schemas/auth';
 import { changePasswordRequestSchema } from '@/schemas/auth';
 import type { UpdateUser, UserInfo } from '@/schemas/user';
 import { updateUserInfoSchema } from '@/schemas/user';
+import { useKabanaStore } from '@/stores';
 
 const MyPage = () => {
   const initialData = useLoaderData() as MypageLoaderData;
   const [myProfile, setMyProfile] = useState<UserInfo>(initialData.myInfo);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const { showSuccess, showError } = useToast();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const setUser = useKabanaStore((state) => state.setUser);
 
   const {
     register: registerInfo,
@@ -31,35 +37,39 @@ const MyPage = () => {
     },
   });
 
-  const onSubmitInfo = async (data: UpdateUser) => {
-    try {
-      const updatedData = {
-        ...data,
-        profileImageUrl: myProfile.profileImageUrl,
-      };
-      await updateMyInfo(updatedData);
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-    } catch (err) {
-      console.error('🩺프로필 수정 실패:', err);
-    }
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPreviewUrl(URL.createObjectURL(file));
+    setSelectedFile(file);
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.[0]) return;
-    const file = e.target.files[0];
-    const preview = URL.createObjectURL(file);
-    setPreviewUrl(preview);
-
-    const formData = new FormData();
-    formData.append('image', file);
+  const onSubmitInfo = async (data: UpdateUser) => {
     try {
-      const updatedProfile = await uploadProfileImg(formData);
-      setMyProfile((prev) => ({
-        ...prev,
-        profileImageUrl: updatedProfile.profileImageUrl,
-      }));
-    } catch (error) {
-      console.error('🩺이미지 업로드 실패:', error);
+      let uploadedProfileImageUrl = myProfile.profileImageUrl;
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+        const profileImageUrl = await uploadProfileImg(formData);
+
+        uploadedProfileImageUrl = profileImageUrl.profileImageUrl;
+      }
+      const updatedData = {
+        ...data,
+        profileImageUrl: uploadedProfileImageUrl,
+      };
+      const updatedProfile = await updateMyInfo(updatedData);
+      setMyProfile(updatedProfile);
+      setUser(updatedProfile);
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('프로필'));
+      if (selectedFile && previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
+        setSelectedFile(null);
+      }
+    } catch (err) {
+      showSuccess(TOAST_MESSAGES.API.UPDATE_FAILURE('프로필'));
+      console.error('🩺프로필 수정 실패:', err);
     }
   };
 
@@ -75,7 +85,9 @@ const MyPage = () => {
   const onSubmitPwd = async (data: ChangePasswordRequest) => {
     try {
       await changePassword(data);
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('비밀번호'));
     } catch (err) {
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('비밀번호'));
       console.error('🩺비밀번호 변경 실패:', err);
       if (err instanceof Response) {
         const error = await err.json().catch(() => {});

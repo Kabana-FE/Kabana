@@ -7,8 +7,10 @@ import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeOffIcon from '@/assets/icons/EyeOffIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { ROUTES } from '@/constants/paths/routes';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 import type { SignupRequest } from '@/schemas/auth';
 import { signupRequestSchema } from '@/schemas/auth';
 
@@ -18,7 +20,7 @@ const SignupForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
-
+  const { showSuccess, showError } = useToast();
   const {
     register,
     handleSubmit,
@@ -40,10 +42,12 @@ const SignupForm = () => {
   const onSubmit = async (data: SignupRequest) => {
     try {
       await signup(data);
+      showSuccess(TOAST_MESSAGES.AUTH.SIGNUP_SUCCESS);
       navigate(ROUTES.SIGNIN, { replace: true });
     } catch (error) {
       // 토스트 메세지로 변경 예정
-      alert(`회원가입 실패: ${error}`);
+      // alert(`회원가입 실패: ${error}`);
+      showError(TOAST_MESSAGES.AUTH.SIGNUP_FAILURE);
     }
   };
 
