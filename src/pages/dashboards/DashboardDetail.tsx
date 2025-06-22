@@ -11,12 +11,11 @@ import type { GetCardListType } from '@/schemas/card';
 const DashboardDetail = () => {
   const data = useLoaderData() as DashboardDetailLoaderData;
   const params = useParams();
-  console.log(data.memberListResponse);
   const dashboardId = Number(params.dashboardId);
   const [createColumn, setCreateColumn] = useState(false);
 
   return (
-    <div className='flex h-full w-screen'>
+    <div className='mt-60 tablet:mt-70'>
       <section className='flex w-screen flex-col px-20 pc:flex-row pc:overflow-x-scroll'>
         {data.cardList &&
           data.cardList.map((cardItem: GetCardListType, idx: number) => {
@@ -31,7 +30,7 @@ const DashboardDetail = () => {
             );
           })}
         <Button
-          className='w-full shrink-0 pc:flex-1/5'
+          className='w-full shrink-0 pc:mt-10 pc:flex-1/4'
           variant='outlined'
           onClick={() => {
             setCreateColumn(!createColumn);

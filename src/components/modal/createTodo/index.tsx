@@ -20,11 +20,12 @@ import { createTodoSchema } from '@/schemas/card';
 import { type CreateTodoModalType, type TagListType } from './types';
 const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateTodoModalType) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [tagList, setTagList] = useState<TagListType[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<DropdownOption | null>(null);
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
-  const memberList = loader.memberListResponse.members;
+  const memberList = loader.memberList.members;
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.userId,
@@ -83,7 +84,19 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     }
   };
 
-  const onSubmit = (data: CreateTodoType) => {
+  const onSubmit = async (data: CreateTodoType) => {
+    if (selectedFile) {
+      const imageFormData = new FormData();
+      imageFormData.append('image', selectedFile);
+      try {
+        const uploadImage = await uploadCardImage(columnId, imageFormData);
+        console.log(uploadImage);
+        setValue('imageUrl', uploadImage.imageUrl);
+      } catch (error) {
+        console.error('🩺이미지 업로드 실패:', error);
+      }
+    }
+
     const formData = new FormData();
     formData.append('intent', 'createTodo');
     formData.append('assigneeUserId', String(data.assigneeUserId));
@@ -101,6 +114,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
       method: 'post',
       encType: 'multipart/form-data',
     });
+    toggleModal();
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,16 +122,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     const file = e.target.files[0];
     const preview = URL.createObjectURL(file);
     setPreviewUrl(preview);
-
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-      const uploadImage = await uploadCardImage(columnId, formData);
-      console.log(uploadImage);
-      setValue('imageUrl', uploadImage.imageUrl);
-    } catch (error) {
-      console.error('🩺이미지 업로드 실패:', error);
-    }
+    setSelectedFile(file);
   };
 
   const handleOptionSelect = async (value: string | number) => {

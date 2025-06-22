@@ -20,21 +20,18 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
   const isInitialRender = useRef(true);
   const params = useParams();
   const submit = useSubmit();
-
   const handleOptionSelect = async (value: string | number) => {
     if (value === 'edit') {
-      console.log('수정하기 클릭');
       toggleModal();
       toggleEditTodo();
     }
 
     if (value === 'delete') {
-      console.log('삭제하기 클릭');
       const formData = new FormData();
-      formData.append('intent', 'deleteCard');
+      formData.append('intent', 'deleteTodo');
       formData.append('cardId', String(data.id));
-
       try {
+        submit(formData, { method: 'delete' });
         toggleModal();
       } catch (error) {
         console.error('카드 삭제 실패:', error);
@@ -44,6 +41,9 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false;
+      return;
+    }
+    if (!isModalOpen) {
       return;
     }
     const fetch = async () => {
