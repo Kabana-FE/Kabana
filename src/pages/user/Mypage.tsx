@@ -46,6 +46,21 @@ const MyPage = () => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+      showError('지원하지 않는 파일 형식입니다. (jpg, jpeg, png, webp만 가능)');
+      return;
+    }
+
+    if (file.size > maxSize) {
+      showError('파일 용량은 5MB 이하로 업로드해주세요.');
+      return;
+    }
+
     setPreviewUrl(URL.createObjectURL(file));
     setSelectedFile(file);
   };
@@ -74,7 +89,7 @@ const MyPage = () => {
         setSelectedFile(null);
       }
     } catch (err) {
-      showSuccess(TOAST_MESSAGES.API.UPDATE_FAILURE('프로필'));
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('프로필'));
       console.error('🩺프로필 수정 실패:', err);
     }
   };
@@ -135,7 +150,7 @@ const MyPage = () => {
                   <AddIcon className='tablet:size-18' size={12} />
                 )}
               </Input.Label>
-              <Input.Field id='fileUpload' type='file' onChange={handleFileChange} />
+              <Input.Field accept='image/*' id='fileUpload' type='file' onChange={handleFileChange} />
             </Input.Root>
             <form className='flex flex-1 flex-col gap-24' onSubmit={handleSubmitInfo(onSubmitInfo)}>
               <div className='flex flex-col gap-16'>

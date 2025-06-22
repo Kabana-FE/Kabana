@@ -28,12 +28,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
   const loader = useLoaderData() as DashboardDetailLoaderData;
   const memberList = loader.memberList.members;
 
-  const statusOptions: DropdownOption[] = memberList.map((member) => ({
-    label: member.nickname,
-    value: member.id,
-    withCheck: true,
-  }));
-
   const columnOptions: DropdownOption[] = loader.columns.data.map((column: Column) => ({
     label: column.title,
     value: column.id,
@@ -62,7 +56,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
     handleSubmit,
     setValue,
     reset,
-    getValues,
     formState: { errors, isSubmitting },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
 
@@ -282,8 +275,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
           variant='outlined'
           onClick={() => {
             toggleModal();
-            reset();
-            setTagList([]);
           }}
         >
           취소
