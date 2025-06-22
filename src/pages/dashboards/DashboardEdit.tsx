@@ -72,12 +72,17 @@ const DashboardEdit = () => {
     formData.append('color', String(data.color));
     try {
       fetcher.submit(formData, { method: 'post', encType: 'multipart/form-data' });
-      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('대시보드'));
     } catch (err) {
       showError(TOAST_MESSAGES.API.UPDATE_FAILURE('대시보드'));
       console.error('🩺대시보드 수정 실패:', err);
     }
   };
+
+  useEffect(() => {
+    if (fetcher.state === 'idle' && fetcher.data) {
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('대시보드'));
+    }
+  }, [fetcher.state, fetcher.data]);
 
   // Fetch member list
   const memberFetcher = useFetcher();
