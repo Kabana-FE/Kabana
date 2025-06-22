@@ -14,9 +14,9 @@ import { useToast } from '@/hooks/useToast';
 
 // --- API에서 받아온 데이터라고 가정 ---
 const statusData = [
-  { id: 'todo', name: 'To Do' },
-  { id: 'inProgress', name: 'In Progress' },
-  { id: 'done', name: 'Done' },
+  { id: 'todo', name: 'To Do', withCheck: true },
+  { id: 'inProgress', name: 'In Progress', withCheck: true },
+  { id: 'done', name: 'Done', withCheck: true },
 ];
 
 const Playground = () => {
@@ -31,6 +31,7 @@ const Playground = () => {
   const statusOptions: DropdownOption[] = statusData.map((status) => ({
     label: status.name,
     value: status.id,
+    withCheck: status.withCheck,
   }));
 
   // 두 번째 드롭다운의 선택된 상태를 관리하기 위한 state를 추가합니다.
@@ -90,6 +91,7 @@ const Playground = () => {
         <Dropdown
           align='end'
           contentClassName=''
+          optionAlign='center'
           optionClassName='text-center'
           options={[
             { label: '수정하기', value: 'edit' },
@@ -98,6 +100,7 @@ const Playground = () => {
             { label: '로그아웃', value: 'logout' },
           ]}
           positionRef={dropdownContainerRef1}
+          selectedValue={selectedStatus?.value ?? null}
           trigger={<MoreVertIcon aria-label='더보기 옵션' size={24} />}
           triggerClassName='px-2 py-1 hover:bg-gray-100'
           onSelect={handleOptionSelect1}
@@ -113,10 +116,11 @@ const Playground = () => {
         <Dropdown
           align='start'
           contentClassName='w-300'
-          optionClassName='text-left'
+          optionAlign='start'
+          optionClassName=''
           options={statusOptions}
           positionRef={dropdownContainerRef2}
-          selectedValue={selectedStatus?.value}
+          selectedValue={selectedStatus?.value ?? null}
           trigger={<TriangleIcon aria-label='OOO 옵션' size={12} />}
           onSelect={handleOptionSelect2}
         />
