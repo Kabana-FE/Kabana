@@ -11,7 +11,7 @@ import type { GetCardListType } from '@/schemas/card';
 const DashboardDetail = () => {
   const data = useLoaderData() as DashboardDetailLoaderData;
   const params = useParams();
-  console.log(data.memberListResponse);
+
   const dashboardId = Number(params.dashboardId);
   const [createColumn, setCreateColumn] = useState(false);
 

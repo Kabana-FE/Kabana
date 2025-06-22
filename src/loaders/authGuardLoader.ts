@@ -2,7 +2,9 @@ import { HttpStatusCode } from 'axios';
 import { redirect } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { ROUTES } from '@/constants/paths';
+import { dashboardListResponseSchema } from '@/schemas/dashboard';
 import { useKabanaStore } from '@/stores';
 import handleLoaderError from '@/utils/error/handleLoaderError';
 
@@ -30,36 +32,34 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
 
   if (!isPrivateOnly && isLoggedIn) {
     console.warn('⚠️ 로그인한 사용자가 공개 전용 경로에 접근하려 했습니다. 대시보드로 리디렉션합니다.');
+    useKabanaStore.getState().addToast(TOAST_MESSAGES.AUTH_GUARD.NEED_SIGNOUT, 'info');
     throw redirect(ROUTES.DASHBOARD_LIST);
   }
 
   if (isPrivateOnly && !isLoggedIn) {
     console.warn('⚠️ 로그인하지 않은 사용자가 보호된 경로에 접근하려 했습니다. 로그인 페이지로 리디렉션합니다.');
+    useKabanaStore.getState().addToast(TOAST_MESSAGES.AUTH_GUARD.NEED_SIGNIN, 'warning');
     throw redirect(ROUTES.SIGNIN);
   }
 
   if (isPrivateOnly && isLoggedIn) {
     try {
-      const dashboardListResponse = await getDashboardList({
+      const rawDashboardListResponse = await getDashboardList({
         navigationMethod: 'pagination',
         page: 1,
-      });
-      const rawDashboardListResponse = await getDashboardList({
-        navigationMethod: 'infiniteScroll',
         size: 10,
-        cursorId: null,
       });
+
+      const dashboardListResponse = dashboardListResponseSchema.parse(rawDashboardListResponse);
 
       return {
         dashboards: dashboardListResponse.dashboards,
         totalCount: dashboardListResponse.totalCount,
         pageSize: 10,
-
-        //const dashboardListResponse = dashboardListResponseSchema.parse(rawDashboardListResponse);
       };
     } catch (error) {
-      // 401이면 토큰 만료 → 자동 로그아웃
       if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {
+        useKabanaStore.getState().addToast(TOAST_MESSAGES.AUTH_GUARD.TOKEN_EXPIRED, 'warning');
         clearAuth();
         useKabanaStore.persist.clearStorage();
         throw redirect(ROUTES.SIGNIN);

@@ -14,7 +14,9 @@ import Invitations from '@/components/dashboardEdit/invitations';
 import Members from '@/components/dashboardEdit/members';
 import InviteMember from '@/components/modal/InviteMember';
 import Pagination from '@/components/pagination';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { ROUTES } from '@/constants/paths';
+import { useToast } from '@/hooks/useToast';
 import type { DashboardEditLoaderData } from '@/loaders/dashboard/types';
 import type { UpdateDashboardInput } from '@/schemas/dashboard';
 import { inviteeListSchema, updateDashboardSchema } from '@/schemas/dashboard';
@@ -71,11 +73,14 @@ const DashboardEdit = () => {
         encType: 'multipart/form-data',
       });
     } catch (err) {
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('대시보드'));
       console.error('🩺대시보드 수정 실패:', err);
     }
   };
 
   const isMemberRender = useRef(true);
+
+  const { showSuccess, showError } = useToast();
 
   useEffect(() => {
     if (isMemberRender.current) {
@@ -91,8 +96,9 @@ const DashboardEdit = () => {
         const memberList = memberListResponseSchema.parse(rawMemberList);
         setMemberList(memberList.members);
       } catch (err) {
-        console.error('🩺구성원 조회 실패:', err);
+        console.error('🩺 멤버 조회 실패:', err);
       } finally {
+        showError(TOAST_MESSAGES.API.FETCH_FAILURE('멤버'));
         setIsMemberLoading(false);
       }
     };
@@ -158,7 +164,8 @@ const DashboardEdit = () => {
         const inviteeList = inviteeListSchema.parse(rawInviteeList);
         setInviteeList(inviteeList.invitations);
       } catch (err) {
-        console.error('🩺초대내역 조회 실패:', err);
+        showError(TOAST_MESSAGES.API.FETCH_FAILURE('초대 내역'));
+        console.error('🩺 초대내역 조회 실패:', err);
       } finally {
         setIsInviteeLoading(false);
       }
@@ -212,8 +219,10 @@ const DashboardEdit = () => {
   const handleDelete = async (dashboardId: number) => {
     try {
       await deleteDashboard(dashboardId);
+      showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('대시보드'));
       navigate(ROUTES.DASHBOARD_LIST);
     } catch (error) {
+      showError(TOAST_MESSAGES.API.DELETE_FAILURE('대시보드'));
       console.error('🩺대시보드 삭제 실패:', error);
     }
   };

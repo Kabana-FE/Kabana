@@ -7,14 +7,17 @@ import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeOffIcon from '@/assets/icons/EyeOffIcon';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { ROUTES } from '@/constants/paths/routes';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 import type { LoginRequest } from '@/schemas/auth';
 import { loginRequestSchema } from '@/schemas/auth';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { showSuccess, showError } = useToast();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,10 +37,13 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginRequest) => {
     try {
       await login(data);
+      showSuccess(TOAST_MESSAGES.AUTH.LOGIN_SUCCESS);
       navigate(ROUTES.DASHBOARD_LIST, { replace: true });
     } catch (error) {
       // 토스트 메세지로 변경 예정
-      alert(`로그인 실패: ${error}`);
+      // alert(`로그인 실패: ${error}`);
+      // 토스트 메시지 필요에 따라 상수쪽에서 적절하게 수정하세요.
+      showError(TOAST_MESSAGES.AUTH.LOGIN_FAILURE);
     }
   };
 

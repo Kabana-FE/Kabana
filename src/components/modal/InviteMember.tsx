@@ -6,6 +6,8 @@ import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import type { InviteMemberProps } from '@/components/modal/types';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 import type { InviteMemberInput } from '@/schemas/invitation';
 import { inviteMemberSchema } from '@/schemas/invitation';
 /**
@@ -20,6 +22,7 @@ import { inviteMemberSchema } from '@/schemas/invitation';
  * - 초대 요청 성공 시 해당 이메일을 가진 유저에게 초대가 갑니다.
  */
 const InviteMember = ({ dashboardId, isModalOpen, toggleModal }: InviteMemberProps) => {
+  const { showSuccess, showError } = useToast();
   const {
     register,
     handleSubmit,
@@ -34,9 +37,11 @@ const InviteMember = ({ dashboardId, isModalOpen, toggleModal }: InviteMemberPro
     try {
       await inviteMember(dashboardId, data);
       toggleModal();
+      showSuccess(TOAST_MESSAGES.INVITATION.INVITE_SUCCESS(data.email));
       reset();
     } catch (err) {
-      console.error('🩺구성원 초대 실패:', err);
+      showError(TOAST_MESSAGES.INVITATION.INVITE_FAILURE);
+      console.error('🩺 구성원 초대 실패:', err);
     }
   };
 

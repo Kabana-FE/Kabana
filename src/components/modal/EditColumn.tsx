@@ -6,6 +6,8 @@ import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
 import type { EditColumnProps } from '@/components/modal/types';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
+import { useToast } from '@/hooks/useToast';
 import type { UpdateColumnInput } from '@/schemas/column';
 import { updateColumnSchema } from '@/schemas/column';
 /**
@@ -22,6 +24,8 @@ import { updateColumnSchema } from '@/schemas/column';
  * - 삭제 버튼을 클릭해 삭제 확인 모달(`DeleteAlert`)을 열 수 있습니다.
  */
 const EditColumn = ({ columnId, initialTitle, isModalOpen, toggleModal, toggleDeleteAlert }: EditColumnProps) => {
+  const { showSuccess, showError } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -38,8 +42,10 @@ const EditColumn = ({ columnId, initialTitle, isModalOpen, toggleModal, toggleDe
     try {
       await updateColumn(columnId, data);
       toggleModal();
+      showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('컬럼'));
       reset();
     } catch (err) {
+      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('컬럼'));
       console.error('🩺컬럼 수정 실패:', err);
     }
   };
