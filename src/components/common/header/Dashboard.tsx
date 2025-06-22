@@ -1,33 +1,9 @@
-// import ChevronIcon from '@/assets/icons/ChevronIcon';
-// import { useKabanaStore } from '@/stores';
-
-// import Button from '../button';
-
-// const DashboardHeader = () => {
-//   const { isSidebarOpen, toggleSidebar } = useKabanaStore();
-//   return (
-//     <header className='fixed top-0 left-0 z-50 flex h-50 w-full items-center border-b border-gray-200 bg-white pr-24'>
-//       <Button
-//         aria-label={isSidebarOpen ? '사이드바 닫기' : '사이드바 열기'}
-//         className='h-auto items-center justify-center rounded-full border bg-white p-10 shadow-md transition hover:bg-gray-100 active:bg-cream'
-//         onClick={toggleSidebar}
-//       >
-//         {isSidebarOpen ? (
-//           <div className='flex items-center justify-center gap-3'>
-//             <ChevronIcon direction='left' />
-//           </div>
-//         ) : (
-//           <div className='flex items-center justify-center gap-3'>
-//             <ChevronIcon direction='right' />
-//           </div>
-//         )}
-//       </Button>
-//     </header>
-
 import { useState } from 'react';
 import { Link, useLocation, useRouteLoaderData } from 'react-router';
+import { twMerge } from 'tailwind-merge';
 
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
+import ChevronIcon from '@/assets/icons/ChevronIcon';
 import CrownIcon from '@/assets/icons/CrownIcon';
 import SettingIcon from '@/assets/icons/SettingIcon';
 import Avatar from '@/components/Avatar';
@@ -41,6 +17,7 @@ import { useKabanaStore } from '@/stores';
 const DashboardHeader = () => {
   const location = useLocation();
 
+  const { isSidebarOpen, toggleSidebar } = useKabanaStore();
   const user = useKabanaStore((state) => state.user);
   const userName = user?.nickname;
   const profileImageUrl = user?.profileImageUrl;
@@ -55,7 +32,30 @@ const DashboardHeader = () => {
 
   return (
     <>
-      <header className='fixed inset-x-0 top-0 z-10 flex h-60 items-center gap-16 border-b border-gray-300 bg-white pr-8 pl-18 tablet:h-70 tablet:gap-32 tablet:pr-32 tablet:pl-40 pc:gap-40 pc:pr-80 pc:pl-40'>
+      <header
+        className={twMerge(
+          'flex h-60 items-center gap-16 border-b border-gray-300 bg-white pr-8 pl-18 tablet:h-70 tablet:gap-32 tablet:pr-32 tablet:pl-40 pc:gap-40 pc:pr-80 pc:pl-40',
+          'fixed top-0 right-0 z-10',
+          'transition-all duration-300 ease-in-out',
+          isSidebarOpen ? 'left-70 tablet:left-160 pc:left-300' : 'left-0 tablet:left-70',
+        )}
+      >
+        <Button
+          aria-label={isSidebarOpen ? '사이드바 닫기' : '사이드바 열기'}
+          className='h-auto items-center justify-center rounded-full border bg-white p-10 shadow-md transition hover:bg-gray-100 active:bg-cream'
+          onClick={toggleSidebar}
+        >
+          {isSidebarOpen ? (
+            <div className='flex items-center justify-center gap-3'>
+              <ChevronIcon direction='left' />
+            </div>
+          ) : (
+            <div className='flex items-center justify-center gap-3'>
+              <ChevronIcon direction='right' />
+            </div>
+          )}
+        </Button>
+
         <div className='flex flex-1 items-center justify-between'>
           {dashboardDetail ? (
             <h1 className='invisible flex items-center gap-8 text-lg font-bold text-gray-700 pc:visible'>
