@@ -2,6 +2,7 @@ import type { ActionFunctionArgs } from 'react-router-dom';
 import { redirect } from 'react-router-dom';
 
 import { deleteDashboard, deleteInvitee, updateDashboard } from '@/apis/dashboard';
+import { inviteMember } from '@/apis/invitation';
 import { deleteMember } from '@/apis/member';
 import { ROUTES } from '@/constants/paths';
 import { updateDashboardSchema } from '@/schemas/dashboard';
@@ -11,51 +12,54 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const intent = formData.get('intent');
 
-  const handleUpdateDashboard = async (formData: FormData, dashboardId: number) => {
-    const title = formData.get('title');
-    const color = formData.get('color');
-
-    if (typeof title !== 'string' || typeof color !== 'string') {
-      throw new Error('Invalid form data');
-    }
-
-    const parsed = updateDashboardSchema.parse({ title, color });
-    await updateDashboard(dashboardId, parsed);
-
-    return null;
-  };
-
-  const handleDeleteMember = async (formData: FormData) => {
-    const memberId = formData.get('memberId');
-    if (typeof memberId !== 'string') throw new Error('Invalid memberId');
-
-    await deleteMember(Number(memberId));
-    return null;
-  };
-
-  const handleDeleteInvitee = async (formData: FormData, dashboardId: number) => {
-    const invitationId = formData.get('invitationId');
-    if (typeof invitationId !== 'string') throw new Error('Invalid invitationId');
-
-    await deleteInvitee({ dashboardId, invitationId: Number(invitationId) });
-    return null;
-  };
-
-  const handleDeleteDashboard = async (dashboardId: number) => {
-    await deleteDashboard(dashboardId);
-    return redirect(ROUTES.DASHBOARD_LIST);
-  };
+  if (!intent || typeof intent !== 'string') {
+    return new Response('Invalid intent', { status: 400 });
+  }
 
   try {
     switch (intent) {
-      case 'updateDashboard':
-        return handleUpdateDashboard(formData, dashboardId);
-      case 'deleteMember':
-        return handleDeleteMember(formData);
-      case 'deleteInvitee':
-        return handleDeleteInvitee(formData, dashboardId);
-      case 'deleteDashboard':
-        return handleDeleteDashboard(dashboardId);
+      case 'updateDashboard': {
+        const title = formData.get('title');
+        const color = formData.get('color');
+
+        if (typeof title !== 'string' || typeof color !== 'string') {
+          throw new Error('Invalid form data');
+        }
+
+        const parsed = updateDashboardSchema.parse({ title, color });
+        await updateDashboard(dashboardId, parsed);
+        return null;
+      }
+
+      case 'deleteMember': {
+        const memberId = formData.get('memberId');
+        if (typeof memberId !== 'string') throw new Error('Invalid memberId');
+
+        await deleteMember(Number(memberId));
+        return null;
+      }
+
+      case 'deleteInvitee': {
+        const invitationId = formData.get('invitationId');
+        if (typeof invitationId !== 'string') throw new Error('Invalid invitationId');
+
+        await deleteInvitee({ dashboardId, invitationId: Number(invitationId) });
+        return null;
+      }
+
+      case 'inviteMember': {
+        const email = formData.get('email');
+        if (typeof email !== 'string') throw new Error('Invalid email');
+
+        await inviteMember(dashboardId, { email });
+        return null;
+      }
+
+      case 'deleteDashboard': {
+        await deleteDashboard(dashboardId);
+        return redirect(ROUTES.DASHBOARD_LIST);
+      }
+
       default:
         throw new Error(`Unknown intent: ${intent}`);
     }

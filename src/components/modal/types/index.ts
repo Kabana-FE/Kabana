@@ -83,6 +83,7 @@ export interface InviteMemberProps {
    * 모달의 열림/닫힘 상태를 토글하는 함수
    */
   toggleModal: () => void;
+  onInviteSuccess: () => void;
 }
 
 export interface EditTodoType extends CreateTodoModalType {

@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import { useFetcher } from 'react-router-dom';
 
-import { inviteMember } from '@/apis/invitation';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
@@ -10,40 +11,40 @@ import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { useToast } from '@/hooks/useToast';
 import type { InviteMemberInput } from '@/schemas/invitation';
 import { inviteMemberSchema } from '@/schemas/invitation';
-/**
- * 구성원 초대 모달 컴포넌트
- *
- * @param {number} dashboardId - 초대할 대시보드의 ID
- * @param {boolean} isModalOpen - 모달의 열림 여부
- * @param {() => void} toggleModal - 모달의 열람/닫힘 상태를 토글하는 함수
- *
- * @description
- * - 대시보드에 이메일을 입력하여 구성원을 초대하는 폼 입니다.
- * - 초대 요청 성공 시 해당 이메일을 가진 유저에게 초대가 갑니다.
- */
-const InviteMember = ({ dashboardId, isModalOpen, toggleModal }: InviteMemberProps) => {
+
+const InviteMember = ({ dashboardId, isModalOpen, toggleModal, onInviteSuccess }: InviteMemberProps) => {
   const { showSuccess, showError } = useToast();
+  const fetcher = useFetcher();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
     reset,
     control,
+    formState: { errors },
   } = useForm<InviteMemberInput>({
     resolver: zodResolver(inviteMemberSchema),
   });
+
   const email = useWatch({ control, name: 'email' });
-  const onSubmit = async (data: InviteMemberInput) => {
-    try {
-      await inviteMember(dashboardId, data);
-      toggleModal();
-      showSuccess(TOAST_MESSAGES.INVITATION.INVITE_SUCCESS(data.email));
-      reset();
-    } catch (err) {
-      showError(TOAST_MESSAGES.INVITATION.INVITE_FAILURE);
-      console.error('🩺 구성원 초대 실패:', err);
-    }
+  const isSubmitting = fetcher.state === 'submitting';
+
+  const onInviteMember = (data: InviteMemberInput) => {
+    const formData = new FormData();
+    formData.append('intent', 'inviteMember');
+    formData.append('email', data.email);
+    fetcher.submit(formData, { method: 'post' });
+    toggleModal();
   };
+
+  useEffect(() => {
+    if (fetcher.data) {
+      showSuccess(TOAST_MESSAGES.INVITATION.SUCCESS(email));
+      reset();
+      toggleModal();
+      onInviteSuccess?.();
+    }
+  }, [fetcher.data]);
 
   return (
     <Dialog.Root
@@ -54,15 +55,22 @@ const InviteMember = ({ dashboardId, isModalOpen, toggleModal }: InviteMemberPro
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Title className='text-xl font-bold tablet:text-2xl'>초대하기</Dialog.Title>
       <Dialog.Content className='pt-16 pb-24 tablet:pt-24'>
-        <form className='flex flex-col gap-8' id='inviteMember' onSubmit={handleSubmit(onSubmit)}>
+        <fetcher.Form
+          action={`/dashboards/${dashboardId}/edit`}
+          className='flex flex-col gap-8'
+          id='inviteMember'
+          method='post'
+          onSubmit={handleSubmit(onInviteMember)}
+        >
+          <input name='intent' type='hidden' value='inviteMember' />
           <Input.Root>
             <Input.Label className='tablet:text-2lg' htmlFor='email'>
               이메일
             </Input.Label>
-            <Input.Field id='email' type='email' {...register('email')} placeholder='user@email.com' />
+            <Input.Field id='email' placeholder='user@email.com' type='email' {...register('email')} />
             <Input.ErrorMessage>{errors.email?.message}</Input.ErrorMessage>
           </Input.Root>
-        </form>
+        </fetcher.Form>
       </Dialog.Content>
       <Dialog.ButtonArea>
         <Button

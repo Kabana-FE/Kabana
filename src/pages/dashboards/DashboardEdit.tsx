@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useFetcher, useLoaderData, useNavigate, useParams } from 'react-router';
 
@@ -49,6 +49,11 @@ const DashboardEdit = () => {
   const [inviteePage, setInviteePage] = useState<number>(1);
   const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
   const totalInviteePage = Math.ceil(initialData.inviteeList.totalCount / 5);
+
+  useEffect(() => {
+    setInviteePage(1);
+    setInviteeList(initialData.inviteeList.invitations);
+  }, [initialData]);
 
   const {
     register,
@@ -100,10 +105,14 @@ const DashboardEdit = () => {
       setIsMemberLoading(false);
     }
   };
-
+  const isInitialMemberRender = useRef(true);
   useEffect(() => {
+    if (isInitialMemberRender.current) {
+      isInitialMemberRender.current = false;
+      return;
+    }
     fetchMemberList();
-  }, [memberPage, memberFetcher.state]);
+  }, [memberPage]);
 
   const handleDeleteMember = (id: number) => {
     const formData = new FormData();
@@ -114,8 +123,23 @@ const DashboardEdit = () => {
 
   // Fetch invitee list
   const dashboardFetcher = useFetcher();
-  const fetchInvitation = async () => {
+  // const fetchInvitation = async () => {
+  //   if (isInviteeLoading) return;
+  //   setIsInviteeLoading(true);
+  //   try {
+  //     const rawInviteeList = await getInviteeList({ dashboardId: dashboardIdNumber, size: 5, page: inviteePage });
+  //     const inviteeList = inviteeListSchema.parse(rawInviteeList);
+  //     setInviteeList(inviteeList.invitations);
+  //   } catch (err) {
+  //     showError(TOAST_MESSAGES.API.FETCH_FAILURE('초대 내역'));
+  //     console.error('🩺 초대내역 조회 실패:', err);
+  //   } finally {
+  //     setIsInviteeLoading(false);
+  //   }
+  // };
+  const fetchInvitation = useCallback(async () => {
     if (isInviteeLoading) return;
+
     setIsInviteeLoading(true);
     try {
       const rawInviteeList = await getInviteeList({ dashboardId: dashboardIdNumber, size: 5, page: inviteePage });
@@ -127,11 +151,20 @@ const DashboardEdit = () => {
     } finally {
       setIsInviteeLoading(false);
     }
+  }, [dashboardIdNumber, inviteePage, isInviteeLoading, showError]);
+
+  const handleInviteSuccess = () => {
+    fetchInvitation();
   };
+  const isInitialInviteeRender = useRef(true);
 
   useEffect(() => {
+    if (isInitialInviteeRender.current) {
+      isInitialInviteeRender.current = false;
+      return;
+    }
     fetchInvitation();
-  }, [inviteePage, dashboardFetcher.state]);
+  }, [inviteePage]);
 
   const handleDeleteInvitee = (invitationId: number) => {
     const formData = new FormData();
@@ -263,7 +296,12 @@ const DashboardEdit = () => {
         </Button>
       </div>
 
-      <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      <InviteMember
+        dashboardId={dashboardIdNumber}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        onInviteSuccess={handleInviteSuccess}
+      />
     </div>
   );
 };
