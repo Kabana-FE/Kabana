@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from 'react-router';
 
-import { createCard } from '@/apis/card';
+import { createCard, deleteCard, editCard } from '@/apis/card';
 import { createColumn, deleteColumn, updateColumn } from '@/apis/column';
 import { createComment, deleteComment, editComment } from '@/apis/comment';
 import type { CreateColumnInput } from '@/schemas/column';
