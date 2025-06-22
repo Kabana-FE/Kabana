@@ -14,6 +14,7 @@ import { getCardListSchema } from '@/schemas/card';
 import CreateTodo from '../modal/createTodo';
 import DeleteAlert from '../modal/DeleteAlert';
 import EditColumn from '../modal/EditColumn';
+import CardSkeleton from './CardSkeleton';
 import type { CardListType } from './types';
 
 const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
@@ -69,7 +70,7 @@ const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
         {cardList?.map((card) => {
           return <CardItem key={card.id} card={card} />;
         })}
-
+        {isCardLoading && <CardSkeleton />}
         <div ref={ref} />
       </div>
       {createTodo && (
