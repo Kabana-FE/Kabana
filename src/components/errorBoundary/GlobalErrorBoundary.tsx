@@ -21,6 +21,7 @@ const GlobalErrorBoundary = () => {
     status,
     message: userMessage,
     title: UI_ERRORS.BOUNDARY_TITLES.GLOBAL,
+    variant: ['home', 'retry'],
   };
   return (
     <div className='flex min-h-screen flex-col'>

@@ -20,14 +20,16 @@ import { createTodoSchema } from '@/schemas/card';
 import { type CreateTodoModalType, type TagListType } from './types';
 const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateTodoModalType) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [tagList, setTagList] = useState<TagListType[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<DropdownOption | null>(null);
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
-  const memberList = loader.memberListResponse.members;
+  const memberList = loader.memberList.members;
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.userId,
+    withCheck: true,
   }));
 
   const dropDownContainer = useRef<HTMLDivElement>(null);
@@ -83,8 +85,19 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     }
   };
 
-  const onSubmit = (data: CreateTodoType) => {
+  const onSubmit = async (data: CreateTodoType) => {
     const formData = new FormData();
+    if (selectedFile) {
+      const imageFormData = new FormData();
+      imageFormData.append('image', selectedFile);
+      try {
+        const uploadImage = await uploadCardImage(columnId, imageFormData);
+        formData.append('imageUrl', uploadImage.imageUrl);
+      } catch (error) {
+        console.error('🩺이미지 업로드 실패:', error);
+      }
+    }
+
     formData.append('intent', 'createTodo');
     formData.append('assigneeUserId', String(data.assigneeUserId));
     formData.append('dashboardId', String(data.dashboardId));
@@ -93,14 +106,12 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     formData.append('description', data.description);
     formData.append('dueDate', data.dueDate);
     formData.append('tags', JSON.stringify(data.tags));
-    if (data.imageUrl) {
-      formData.append('imageUrl', data.imageUrl);
-    }
 
     submit(formData, {
       method: 'post',
       encType: 'multipart/form-data',
     });
+    toggleModal();
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,20 +119,10 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
     const file = e.target.files[0];
     const preview = URL.createObjectURL(file);
     setPreviewUrl(preview);
-
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-      const uploadImage = await uploadCardImage(columnId, formData);
-      console.log(uploadImage);
-      setValue('imageUrl', uploadImage.imageUrl);
-    } catch (error) {
-      console.error('🩺이미지 업로드 실패:', error);
-    }
+    setSelectedFile(file);
   };
 
   const handleOptionSelect = async (value: string | number) => {
-    // 선택된 값(value)에 해당하는 옵션 객체(label, value)를 찾습니다.
     const selected = statusOptions.find((option) => option.value === value);
     if (selected) {
       setSelectedStatus(selected);
@@ -151,9 +152,9 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
         >
           <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
           <Dropdown
-            align='start'
             contentClassName='w-287 tablet:w-552 '
-            optionClassName='text-left h-40'
+            optionAlign='start'
+            optionClassName=' h-40'
             options={statusOptions}
             positionRef={dropDownContainer}
             selectedValue={selectedStatus?.value}
@@ -174,7 +175,6 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
           }}
           onSubmit={handleSubmit((data) => {
             onSubmit(data);
-            console.log('onSubmit:', data);
           })}
         >
           <Input.Root className='my-10'>
@@ -222,7 +222,9 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
           </div>
         </Form>
         <Input.Root>
-          <Input.Label htmlFor='image'>이미지</Input.Label>
+          <Input.Label htmlFor='image'>
+            이미지<strong className='text-capybara'>*</strong>
+          </Input.Label>
         </Input.Root>
         <Input.Root>
           <Input.Label

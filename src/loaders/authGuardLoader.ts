@@ -47,7 +47,7 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
       const rawDashboardListResponse = await getDashboardList({
         navigationMethod: 'pagination',
         page: 1,
-        size: 10,
+        size: 15,
       });
 
       const dashboardListResponse = dashboardListResponseSchema.parse(rawDashboardListResponse);
@@ -55,7 +55,7 @@ export const authGuardLoader = async (isPrivateOnly = false): Promise<authGuardL
       return {
         dashboards: dashboardListResponse.dashboards,
         totalCount: dashboardListResponse.totalCount,
-        pageSize: 10,
+        pageSize: 15,
       };
     } catch (error) {
       if (error instanceof Response && error.status === HttpStatusCode.Unauthorized) {

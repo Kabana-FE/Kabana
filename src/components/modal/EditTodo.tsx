@@ -3,52 +3,58 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, useLoaderData, useSubmit } from 'react-router-dom';
 
+import { uploadCardImage } from '@/apis/card';
 import AddIcon from '@/assets/icons/AddIcon';
 import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
-import Dropdown from '@/components/common/dropdown';
 import type { DropdownOption } from '@/components/common/dropdown/types';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
-import colorList from '@/constants/ui/colorList';
 import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
 import type { Column } from '@/schemas/column';
 
-import type { TagListType } from './createTodo/types';
+import Dropdown from '../common/dropdown';
 import type { EditTodoType } from './types';
-const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoType) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [tagList, setTagList] = useState<TagListType[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<DropdownOption | null>(null);
-  const [selectedStatus2, setSelectedStatus2] = useState<DropdownOption | null>(null);
+const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardId }: EditTodoType) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(data.imageUrl);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [tagList, setTagList] = useState<string[]>(data.tags);
+  const [selectedAsignee, setSelectedAsignee] = useState<DropdownOption | null>(null);
+  const [selectedColumn, setSelectedColumn] = useState<DropdownOption | null>(null);
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
-  const memberList = loader.memberListResponse.members;
+  const memberList = loader.memberList.members;
 
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.id,
+    withCheck: true,
   }));
 
-  const statusOptions2: DropdownOption[] = loader.columns.data.map((column: Column) => ({
+  const columnOptions: DropdownOption[] = loader.columns.data.map((column: Column) => ({
     label: column.title,
     value: column.id,
   }));
 
+  const memberOptions: DropdownOption[] = memberList.map((member) => ({
+    label: member.nickname,
+    value: member.userId,
+  }));
+  const result = columnOptions.find((column) => column.value === data.columnId);
   const dropDownContainer = useRef<HTMLDivElement>(null);
   const dropDownContainer2 = useRef<HTMLDivElement>(null);
   const defaultValues: CreateTodoType = {
-    assigneeUserId: 0,
+    assigneeUserId: data.assignee.id,
     dashboardId: dashboardId,
     columnId: columnId,
-    title: '',
-    description: '',
-    dueDate: '',
-    tags: [],
-    imageUrl: '',
+    title: data.title,
+    description: data.description,
+    dueDate: data.dueDate,
+    tags: data.tags,
+    imageUrl: data.imageUrl,
   };
 
   const {
@@ -56,47 +62,47 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
     handleSubmit,
     setValue,
     reset,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
 
-  const createRandomNumber = () => {
-    const result = Math.floor(Math.random() * colorList.length);
-    return result;
-  };
-
   const createDeleteTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const randomNum = createRandomNumber();
-      const tags = tagList.map((tag) => tag.label);
-      const colors = tagList.map((color) => color.color);
-
-      if (tags.includes(e.currentTarget.value)) {
+      if (tagList.includes(e.currentTarget.value)) {
         e.currentTarget.value = '';
         return;
       }
 
       const trimedWord = e.currentTarget.value.trim();
       if (trimedWord !== '') {
-        const availableColors = colorList.filter((color) => !colors.includes(color));
-        const selectedColor = availableColors[randomNum];
-        setTagList([...tagList, { label: trimedWord, color: selectedColor }]);
+        setTagList((prev) => [...prev, trimedWord]);
         e.currentTarget.value = '';
         e.currentTarget.focus();
       }
     }
 
-    if (e.key === 'Backspace' && e.currentTarget.value !== null) {
+    if (e.key === 'Backspace' && e.currentTarget.value === '') {
       const copy = [...tagList];
       copy.pop();
       setTagList(copy);
     }
   };
 
-  const onSubmit = (data: CreateTodoType) => {
+  const onSubmit = async (data: CreateTodoType) => {
+    if (selectedFile) {
+      const imageFormData = new FormData();
+      imageFormData.append('image', selectedFile);
+      try {
+        const uploadImage = await uploadCardImage(columnId, imageFormData);
+        setValue('imageUrl', uploadImage.imageUrl);
+      } catch (error) {
+        console.error('🩺이미지 업로드 실패:', error);
+      }
+    }
     const formData = new FormData();
     formData.append('intent', 'editTodo');
+    formData.append('cardId', String(cardId));
     formData.append('assigneeUserId', String(data.assigneeUserId));
-    formData.append('dashboardId', String(data.dashboardId));
     formData.append('columnId', String(data.columnId));
     formData.append('title', data.title);
     formData.append('description', data.description);
@@ -107,9 +113,10 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
     }
 
     submit(formData, {
-      method: 'post',
+      method: 'put',
       encType: 'multipart/form-data',
     });
+    toggleModal();
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,33 +124,26 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
     const file = e.target.files[0];
     const preview = URL.createObjectURL(file);
     setPreviewUrl(preview);
-
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-      setValue('imageUrl', preview);
-    } catch (error) {
-      console.error('🩺이미지 업로드 실패:', error);
-    }
+    setSelectedFile(file);
   };
 
-  const handleOptionSelect = async (value: string | number) => {
-    const selected = statusOptions.find((option) => option.value === value);
+  const handleAsigneeSelect = async (value: string | number) => {
+    const selected = memberOptions?.find((option) => option.value === value);
     if (selected) {
-      setSelectedStatus(selected);
+      setSelectedAsignee(selected);
       setValue('assigneeUserId', Number(value));
     }
   };
-  const handleOptionSelect2 = async (value: string | number) => {
-    const selected = statusOptions2.find((option) => option.value === value);
+  const handleColumnSelect = async (value: string | number) => {
+    const selected = columnOptions.find((option) => option.value === value);
     if (selected) {
-      setSelectedStatus2(selected);
+      setSelectedColumn(selected);
       setValue('columnId', Number(value));
     }
   };
 
   useEffect(() => {
-    const tags = tagList.map((tag) => tag.label);
+    const tags = tagList.map((tag) => tag);
     setValue('tags', tags);
   }, [tagList]);
 
@@ -159,39 +159,43 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
       <Dialog.Title className='text-2xl font-bold'>할일 수정</Dialog.Title>
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Content className='mt-32'>
-        <div>
+        <div className='flex gap-5'>
           <div
             ref={dropDownContainer}
-            className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
+            className='flex w-1/2 items-center justify-between rounded border border-gray-300 px-16 py-11'
           >
-            <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+            <div>{selectedColumn ? selectedColumn?.label : result?.label}</div>
+
             <Dropdown
               align='start'
-              contentClassName='w-287 tablet:w-552 '
+              contentClassName='tablet:w-273'
+              optionAlign='start'
               optionClassName='text-left h-40'
-              options={statusOptions}
+              options={columnOptions}
               positionRef={dropDownContainer}
-              selectedValue={selectedStatus?.value}
+              selectedValue={selectedColumn?.value}
               trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
               triggerClassName='p-2 hover:bg-gray-100 rounded'
-              onSelect={handleOptionSelect}
+              onSelect={handleColumnSelect}
             />
           </div>
+
           <div
-            ref={dropDownContainer}
-            className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
+            ref={dropDownContainer2}
+            className='flex w-1/2 items-center justify-between rounded border border-gray-300 px-16 py-11'
           >
-            <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+            <div>{selectedAsignee ? selectedAsignee?.label : data.assignee.nickname}</div>
             <Dropdown
-              align='start'
-              contentClassName='w-287 tablet:w-552 '
+              align='end'
+              contentClassName='tablet:w-273'
+              optionAlign='start'
               optionClassName='text-left h-40'
-              options={statusOptions2}
+              options={memberOptions}
               positionRef={dropDownContainer2}
-              selectedValue={selectedStatus2?.value}
+              selectedValue={selectedAsignee?.value}
               trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
               triggerClassName='p-2 hover:bg-gray-100 rounded'
-              onSelect={handleOptionSelect}
+              onSelect={handleAsigneeSelect}
             />
           </div>
         </div>
@@ -207,7 +211,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
           }}
           onSubmit={handleSubmit((data) => {
             onSubmit(data);
-            console.log('onSubmit:', data);
           })}
         >
           <Input.Root className='my-10'>
@@ -248,9 +251,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
           </Input.Root>
           <div>
             {tagList.map((tag, idx) => (
-              <Tag key={tag.label ?? idx} className={`${tag.color ?? 'bg-gray-200'}`}>
-                {tag.label ?? '빈값'}
-              </Tag>
+              <Tag key={tag ?? idx}>{tag ?? '빈값'}</Tag>
             ))}
           </div>
         </Form>

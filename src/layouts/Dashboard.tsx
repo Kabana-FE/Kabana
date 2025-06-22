@@ -16,7 +16,7 @@ const DashboardLayout = () => {
   return (
     <div className='relative flex min-h-screen flex-col bg-gray-100'>
       <DashboardHeader />
-      <div className='relative flex w-full'>
+      <div className='relative flex w-full flex-1'>
         <Sidebar />
         <div className={mainContentClasses}>
           <main className='flex flex-1 pt-60 tablet:pt-70'>

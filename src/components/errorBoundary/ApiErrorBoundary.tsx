@@ -21,7 +21,7 @@ export const ApiErrorBoundary = () => {
     status,
     message: userMessage,
     title: UI_ERRORS.BOUNDARY_TITLES.API,
-    variant: 'back',
+    variant: ['retry'],
   };
   return <ErrorDisplay {...displayProps} />;
 };

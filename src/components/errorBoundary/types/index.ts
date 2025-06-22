@@ -8,7 +8,7 @@
  * - `title`: 에러 제목 (예: "페이지를 찾을 수 없습니다")
  * - `message`: 사용자에게 보여줄 에러 설명
  * - `children`: 추가로 렌더링할 React 요소
- * - `variant`: 표시할 버튼 종류 ('back' 또는 'retry')
+ * - `variant`: 표시할 버튼 종류
  * - `onRetry`: 'retry' 버튼 클릭 시 실행할 콜백 함수
  */
 export interface ErrorDisplayProps {
@@ -16,7 +16,7 @@ export interface ErrorDisplayProps {
   title: string;
   message: string;
   children?: React.ReactNode;
-  variant?: 'back' | 'retry';
+  variant?: Array<'back' | 'retry' | 'home'>;
   onRetry?: () => void;
 }
 
