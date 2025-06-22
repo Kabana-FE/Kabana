@@ -72,6 +72,7 @@ const DropdownItem = ({ option, isSelected, optionClassName, optionAlign, onSele
  */
 const Dropdown = ({
   trigger,
+  triggerAs = 'div',
   options,
   onSelect,
   contentClassName,
@@ -154,7 +155,7 @@ const Dropdown = ({
       toggle={toggle}
       triggerRef={triggerRef}
     >
-      <Popover.Trigger as='button' className={triggerClassName} triggerRef={triggerRef} onToggle={toggle}>
+      <Popover.Trigger as={triggerAs} className={triggerClassName} triggerRef={triggerRef} onToggle={toggle}>
         {trigger}
       </Popover.Trigger>
       <Popover.Content className={twMerge('w-full', contentClassName)} close={close} contentRef={contentRef}>
