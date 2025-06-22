@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useFetcher, useLoaderData, useNavigate, useParams } from 'react-router';
 
-import { cancelInvitee, deleteDashboard, getInviteeList } from '@/apis/dashboard';
+import { deleteDashboard, getInviteeList } from '@/apis/dashboard';
 import { deleteMember, getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
@@ -45,7 +45,6 @@ const DashboardEdit = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const fetcher = useFetcher();
   const {
     register,
     handleSubmit,
@@ -60,6 +59,7 @@ const DashboardEdit = () => {
     },
   });
 
+  const fetcher = useFetcher();
   const onSubmit = async (data: UpdateDashboardInput) => {
     const formData = new FormData();
     formData.append('intent', 'updateDashboard');
@@ -137,15 +137,48 @@ const DashboardEdit = () => {
     fetchInvitation();
   }, [inviteePage, dashboardIdNumber]);
 
-  const handleDeleteInvitee = async (invitationId: number) => {
-    try {
-      await cancelInvitee({ dashboardId: dashboardIdNumber, invitationId });
-      setInviteeList((prev) => prev.filter((invitee) => invitee.id !== invitationId));
-    } catch (error) {
-      console.error('🩺 초대내역 삭제 실패:', error);
-      alert('초대내역 삭제 중 오류가 발생했습니다.');
-    }
+  // const handleDeleteInvitee = async (invitationId: number) => {
+  //   try {
+  //     await cancelInvitee({ dashboardId: dashboardIdNumber, invitationId });
+  //     setInviteeList((prev) => prev.filter((invitee) => invitee.id !== invitationId));
+  //   } catch (error) {
+  //     console.error('🩺 초대내역 삭제 실패:', error);
+  //     alert('초대내역 삭제 중 오류가 발생했습니다.');
+  //   }
+  // };
+
+  const dashboardFetcher = useFetcher();
+  const handleDeleteInvitee = (invitationId: number) => {
+    const formData = new FormData();
+    formData.append('intent', 'deleteInvitee');
+    formData.append('invitationId', String(invitationId));
+
+    dashboardFetcher.submit(formData, { method: 'post' });
   };
+  useEffect(() => {
+    if (dashboardFetcher.state === 'idle' && dashboardFetcher.data == null) return;
+    if (dashboardFetcher.formData?.get('intent') !== 'deleteInvitee') return;
+
+    const fetchInvitation = async () => {
+      if (isInviteeLoading) return;
+      setIsInviteeLoading(true);
+      try {
+        const rawInviteeList = await getInviteeList({
+          dashboardId: dashboardIdNumber,
+          size: 5,
+          page: inviteePage,
+        });
+        const inviteeList = inviteeListSchema.parse(rawInviteeList);
+        setInviteeList(inviteeList.invitations);
+      } catch (err) {
+        console.error('🩺초대내역 재조회 실패:', err);
+      } finally {
+        setIsInviteeLoading(false);
+      }
+    };
+
+    fetchInvitation();
+  }, [dashboardFetcher.state]);
 
   const handleDelete = async (dashboardId: number) => {
     try {

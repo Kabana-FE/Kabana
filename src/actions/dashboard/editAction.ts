@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from 'react-router-dom';
 import { redirect } from 'react-router-dom';
 
-import { cancelInvitee, deleteDashboard, updateDashboard } from '@/apis/dashboard';
+import { deleteDashboard, deleteInvitee, updateDashboard } from '@/apis/dashboard';
 import { deleteMember } from '@/apis/member';
 import { ROUTES } from '@/constants/paths';
 import { updateDashboardSchema } from '@/schemas/dashboard';
@@ -33,11 +33,11 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     return null;
   };
 
-  const handleCancelInvitee = async (formData: FormData, dashboardId: number) => {
+  const handleDeleteInvitee = async (formData: FormData, dashboardId: number) => {
     const invitationId = formData.get('invitationId');
     if (typeof invitationId !== 'string') throw new Error('Invalid invitationId');
 
-    await cancelInvitee({ dashboardId, invitationId: Number(invitationId) });
+    await deleteInvitee({ dashboardId, invitationId: Number(invitationId) });
     return null;
   };
 
@@ -52,8 +52,8 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
         return handleUpdateDashboard(formData, dashboardId);
       case 'deleteMember':
         return handleDeleteMember(formData);
-      case 'cancelInvitee':
-        return handleCancelInvitee(formData, dashboardId);
+      case 'deleteInvitee':
+        return handleDeleteInvitee(formData, dashboardId);
       case 'deleteDashboard':
         return handleDeleteDashboard(dashboardId);
       default:
