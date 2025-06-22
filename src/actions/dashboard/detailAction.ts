@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from 'react-router';
 
 import { createCard } from '@/apis/card';
-import { createColumn, updateColumn } from '@/apis/column';
+import { createColumn, deleteColumn, updateColumn } from '@/apis/column';
 import type { CreateColumnInput } from '@/schemas/column';
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
@@ -60,7 +60,12 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
       return null;
     }
 
-    case 'deleteColumn':
+    case 'deleteColumn': {
+      const columnId = Number(formData.get('columnId'));
+
+      await deleteColumn(columnId);
+      return null;
+    }
   }
 
   return null;

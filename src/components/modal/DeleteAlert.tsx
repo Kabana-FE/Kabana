@@ -1,4 +1,6 @@
-import { deleteColumn } from '@/apis/column';
+import { useEffect } from 'react';
+import { useFetcher } from 'react-router';
+
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import type { DeleteAlertProps } from '@/components/modal/types';
@@ -18,16 +20,25 @@ import { useToast } from '@/hooks/useToast';
  */
 const DeleteAlert = ({ columnId, isModalOpen, toggleModal }: DeleteAlertProps) => {
   const { showSuccess, showError } = useToast();
+  const fetcher = useFetcher();
+  const isDeleting = fetcher.state === 'submitting';
+
   const handleDelete = async () => {
-    try {
-      await deleteColumn(columnId);
-      toggleModal();
-      showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('컬럼'));
-    } catch (error) {
-      showError(TOAST_MESSAGES.API.DELETE_FAILURE('컬럼'));
-      console.error('🩺컬럼 삭제 실패:', error);
-    }
+    const formData = new FormData();
+    formData.append('intent', 'deleteColumn');
+    formData.append('columnId', String(columnId));
+    fetcher.submit(formData, { method: 'post' });
   };
+
+  useEffect(() => {
+    if (fetcher.data?.success) {
+      showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('컬럼'));
+      toggleModal();
+    }
+    if (fetcher.data?.error) {
+      showError(fetcher.data.error || TOAST_MESSAGES.API.DELETE_FAILURE('컬럼'));
+    }
+  }, [fetcher.data]);
 
   return (
     <Dialog.Root
@@ -42,7 +53,7 @@ const DeleteAlert = ({ columnId, isModalOpen, toggleModal }: DeleteAlertProps) =
         <Button className='w-full rounded-lg' size='lg' variant='outlined' onClick={toggleModal}>
           취소
         </Button>
-        <Button className='w-full rounded-lg' size='lg' variant='filled' onClick={handleDelete}>
+        <Button className='w-full rounded-lg' disabled={isDeleting} size='lg' variant='filled' onClick={handleDelete}>
           삭제
         </Button>
       </Dialog.ButtonArea>
