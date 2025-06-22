@@ -11,6 +11,7 @@ import Dialog from '@/components/common/dialog';
 import type { DropdownOption } from '@/components/common/dropdown/types';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
+import { useToast } from '@/hooks/useToast';
 import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import type { CreateTodoType } from '@/schemas/card';
 import { createTodoSchema } from '@/schemas/card';
@@ -111,11 +112,26 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
     toggleModal();
   };
 
+  const { showError } = useToast();
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.[0]) return;
-    const file = e.target.files[0];
-    const preview = URL.createObjectURL(file);
-    setPreviewUrl(preview);
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+      showError('지원하지 않는 파일 형식입니다. (jpg, jpeg, png, webp만 가능)');
+      return;
+    }
+
+    if (file.size > maxSize) {
+      showError('파일 용량은 5MB 이하로 업로드해주세요.');
+      return;
+    }
+
+    setPreviewUrl(URL.createObjectURL(file));
     setSelectedFile(file);
   };
 

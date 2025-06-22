@@ -6,6 +6,7 @@ export interface ModalType {
   toggleModal: () => void;
 }
 export interface DetailType extends ModalType {
+  title: string;
   data: CardType;
   toggleDeleteAlert: () => void;
   toggleEditTodo: () => void;
