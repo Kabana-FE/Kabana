@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form, useSubmit } from 'react-router';
+import { Form, useActionData, useParams, useSubmit } from 'react-router';
 
 import { getComments } from '@/apis/comment';
 import MoreVertIcon from '@/assets/icons/MoreVertIcon';
@@ -12,23 +12,28 @@ import Dialog from '@/components/common/dialog';
 import Dropdown from '@/components/common/dropdown';
 import Input from '@/components/common/input';
 import Tag from '@/components/tag';
-import { type CommentsType, type CreateComment, createCommentSchema } from '@/schemas/comment';
+import { type CommentsType, type CommentType, type CreateComment, createCommentSchema } from '@/schemas/comment';
 
 import Comment from './Comment';
 import type { DetailType } from './types';
 
 const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleEditTodo }: DetailType) => {
-  const {
-    register,
-    formState: { isSubmitting },
-    reset,
-  } = useForm<CreateComment>({
+  const params = useParams();
+  const actionData = useActionData();
+  const defaultValues: CreateComment = {
+    columnId: data.columnId,
+    content: '',
+    cardId: data.id,
+    dashboardId: Number(params.dashboardId),
+  };
+  const { register, reset, handleSubmit, getValues } = useForm<CreateComment>({
+    defaultValues: defaultValues,
     resolver: zodResolver(createCommentSchema),
   });
   const [commentList, setCommentList] = useState<CommentsType>([]);
+  const [selectedComment, setSelectedComment] = useState<CommentType | null>();
   const isInitialRender = useRef(true);
   const submit = useSubmit();
-
   const handleOptionSelect = async (value: string | number) => {
     if (value === 'edit') {
       toggleModal();
@@ -47,6 +52,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
       }
     }
   };
+
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false;
@@ -63,17 +69,48 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
     fetch();
 
     return () => setCommentList([]);
-  }, [data.id, isModalOpen]);
+  }, [data.id, isModalOpen, actionData]);
+
+  useEffect(() => {
+    if (selectedComment) {
+      reset({ ...getValues(), content: selectedComment.content });
+    }
+  }, [selectedComment]);
+
   const onSubmit = (submitData: CreateComment) => {
     const formData = new FormData();
-
-    submit({});
+    formData.append('intent', 'createComment');
+    formData.append('content', submitData.content);
+    formData.append('cardId', String(data.id));
+    formData.append('columnId', String(data.columnId));
+    formData.append('dashboardId', String(params.dashboardId));
+    submit(formData, { method: 'post', encType: 'multipart/form-data' });
+    reset();
   };
+
+  const editSubmit = () => {
+    const formData = new FormData();
+    formData.append('intent', 'editComment');
+    formData.append('content', getValues('content'));
+    formData.append('commentId', String(selectedComment?.id));
+    submit(formData, { method: 'put', encType: 'multipart/form-data' });
+  };
+
+  const deleteComment = (commentId: number) => {
+    const formData = new FormData();
+    formData.append('intent', 'deleteComment');
+    formData.append('commentId', String(commentId));
+    submit(formData, { method: 'delete', encType: 'multipart/form-data' });
+  };
+
   return (
     <Dialog.Root
       className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'
       isModalOpen={isModalOpen}
-      toggleModal={toggleModal}
+      toggleModal={() => {
+        toggleModal();
+        setSelectedComment(null);
+      }}
     >
       <Dialog.Title className='w-7/8 text-[20px] font-bold tablet:text-2xl'>
         <div className='justify flex max-w-full items-center justify-between text-gray-700'>
@@ -81,14 +118,14 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
           <span>
             <Dropdown
               contentClassName=''
-              optionAlign='start'
+              optionAlign='center'
               optionClassName='text-center'
               options={[
                 { label: '수정하기', value: 'edit' },
                 { label: '삭제하기', value: 'delete' },
               ]}
               trigger={<MoreVertIcon aria-label='더보기 옵션' size={24} />}
-              triggerClassName='px-2 py-1 hover:bg-gray-100'
+              triggerClassName='px-2 py-1 '
               onSelect={handleOptionSelect}
             />
           </span>
@@ -127,20 +164,50 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
             }}
           />
           <div className='relative mt-16'>
-            <Form>
+            <Form
+              encType='multipart/form-data'
+              id='createComment'
+              method='post'
+              onSubmit={handleSubmit((data) => {
+                onSubmit(data);
+              })}
+            >
               <Input.Root>
                 <Input.Label htmlFor='comment'>댓글</Input.Label>
-                <Input.Field id='comment' placeholder='댓글 작성하기' type='textarea' />
+                <Input.Field {...register('content')} id='content' placeholder='댓글 작성하기' type='textarea' />
               </Input.Root>
-              <Button className='absolute right-12 bottom-12 h-32 text-xs' type='submit' variant='outlined'>
-                입력
-              </Button>
+              {selectedComment ? (
+                <Button
+                  className='absolute right-12 bottom-12 h-32 text-xs'
+                  type='button'
+                  variant='outlined'
+                  onClick={editSubmit}
+                >
+                  수정 완료
+                </Button>
+              ) : (
+                <Button
+                  className='absolute right-12 bottom-12 h-32 text-xs'
+                  form='createComment'
+                  type='submit'
+                  variant='outlined'
+                >
+                  입력
+                </Button>
+              )}
             </Form>
           </div>
           <div className='max-h-160 overflow-y-auto'>
             {commentList &&
               commentList.map((comment) => {
-                return <Comment key={comment.id} data={comment} />;
+                return (
+                  <Comment
+                    key={comment.id}
+                    data={comment}
+                    onDelete={() => deleteComment(comment.id)}
+                    onEdit={(data) => setSelectedComment(data)}
+                  />
+                );
               })}
           </div>
         </section>

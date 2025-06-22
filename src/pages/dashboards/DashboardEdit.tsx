@@ -1,12 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useFetcher, useLoaderData, useNavigate, useParams } from 'react-router';
+import { useFetcher, useLoaderData, useNavigate, useParams, useRevalidator } from 'react-router';
 
 import { deleteDashboard, getInviteeList } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
+import NoInvitation from '@/assets/icons/NoInvitationIcon';
 import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
@@ -42,13 +43,20 @@ const DashboardEdit = () => {
   const [memberList, setMemberList] = useState<Member[]>(initialData.memberList.members);
   const [memberPage, setMemberPage] = useState<number>(1);
   const [isMemberLoading, setIsMemberLoading] = useState<boolean>(false);
-  const totalMemberPage = Math.ceil(initialData.memberList.totalCount / 4);
+  const totalMemberPage = Math.ceil(initialData.memberList.totalCount / 4 || 1);
 
   // Invitee state
   const [inviteeList, setInviteeList] = useState<Invitation[]>(initialData.inviteeList.invitations);
   const [inviteePage, setInviteePage] = useState<number>(1);
   const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
-  const totalInviteePage = Math.ceil(initialData.inviteeList.totalCount / 5);
+  const totalInviteePage = Math.ceil(initialData.inviteeList.totalCount / 5 || 1);
+
+  const { revalidate } = useRevalidator();
+
+  useEffect(() => {
+    setInviteePage(1);
+    setInviteeList(initialData.inviteeList.invitations);
+  }, [initialData]);
 
   const {
     register,
@@ -72,6 +80,7 @@ const DashboardEdit = () => {
     formData.append('color', String(data.color));
     try {
       fetcher.submit(formData, { method: 'post', encType: 'multipart/form-data' });
+      revalidate();
     } catch (err) {
       showError(TOAST_MESSAGES.API.UPDATE_FAILURE('대시보드'));
       console.error('🩺대시보드 수정 실패:', err);
@@ -100,10 +109,14 @@ const DashboardEdit = () => {
       setIsMemberLoading(false);
     }
   };
-
+  const isInitialMemberRender = useRef(true);
   useEffect(() => {
+    if (isInitialMemberRender.current) {
+      isInitialMemberRender.current = false;
+      return;
+    }
     fetchMemberList();
-  }, [memberPage, memberFetcher.state]);
+  }, [memberPage]);
 
   const handleDeleteMember = (id: number) => {
     const formData = new FormData();
@@ -114,8 +127,9 @@ const DashboardEdit = () => {
 
   // Fetch invitee list
   const dashboardFetcher = useFetcher();
-  const fetchInvitation = async () => {
+  const fetchInvitation = useCallback(async () => {
     if (isInviteeLoading) return;
+
     setIsInviteeLoading(true);
     try {
       const rawInviteeList = await getInviteeList({ dashboardId: dashboardIdNumber, size: 5, page: inviteePage });
@@ -127,11 +141,20 @@ const DashboardEdit = () => {
     } finally {
       setIsInviteeLoading(false);
     }
+  }, [dashboardIdNumber, inviteePage, isInviteeLoading, showError]);
+
+  const handleInviteSuccess = () => {
+    fetchInvitation();
   };
+  const isInitialInviteeRender = useRef(true);
 
   useEffect(() => {
+    if (isInitialInviteeRender.current) {
+      isInitialInviteeRender.current = false;
+      return;
+    }
     fetchInvitation();
-  }, [inviteePage, dashboardFetcher.state]);
+  }, [inviteePage]);
 
   const handleDeleteInvitee = (invitationId: number) => {
     const formData = new FormData();
@@ -144,6 +167,7 @@ const DashboardEdit = () => {
     try {
       await deleteDashboard(dashboardId);
       showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('대시보드'));
+      revalidate();
       navigate(ROUTES.DASHBOARD_LIST);
     } catch (error) {
       showError(TOAST_MESSAGES.API.DELETE_FAILURE('대시보드'));
@@ -241,17 +265,24 @@ const DashboardEdit = () => {
               <AddBoxIcon className='tablet:size-16' color='var(--color-white)' size={10} /> 초대하기
             </Button>
           </div>
-          <ul>
-            {inviteeList.map((invitee, index) => (
-              <Invitations
-                key={invitee.id}
-                email={invitee.invitee.email}
-                invitationId={invitee.id}
-                isLast={index === inviteeList.length - 1}
-                onDelete={handleDeleteInvitee}
-              />
-            ))}
-          </ul>
+          {initialData.inviteeList.totalCount === 0 ? (
+            <div className='flex flex-col items-center justify-center gap-20 p-80'>
+              <NoInvitation />
+              <span>아직 초대내역이 없습니다.</span>
+            </div>
+          ) : (
+            <ul>
+              {inviteeList.map((invitee, index) => (
+                <Invitations
+                  key={invitee.id}
+                  email={invitee.invitee.email}
+                  invitationId={invitee.id}
+                  isLast={index === inviteeList.length - 1}
+                  onDelete={handleDeleteInvitee}
+                />
+              ))}
+            </ul>
+          )}
         </section>
         <Button
           className='max-w-320 rounded-lg text-gray-700 tablet:h-62'
@@ -263,7 +294,14 @@ const DashboardEdit = () => {
         </Button>
       </div>
 
-      <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      {isModalOpen && (
+        <InviteMember
+          dashboardId={dashboardIdNumber}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          onInviteSuccess={handleInviteSuccess}
+        />
+      )}
     </div>
   );
 };

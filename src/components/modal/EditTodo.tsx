@@ -28,12 +28,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
   const loader = useLoaderData() as DashboardDetailLoaderData;
   const memberList = loader.memberList.members;
 
-  const statusOptions: DropdownOption[] = memberList.map((member) => ({
-    label: member.nickname,
-    value: member.id,
-    withCheck: true,
-  }));
-
   const columnOptions: DropdownOption[] = loader.columns.data.map((column: Column) => ({
     label: column.title,
     value: column.id,
@@ -62,7 +56,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
     handleSubmit,
     setValue,
     reset,
-    getValues,
     formState: { errors, isSubmitting },
   } = useForm<CreateTodoType>({ defaultValues: defaultValues, resolver: zodResolver(createTodoSchema) });
 
@@ -159,46 +152,51 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
       <Dialog.Title className='text-2xl font-bold'>할일 수정</Dialog.Title>
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Content className='mt-32'>
-        <div className='flex gap-5'>
-          <div
-            ref={dropDownContainer}
-            className='flex w-1/2 items-center justify-between rounded border border-gray-300 px-16 py-11'
-          >
-            <div>{selectedColumn ? selectedColumn?.label : result?.label}</div>
-
+        {/* 상태 */}
+        <div className='mb-10 grid grid-cols-2 gap-5'>
+          <div className='flex flex-col gap-2'>
+            <label>상태</label>
             <Dropdown
               align='start'
               contentClassName='tablet:w-273'
               optionAlign='start'
-              optionClassName='text-left h-40'
+              optionClassName='h-40'
               options={columnOptions}
-              positionRef={dropDownContainer}
               selectedValue={selectedColumn?.value}
-              trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
-              triggerClassName='p-2 hover:bg-gray-100 rounded'
+              trigger={
+                <>
+                  <div>{selectedColumn ? selectedColumn.label : result?.label}</div>
+                  <TriangleIcon aria-label='더보기 옵션' size={12} />
+                </>
+              }
+              triggerAs='div'
+              triggerClassName='flex basis-1/2 shrink-0 items-center justify-between rounded border border-gray-300 px-16 py-11 hover:bg-gray-100'
               onSelect={handleColumnSelect}
             />
           </div>
-
-          <div
-            ref={dropDownContainer2}
-            className='flex w-1/2 items-center justify-between rounded border border-gray-300 px-16 py-11'
-          >
-            <div>{selectedAsignee ? selectedAsignee?.label : data.assignee.nickname}</div>
+          {/* 담당자 */}
+          <div className='flex flex-col gap-2'>
+            <label>담당자</label>
             <Dropdown
               align='end'
               contentClassName='tablet:w-273'
               optionAlign='start'
-              optionClassName='text-left h-40'
+              optionClassName='h-40'
               options={memberOptions}
-              positionRef={dropDownContainer2}
               selectedValue={selectedAsignee?.value}
-              trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
-              triggerClassName='p-2 hover:bg-gray-100 rounded'
+              trigger={
+                <>
+                  <div>{selectedAsignee ? selectedAsignee.label : data.assignee.nickname}</div>
+                  <TriangleIcon aria-label='더보기 옵션' size={12} />
+                </>
+              }
+              triggerAs='div'
+              triggerClassName='flex basis-1/2 shrink-0 items-center justify-between rounded border border-gray-300 px-16 py-11 hover:bg-gray-100'
               onSelect={handleAsigneeSelect}
             />
           </div>
         </div>
+
         <Form
           className='flex flex-col'
           encType='multipart/form-data'
@@ -282,8 +280,6 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
           variant='outlined'
           onClick={() => {
             toggleModal();
-            reset();
-            setTagList([]);
           }}
         >
           취소

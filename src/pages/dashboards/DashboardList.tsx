@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
+import { useLoaderData, useRevalidator, useRouteLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
 import { getInvitationList, respondInvitation } from '@/apis/invitation';
@@ -41,6 +41,7 @@ const DashboardList = () => {
 
   const isInitialRender = useRef(true);
 
+  const { revalidate } = useRevalidator();
   const { showSuccess, showError } = useToast();
 
   useEffect(() => {
@@ -113,6 +114,8 @@ const DashboardList = () => {
         setDashboardList(dashboardList.dashboards);
         setTotalDashboardCount(dashboardList.totalCount);
 
+        revalidate();
+
         // 응답(response)이 true이면 수락, false이면 거절 토스트를 띄웁니다.
         if (response) {
           showSuccess(TOAST_MESSAGES.INVITATION.ACCEPT_SUCCESS);
@@ -124,7 +127,7 @@ const DashboardList = () => {
         console.error(error);
       }
     },
-    [page],
+    [page, revalidate],
   );
 
   return (
@@ -206,7 +209,7 @@ const DashboardList = () => {
           <div ref={infiniteScrollRef} />
         </div>
       </div>
-      <CreateDashboard isModalOpen={isModalOpen} toggleModal={() => setIsModalOpen((prev) => !prev)} />
+      {isModalOpen && <CreateDashboard isModalOpen={isModalOpen} toggleModal={() => setIsModalOpen((prev) => !prev)} />}
     </>
   );
 };

@@ -112,6 +112,8 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
       encType: 'multipart/form-data',
     });
     toggleModal();
+    reset();
+    setTagList([]);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,28 +143,30 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
       toggleModal={() => {
         toggleModal();
         reset();
+        setTagList([]);
+        setPreviewUrl(null);
       }}
     >
       <Dialog.Title className='text-2xl font-bold'>할일 생성</Dialog.Title>
       <Dialog.Close resetContent={reset} toggleModal={toggleModal} />
       <Dialog.Content className='mt-32'>
-        <div
-          ref={dropDownContainer}
-          className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
-        >
-          <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
-          <Dropdown
-            contentClassName='w-287 tablet:w-552 '
-            optionAlign='start'
-            optionClassName=' h-40'
-            options={statusOptions}
-            positionRef={dropDownContainer}
-            selectedValue={selectedStatus?.value}
-            trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
-            triggerClassName='p-2 hover:bg-gray-100 rounded'
-            onSelect={handleOptionSelect}
-          />
-        </div>
+        <Dropdown
+          contentClassName='w-295 tablet:w-552 '
+          optionAlign='start'
+          optionClassName=' h-40'
+          options={statusOptions}
+          positionRef={dropDownContainer}
+          selectedValue={selectedStatus?.value}
+          trigger={
+            <>
+              <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+              <TriangleIcon aria-label='더보기 옵션' size={12} />
+            </>
+          }
+          triggerAs='div'
+          triggerClassName='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11 hover:bg-gray-100'
+          onSelect={handleOptionSelect}
+        />
         <Form
           className='flex flex-col'
           encType='multipart/form-data'
@@ -213,7 +217,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
             <Input.Field id='tags' onKeyDown={createDeleteTags} />
             <Input.ErrorMessage>{errors.tags?.message}</Input.ErrorMessage>
           </Input.Root>
-          <div>
+          <div className='mt-10 flex gap-2'>
             {tagList.map((tag, idx) => (
               <Tag key={tag.label ?? idx} className={`${tag.color ?? 'bg-gray-200'}`}>
                 {tag.label ?? '빈값'}
@@ -252,6 +256,7 @@ const CreateTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: CreateT
             toggleModal();
             reset();
             setTagList([]);
+            setPreviewUrl(null);
           }}
         >
           취소

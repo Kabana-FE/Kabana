@@ -123,6 +123,7 @@ const DashboardHeader = () => {
           )}
           <div className='border-l border-gray-300 pl-16 tablet:pl-32 pc:pl-36'>
             <Dropdown
+              align='end'
               optionAlign='center'
               options={[
                 { label: '마이페이지', value: 'mypage', to: ROUTES.MYPAGE },
@@ -141,7 +142,7 @@ const DashboardHeader = () => {
           </div>
         </div>
       </header>
-      {dashboardDetail && (
+      {dashboardDetail && isModalOpen && (
         <InviteMember
           dashboardId={dashboardDetail.id}
           isModalOpen={isModalOpen}

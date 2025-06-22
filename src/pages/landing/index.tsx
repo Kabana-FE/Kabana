@@ -44,6 +44,7 @@ const Landing = () => {
           <img
             alt='일정 우선순위 관리 기능을 보여주는 스크린샷'
             className='w-296 self-end tablet:w-519 pc:w-594'
+            loading='lazy'
             src={Landing1}
           />
         </section>
@@ -58,6 +59,7 @@ const Landing = () => {
           <img
             alt='할 일 등록 기능을 보여주는 스크린샷'
             className='w-218 self-center tablet:mr-60 tablet:w-360 pc:mr-100 pc:w-436 pc:self-end'
+            loading='lazy'
             src={Landing2}
           />
         </section>
@@ -69,7 +71,12 @@ const Landing = () => {
         <div className='flex flex-col items-center justify-center gap-40 tablet:gap-48 pc:flex-row'>
           <article className='w-343 tablet:w-378'>
             <div className='flex h-236 items-center justify-center rounded-t-lg bg-gray-600 tablet:h-260'>
-              <img alt='대시보드 관리 기능을 보여주는 스크린샷' className='w-260 tablet:w-300' src={Landing3} />
+              <img
+                alt='대시보드 관리 기능을 보여주는 스크린샷'
+                className='w-260 tablet:w-300'
+                loading='lazy'
+                src={Landing3}
+              />
             </div>
             <div className='flex h-112 flex-col justify-center gap-18 rounded-b-lg bg-gray-black pl-32 tablet:h-124'>
               <h4 className='text-2lg font-bold'>대시보드 설정</h4>
@@ -78,7 +85,12 @@ const Landing = () => {
           </article>
           <article className='w-343 tablet:w-378'>
             <div className='flex h-236 items-center justify-center rounded-t-lg bg-gray-600 tablet:h-260'>
-              <img alt='팀원 초대 기능을 보여주는 스크린샷' className='w-260 tablet:w-300' src={Landing4} />
+              <img
+                alt='팀원 초대 기능을 보여주는 스크린샷'
+                className='w-260 tablet:w-300'
+                loading='lazy'
+                src={Landing4}
+              />
             </div>
             <div className='flex h-112 flex-col justify-center gap-18 rounded-b-lg bg-gray-black pl-32 tablet:h-124'>
               <h4 className='text-2lg font-bold'>초대</h4>
@@ -87,7 +99,12 @@ const Landing = () => {
           </article>
           <article className='w-343 tablet:w-378'>
             <div className='flex h-236 items-center justify-center rounded-t-lg bg-gray-600 tablet:h-260'>
-              <img alt='구성원 관리 기능을 보여주는 스크린샷' className='w-260 tablet:w-300' src={Landing5} />
+              <img
+                alt='구성원 관리 기능을 보여주는 스크린샷'
+                className='w-260 tablet:w-300'
+                loading='lazy'
+                src={Landing5}
+              />
             </div>
             <div className='flex h-112 flex-col justify-center gap-18 rounded-b-lg bg-gray-black pl-32 tablet:h-124'>
               <h4 className='text-2lg font-bold'>구성원</h4>
