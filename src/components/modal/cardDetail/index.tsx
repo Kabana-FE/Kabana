@@ -17,7 +17,7 @@ import { type CommentsType, type CommentType, type CreateComment, createCommentS
 import Comment from './Comment';
 import type { DetailType } from './types';
 
-const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleEditTodo }: DetailType) => {
+const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo }: DetailType) => {
   const params = useParams();
   const actionData = useActionData();
   const defaultValues: CreateComment = {

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, useLoaderData, useSubmit } from 'react-router-dom';
 
@@ -38,8 +38,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
     value: member.userId,
   }));
   const result = columnOptions.find((column) => column.value === data.columnId);
-  const dropDownContainer = useRef<HTMLDivElement>(null);
-  const dropDownContainer2 = useRef<HTMLDivElement>(null);
+
   const defaultValues: CreateTodoType = {
     assigneeUserId: data.assignee.id,
     dashboardId: dashboardId,

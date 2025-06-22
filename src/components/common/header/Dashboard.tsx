@@ -147,6 +147,7 @@ const DashboardHeader = () => {
           dashboardId={dashboardDetail.id}
           isModalOpen={isModalOpen}
           toggleModal={() => setIsModalOpen((prev) => !prev)}
+          onInviteSuccess={() => {}}
         />
       )}
     </>
