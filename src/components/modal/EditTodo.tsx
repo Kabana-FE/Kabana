@@ -120,7 +120,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
     setSelectedFile(file);
   };
 
-  const handdleAsigneeSelect = async (value: string | number) => {
+  const handleAsigneeSelect = async (value: string | number) => {
     const selected = memberOptions?.find((option) => option.value === value);
     if (selected) {
       setSelectedAsignee(selected);
@@ -187,7 +187,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
               selectedValue={selectedAsignee?.value}
               trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
               triggerClassName='p-2 hover:bg-gray-100 rounded'
-              onSelect={handdleAsigneeSelect}
+              onSelect={handleAsigneeSelect}
             />
           </div>
         </div>
