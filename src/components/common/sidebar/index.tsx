@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
@@ -30,6 +30,10 @@ const Sidebar = () => {
   const [tooltipTargetRect, setTooltipTargetRect] = useState<DOMRect | null>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    setDashboards(loaderData?.dashboards || []);
+  }, [loaderData?.dashboards]);
 
   const showTooltip = (target: HTMLElement, content: string) => {
     setTooltipTargetRect(target.getBoundingClientRect());
@@ -64,29 +68,26 @@ const Sidebar = () => {
     };
   }, []);
 
-  const handlePageChange = useCallback(
-    async (page: number) => {
-      if (isLoading || page < 1 || page > totalPages) return;
-      setIsLoading(true);
-      try {
-        const newDashboardData = await getDashboardList({
-          navigationMethod: 'pagination',
-          size: PAGE_SIZE,
-          page,
-        });
-        const parsedData = dashboardListResponseSchema.parse(newDashboardData);
-        setDashboards(parsedData.dashboards);
-        setCurrentPage(page);
-        setTotalCount(parsedData.totalCount);
-      } catch (error) {
-        console.error('🩺 대시보드 리스트 더 불러오기 실패:', error);
-        showError(TOAST_MESSAGES.API.FETCH_FAILURE('대시보드'));
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [isLoading, PAGE_SIZE, totalPages],
-  );
+  const handlePageChange = async (page: number) => {
+    if (isLoading || page < 1 || page > totalPages) return;
+    setIsLoading(true);
+    try {
+      const newDashboardData = await getDashboardList({
+        navigationMethod: 'pagination',
+        size: PAGE_SIZE,
+        page,
+      });
+      const parsedData = dashboardListResponseSchema.parse(newDashboardData);
+      setDashboards(parsedData.dashboards);
+      setCurrentPage(page);
+      setTotalCount(parsedData.totalCount);
+    } catch (error) {
+      console.error('🩺 대시보드 리스트 더 불러오기 실패:', error);
+      showError(TOAST_MESSAGES.API.FETCH_FAILURE('대시보드'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
