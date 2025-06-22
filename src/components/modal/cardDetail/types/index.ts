@@ -13,4 +13,6 @@ export interface DetailType extends ModalType {
 
 export interface CommentPropsType {
   data: CommentType;
+  onEdit: (comment: CommentType) => void;
+  onDelete: () => void;
 }

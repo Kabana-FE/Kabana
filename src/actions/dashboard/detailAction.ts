@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs } from 'react-router';
 
 import { createCard, deleteCard, editCard } from '@/apis/card';
+import { createComment, deleteComment, editComment } from '@/apis/comment';
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   // const detailIdString: string | undefined = params.dashboardId;
@@ -59,11 +60,31 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
         await deleteCard(cardId);
       }
       break;
-    case 'createComment':
-      break;
-    case 'editComment':
-      break;
+    case 'createComment': {
+      const cardId = Number(formData.get('cardId'));
+      const columnId = Number(formData.get('columnId'));
+      const dashboardId = Number(formData.get('dashboardId'));
+      const content = formData.get('content') as string;
+      await createComment({
+        cardId,
+        columnId,
+        dashboardId,
+        content,
+      });
+      return { message: 'success' };
+    }
+    case 'editComment': {
+      const commentId = Number(formData.get('commentId'));
+      const content = formData.get('content') as string;
+      await editComment(commentId, { content });
+      return { message: 'success' };
+    }
     case 'deleteComment':
+      {
+        const commentId = Number(formData.get('commentId'));
+        await deleteComment(commentId);
+        return { message: 'success' };
+      }
       break;
     case 'createColumn':
       break;
