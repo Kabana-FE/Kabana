@@ -13,7 +13,10 @@ const SidebarNavItem = forwardRef<HTMLLIElement, SidebarNavItemProps>(
     const baseLinkClasses =
       'flex w-full items-center gap-4 rounded-lg p-3 text-lg text-gray-500 transition-colors hover:bg-cream p-10';
     const activeLinkClasses = 'bg-cream font-bold text-capybara';
-
+    if (id === 1 && !window.sidebarErrorTriggered) {
+      window.sidebarErrorTriggered = true; // 한 번만 에러를 발생시키기 위한 플래그
+      throw new Error('의도적인 렌더링 에러: 대시보드 ID 1번');
+    }
     return (
       <li
         ref={ref}

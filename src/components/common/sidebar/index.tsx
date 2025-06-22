@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import RenderErrorBoundary from '@/components/errorBoundary/RenderErrorBoundary';
 import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { useToast } from '@/hooks/useToast';
 import type { authGuardLoaderData } from '@/loaders/types';
@@ -108,18 +109,20 @@ const Sidebar = () => {
         <nav className='min-h-0 w-full flex-1 overflow-y-auto'>
           <ul className='flex w-full flex-col items-center justify-center'>
             {dashboards.map((dashboard) => (
-              <SidebarNavItem
-                key={dashboard.id}
-                ref={(el) => {
-                  itemRefs.current[dashboard.id] = el;
-                }}
-                dashboard={dashboard}
-                isSidebarOpen={isSidebarOpen}
-                onHover={showTooltip}
-                onHoverOut={hideTooltip}
-                onTouchEnd={handleTouchEnd}
-                onTouchStart={() => handleTouchStart(dashboard.id, dashboard.title)}
-              />
+              <RenderErrorBoundary key={dashboard.id}>
+                <SidebarNavItem
+                  key={dashboard.id}
+                  ref={(el) => {
+                    itemRefs.current[dashboard.id] = el;
+                  }}
+                  dashboard={dashboard}
+                  isSidebarOpen={isSidebarOpen}
+                  onHover={showTooltip}
+                  onHoverOut={hideTooltip}
+                  onTouchEnd={handleTouchEnd}
+                  onTouchStart={() => handleTouchStart(dashboard.id, dashboard.title)}
+                />
+              </RenderErrorBoundary>
             ))}
           </ul>
         </nav>
