@@ -1,5 +1,3 @@
-// src/components/common/loadingStatus/LoadingSpinner.tsx
-
 import DotIcon from '@/assets/icons/DotIcon';
 
 /**

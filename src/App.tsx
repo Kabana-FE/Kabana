@@ -1,117 +1,113 @@
-// import { useEffect, useState } from 'react';
-// import { Outlet, useNavigation } from 'react-router-dom';
-
-// import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
-
-// /**
-//  * @description
-//  * App의 루트 컴포넌트로, SplashScreen → PendingUI → 실제 콘텐츠(Outlet) 순으로 구성됩니다.
-//  * 라우터 설정에 따라 LandingLayout, DashboardLayout, AuthLayout 중 하나가 Outlet을 통해 이곳에 렌더링됩니다.
-//  * 최소 Splash 시간을 보장하게 만들 수 있습니다.
-//  */
-
-// // 스플래시 화면을 보여주기 전 최소 대기 시간 (ms)
-// // 이 시간 안에 로딩이 완료되면 스플래시를 건너뜁니다.
-// const SPLASH_MIN_WAIT_MS = 1000;
-// // 페이지 전환 PendingUI를 보여주기 전 최소 대기 시간 (ms)
-// // 너무 짧으면 빠른 환경에서 깜빡이고, 너무 길면 사용자가 응답 없다고 느낄 수 있습니다. 200-300ms가 적절합니다.
-// const PENDING_UI_WAIT_MS = 1000;
-
-// const App = () => {
-//   const navigation = useNavigation();
-//   const [isInitialLoading, setIsInitialLoading] = useState(true);
-//   const [shouldShowSplash, setShouldShowSplash] = useState(false);
-//   const [showPendingUI, setShowPendingUI] = useState(false);
-
-//   const isNavigating = navigation.state !== 'idle';
-
-//   // 1. 초기 로딩(Splash)을 위한 useEffect
-//   useEffect(() => {
-//     if (!isInitialLoading) return;
-
-//     // 타입을 명시적으로 지정합니다.
-//     let timer: ReturnType<typeof setTimeout>;
-
-//     timer = setTimeout(() => {
-//       setShouldShowSplash(true);
-//     }, SPLASH_MIN_WAIT_MS);
-
-//     if (!isNavigating) {
-//       clearTimeout(timer);
-//       setIsInitialLoading(false);
-//     }
-
-//     return () => clearTimeout(timer);
-//   }, [isNavigating, isInitialLoading]);
-
-//   // 2. 페이지 전환(PendingUI)을 위한 새로운 useEffect
-//   useEffect(() => {
-//     if (isInitialLoading) return;
-
-//     // 타입을 명시적으로 지정합니다.
-//     let timer: ReturnType<typeof setTimeout>;
-
-//     if (isNavigating) {
-//       timer = setTimeout(() => {
-//         setShowPendingUI(true);
-//       }, PENDING_UI_WAIT_MS);
-//     } else {
-//       // 'timer'가 할당되기 전에 clearTimeout이 호출될 수 있으므로,
-//       // 여기서는 setShowPendingUI(false)만 호출합니다.
-//       // 타이머 클리어는 cleanup 함수에서 처리됩니다.
-//       setShowPendingUI(false);
-//     }
-
-//     // 클린업 함수에서 타이머를 안전하게 제거합니다.
-//     return () => clearTimeout(timer);
-//   }, [isNavigating, isInitialLoading]);
-
-//   // ... 이하 렌더링 로직은 동일 ...
-//   if (isInitialLoading && shouldShowSplash) {
-//     return <SplashScreen />;
-//   }
-
-//   if (isInitialLoading) {
-//     return null;
-//   }
-
-//   return (
-//     <div className='flex min-h-screen flex-col'>
-//       {showPendingUI && <PendingUI />}
-//       <Outlet />
-//     </div>
-//   );
-// };
-
-// export default App;
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 
 import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
 
+/**
+ * App 컴포넌트
+ *
+ * 애플리케이션의 루트 컴포넌트로, 라우터에 따라 페이지를 렌더링하기 전 다음과 같은 로딩 흐름을 제어합니다:
+ *
+ * 1. SplashScreen 단계:
+ *    - 최초 앱 진입 시 최소 1000ms 동안 SplashScreen이 표시될 수 있습니다.
+ *    - 이 시간이 지나기 전에 라우팅 상태가 'idle'이면 Splash를 건너뛰고 바로 콘텐츠를 렌더링합니다.
+ *
+ * 2. PendingUI 단계:
+ *    - 페이지 전환(navigation.state !== 'idle')이 감지되면, 1000ms 이상 지속될 경우에만 PendingUI가 표시됩니다.
+ *    - 너무 짧은 전환에는 PendingUI가 표시되지 않아 UX 깜빡임을 방지합니다.
+ *    - 전환이 끝나면 PendingUI는 즉시 사라집니다.
+ *
+ * 3. Outlet 영역:
+ *    - React Router의 <Outlet />을 통해 실제 라우터에서 매칭된 컴포넌트가 이곳에 렌더링됩니다.
+ *
+ * 구성 요소:
+ * - <SplashScreen /> : 초기 진입 시 보여줄 앱 소개 또는 로딩 화면
+ * - <PendingUI /> : 페이지 전환 중 일정 시간 이상 로딩이 지속될 경우 나타나는 인디케이터
+ * - <Outlet /> : 라우팅된 레이아웃 또는 페이지가 실제로 렌더링되는 자리
+ *
+ * @returns {React.ReactElement} 앱의 루트 레이아웃 및 로딩 UI를 포함한 JSX 요소
+ */
 const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
-  const [isAppReady, setIsAppReady] = useState(false);
+  const navigation = useNavigation();
+  const isNavigating = navigation.state !== 'idle';
+
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [shouldShowSplash, setShouldShowSplash] = useState(false);
+  const [showPendingUI, setShowPendingUI] = useState(false);
 
   useEffect(() => {
-    const splashTimer = setTimeout(() => {
-      setShowSplash(false);
-    }, 2000); // 최소 2초는 Splash 보여줌
+    if (!isInitialLoading) return;
 
-    // 실제 앱 준비가 완료됐다고 가정 (데이터 로딩 시 여기서 Promise.all 등으로 대체 가능)
-    const readyTimer = setTimeout(() => {
-      setIsAppReady(true);
-    }, 3000); // 앱 준비까지 총 3초 걸리게 설정
+    const timer = setTimeout(() => {
+      setShouldShowSplash(true);
+    }, 1000);
 
-    return () => {
-      clearTimeout(splashTimer);
-      clearTimeout(readyTimer);
-    };
-  }, []);
+    if (!isNavigating) {
+      clearTimeout(timer);
+      setIsInitialLoading(false);
+    }
 
-  if (showSplash) return <SplashScreen />;
-  if (!isAppReady) return <PendingUI />;
-  return <Outlet />;
+    return () => clearTimeout(timer);
+  }, [isInitialLoading, isNavigating]);
+
+  useEffect(() => {
+    if (isInitialLoading) return;
+
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (isNavigating) {
+      timer = setTimeout(() => {
+        if (isNavigating) {
+          setShowPendingUI(true);
+        }
+      }, 1000);
+    } else {
+      setShowPendingUI(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isNavigating, isInitialLoading]);
+
+  if (isInitialLoading && shouldShowSplash) return <SplashScreen />;
+  if (isInitialLoading) return null;
+
+  return (
+    <div className='flex min-h-screen flex-col'>
+      {showPendingUI && <PendingUI />}
+      <Outlet />
+    </div>
+  );
 };
 
 export default App;
+
+//영상찍을때 잠깐 필요.나중에 코드는 playground에 옮길예정
+// import { useEffect, useState } from 'react';
+// import { Outlet } from 'react-router-dom';
+
+// import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
+
+// const App = () => {
+//   const [showSplash, setShowSplash] = useState(true);
+//   const [isAppReady, setIsAppReady] = useState(false);
+
+//   useEffect(() => {
+//     const splashTimer = setTimeout(() => {
+//       setShowSplash(false);
+//     }, 5000);
+//     const readyTimer = setTimeout(() => {
+//       setIsAppReady(true);
+//     }, 8000);
+
+//     return () => {
+//       clearTimeout(splashTimer);
+//       clearTimeout(readyTimer);
+//     };
+//   }, []);
+
+//   if (showSplash) return <SplashScreen />;
+//   if (!isAppReady) return <PendingUI />;
+//   return <Outlet />;
+// };
+
+// export default App;
