@@ -66,23 +66,66 @@ const usePopover = (options: PopoverOptions = {}): PopoverState => {
   const close = useCallback(() => setIsOpen(false), []);
 
   useLayoutEffect(() => {
-    const anchorEl = positionRef?.current || triggerRef.current;
+    const anchorEl = positionRef?.current ?? triggerRef.current;
 
     if (isOpen && anchorEl && contentRef.current) {
       const anchorRect = anchorEl.getBoundingClientRect();
       const contentRect = contentRef.current.getBoundingClientRect();
 
-      let xPosition: number;
-      if (align === 'end') {
-        xPosition = anchorRect.right + window.scrollX - contentRect.width;
+      // 가로 위치 결정
+      let x;
+      const x_toTheRight = anchorRect.left + window.scrollX + offsetX;
+      const x_toTheLeft = anchorRect.right + window.scrollX - contentRect.width;
+      const hasSpaceOnRight = anchorRect.left + contentRect.width <= window.innerWidth;
+      const hasSpaceOnLeft = anchorRect.right - contentRect.width >= 0;
+
+      if (align === 'start') {
+        // 'start': 오른쪽 표시 선호
+        // 오른쪽에 공간이 있거나, 왼쪽에도 공간이 없다면 오른쪽에 표시
+        if (hasSpaceOnRight || !hasSpaceOnLeft) {
+          x = x_toTheRight;
+        } else {
+          // 오른쪽에 공간이 없고 왼쪽에만 공간이 있다면 왼쪽으로 전환
+          x = x_toTheLeft;
+        }
       } else {
-        xPosition = anchorRect.left + window.scrollX;
+        // 'end': 왼쪽 표시 선호
+        // 왼쪽에 공간이 있거나, 오른쪽에도 공간이 없다면 왼쪽에 표시
+        if (hasSpaceOnLeft || !hasSpaceOnRight) {
+          x = x_toTheLeft;
+        } else {
+          // 왼쪽에 공간이 없고 오른쪽에만 공간이 있다면 오른쪽으로 전환
+          x = x_toTheRight;
+        }
       }
 
-      setCoords({
-        bottom: anchorRect.bottom + window.scrollY + offsetY,
-        left: xPosition + offsetX,
-      });
+      // 세로 방향 결정
+      const spaceBelow = window.innerHeight - anchorRect.bottom;
+      const spaceAbove = anchorRect.top;
+      const canShowBelow = spaceBelow >= contentRect.height;
+      const canShowAbove = spaceAbove >= contentRect.height;
+
+      let y;
+      if (canShowBelow || !canShowAbove) {
+        y = anchorRect.bottom + window.scrollY + offsetY;
+      } else {
+        y = anchorRect.top + window.scrollY - contentRect.height - offsetY;
+      }
+
+      // 가로 보정
+      if (x + contentRect.width > window.scrollX + window.innerWidth) {
+        x = window.scrollX + window.innerWidth - contentRect.width - 16;
+      }
+      if (x < window.scrollX) {
+        x = window.scrollX + 16;
+      }
+
+      // 세로 보정
+      if (y < window.scrollY) {
+        y = window.scrollY + 16;
+      }
+
+      setCoords({ bottom: y, left: x });
     }
 
     const handleClickOutside = (event: MouseEvent) => {

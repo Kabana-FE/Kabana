@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useLocation, useRouteLoaderData } from 'react-router';
 import { twMerge } from 'tailwind-merge';
 
@@ -6,6 +6,7 @@ import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
 import CrownIcon from '@/assets/icons/CrownIcon';
 import SettingIcon from '@/assets/icons/SettingIcon';
+import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Avatar from '@/components/Avatar';
 import Group from '@/components/Avatar/Group';
 import Button from '@/components/common/button';
@@ -13,6 +14,9 @@ import InviteMember from '@/components/modal/InviteMember';
 import { ROUTES } from '@/constants/paths/routes';
 import type { DashboardDetailLoaderData } from '@/loaders/dashboard/types';
 import { useKabanaStore } from '@/stores';
+
+import Dropdown from '../dropdown';
+import type { DropdownOption } from '../dropdown/types';
 
 const DashboardHeader = () => {
   const location = useLocation();
@@ -29,6 +33,14 @@ const DashboardHeader = () => {
   const memberList = data?.memberList;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [selectedStatus, setSelectedStatus] = useState<DropdownOption | null>(null);
+  const dropDownContainer = useRef<HTMLDivElement>(null);
+  const statusOptions = [
+    { label: 'todo', value: 'To Do', withCheck: true },
+    { label: 'inProgress', value: 'In Progress', withCheck: true },
+    { label: 'done', value: 'Done', withCheck: true },
+  ];
 
   return (
     <>
@@ -113,6 +125,26 @@ const DashboardHeader = () => {
               <Avatar nickname={userName || ''} src={profileImageUrl ?? undefined} />
               <span className='hidden text-lg font-medium text-gray-700 tablet:block'>{userName}</span>
             </Link>
+          </div>
+        </div>
+        <div>
+          <div
+            ref={dropDownContainer}
+            className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
+          >
+            <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
+            <Dropdown
+              align='start'
+              contentClassName='w-208 tablet:w-208 '
+              optionAlign='start'
+              optionClassName='text-left h-40'
+              options={statusOptions}
+              positionRef={dropDownContainer}
+              selectedValue={selectedStatus?.value}
+              trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
+              triggerClassName='p-2 hover:bg-gray-100 rounded'
+              // onSelect={handleOptionSelect}
+            />
           </div>
         </div>
       </header>

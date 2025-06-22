@@ -26,11 +26,12 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
   const [selectedStatus2, setSelectedStatus2] = useState<DropdownOption | null>(null);
   const submit = useSubmit();
   const loader = useLoaderData() as DashboardDetailLoaderData;
-  const memberList = loader.memberListResponse.members;
+  const memberList = loader.memberList.members;
 
   const statusOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.id,
+    withCheck: true,
   }));
 
   const statusOptions2: DropdownOption[] = loader.columns.data.map((column: Column) => ({
@@ -168,27 +169,11 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId }: EditTodoT
             <Dropdown
               align='start'
               contentClassName='w-287 tablet:w-552 '
+              optionAlign='start'
               optionClassName='text-left h-40'
               options={statusOptions}
               positionRef={dropDownContainer}
               selectedValue={selectedStatus?.value}
-              trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
-              triggerClassName='p-2 hover:bg-gray-100 rounded'
-              onSelect={handleOptionSelect}
-            />
-          </div>
-          <div
-            ref={dropDownContainer}
-            className='flex w-full items-center justify-between rounded border border-gray-300 px-16 py-11'
-          >
-            <div>{selectedStatus ? selectedStatus.label : '담당자를 선택해주세요'}</div>
-            <Dropdown
-              align='start'
-              contentClassName='w-287 tablet:w-552 '
-              optionClassName='text-left h-40'
-              options={statusOptions2}
-              positionRef={dropDownContainer2}
-              selectedValue={selectedStatus2?.value}
               trigger={<TriangleIcon aria-label='더보기 옵션' size={12} />}
               triggerClassName='p-2 hover:bg-gray-100 rounded'
               onSelect={handleOptionSelect}
