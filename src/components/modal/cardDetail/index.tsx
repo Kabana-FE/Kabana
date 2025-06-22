@@ -118,14 +118,14 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
           <span>
             <Dropdown
               contentClassName=''
-              optionAlign='start'
+              optionAlign='center'
               optionClassName='text-center'
               options={[
                 { label: '수정하기', value: 'edit' },
                 { label: '삭제하기', value: 'delete' },
               ]}
               trigger={<MoreVertIcon aria-label='더보기 옵션' size={24} />}
-              triggerClassName='px-2 py-1 hover:bg-gray-100'
+              triggerClassName='px-2 py-1 '
               onSelect={handleOptionSelect}
             />
           </span>

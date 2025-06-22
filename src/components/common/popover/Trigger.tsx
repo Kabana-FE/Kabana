@@ -38,7 +38,7 @@ const Trigger = ({ children, onToggle, triggerRef, as: Component = 'button', cla
     <Component
       ref={triggerRef}
       className={twMerge(
-        'focus-visible:outline-rounded-md flex h-32 w-32 cursor-pointer items-center justify-center focus-visible:bg-cream focus-visible:outline-capybara',
+        'focus-visible:outline-rounded-md flex cursor-pointer focus-visible:bg-cream focus-visible:outline-capybara',
         className,
       )}
       onClick={onToggle}
