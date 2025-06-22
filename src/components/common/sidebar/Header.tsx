@@ -15,7 +15,10 @@ import type { SidebarHeaderProps } from './types';
 const SidebarHeader = ({ showTooltip, hideTooltip }: SidebarHeaderProps) => {
   const { isSidebarOpen } = useKabanaStore();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const toggleCreateModal = () => setIsCreateModalOpen((prev) => !prev);
+  const toggleCreateModal = () => {
+    hideTooltip();
+    setIsCreateModalOpen((prev) => !prev);
+  };
 
   const addDashboardButtonRef = useRef<HTMLButtonElement>(null);
 

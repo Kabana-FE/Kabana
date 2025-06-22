@@ -167,7 +167,6 @@ const DashboardEdit = () => {
     try {
       await deleteDashboard(dashboardId);
       showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('대시보드'));
-      revalidate();
       navigate(ROUTES.DASHBOARD_LIST);
     } catch (error) {
       showError(TOAST_MESSAGES.API.DELETE_FAILURE('대시보드'));

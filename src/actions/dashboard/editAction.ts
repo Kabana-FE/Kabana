@@ -4,8 +4,10 @@ import { redirect } from 'react-router-dom';
 import { deleteDashboard, deleteInvitee, updateDashboard } from '@/apis/dashboard';
 import { inviteMember } from '@/apis/invitation';
 import { deleteMember } from '@/apis/member';
+import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { ROUTES } from '@/constants/paths';
 import { updateDashboardSchema } from '@/schemas/dashboard';
+import { useKabanaStore } from '@/stores';
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   const dashboardId = Number(params.dashboardId);
@@ -49,9 +51,17 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
       case 'inviteMember': {
         const email = formData.get('email');
-        if (typeof email !== 'string') throw new Error('Invalid email');
+        if (typeof email !== 'string') {
+          throw new Error('Invalid email');
+        }
 
-        await inviteMember(dashboardId, { email });
+        try {
+          await inviteMember(dashboardId, { email });
+          useKabanaStore.getState().addToast(TOAST_MESSAGES.INVITATION.SUCCESS(email), 'success');
+        } catch {
+          useKabanaStore.getState().addToast(TOAST_MESSAGES.INVITATION.FAILURE, 'error');
+        }
+
         return null;
       }
 

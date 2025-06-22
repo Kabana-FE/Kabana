@@ -50,7 +50,7 @@ const Pagination = ({
       </Button>
       <Button
         aria-label='다음 페이지'
-        className={twMerge(`${paginationBtnStyle} rounded-r-none`, className)}
+        className={twMerge(`${paginationBtnStyle} rounded-l-none`, className)}
         disabled={currentPage === totalPages || isLoading}
         size='none'
         variant='none'

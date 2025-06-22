@@ -33,7 +33,14 @@ const Root = ({ children, className, isModalOpen, toggleModal }: DialogRootProp)
         toggleModal();
       }}
     >
-      <dialog open className={twMerge('inset-0 m-auto bg-white', className)} onClick={(e) => e.stopPropagation()}>
+      <dialog
+        open
+        className={twMerge(
+          'inset-0 m-auto max-h-[calc(100vh-300px)] overflow-auto overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden',
+          className,
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className='flex items-center justify-between'>
           {title}
           {close}
