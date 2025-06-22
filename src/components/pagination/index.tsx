@@ -27,10 +27,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange, isLoading, children
   const paginationBtnStyle =
     ' border border-gray-300 p-0 active:bg-gray-200 disabled:border-1 disabled:border-solid disabled:border-gray-800 disabled:bg-white disabled:opacity-20 tablet:size-40 bg-white';
   return (
-    <div className='flex'>
+    <div className='flex items-center'>
+      <div className='mx-2'>{children}</div>
       <Button
         aria-label='이전 페이지'
-        className={`${paginationBtnStyle} rounded-r-none p-5`}
+        className={`${paginationBtnStyle} rounded-r-none p-4`}
         disabled={currentPage === 1 || isLoading}
         size='none'
         variant='none'
@@ -38,10 +39,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange, isLoading, children
       >
         <ChevronIcon direction='left' size={16} />
       </Button>
-      <div className='mx-2'>{children}</div>
       <Button
         aria-label='다음 페이지'
-        className={`${paginationBtnStyle} rounded-l-none p-5`}
+        className={`${paginationBtnStyle} rounded-l-none p-4`}
         disabled={currentPage === totalPages || isLoading}
         size='none'
         variant='none'
