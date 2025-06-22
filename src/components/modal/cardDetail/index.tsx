@@ -17,11 +17,9 @@ import { type CommentsType, type CreateComment, createCommentSchema } from '@/sc
 import Comment from './Comment';
 import type { DetailType } from './types';
 
-const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleEditTodo }: DetailType) => {
+const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo }: DetailType) => {
   const {
-    register,
     formState: { isSubmitting },
-    reset,
   } = useForm<CreateComment>({
     resolver: zodResolver(createCommentSchema),
   });
@@ -64,11 +62,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleDeleteAlert, toggleE
 
     return () => setCommentList([]);
   }, [data.id, isModalOpen]);
-  const onSubmit = (submitData: CreateComment) => {
-    const formData = new FormData();
 
-    submit({});
-  };
   return (
     <Dialog.Root
       className='h-783 w-327 rounded-lg p-16 tablet:w-678 tablet:px-32 tablet:py-24 pc:w-730'

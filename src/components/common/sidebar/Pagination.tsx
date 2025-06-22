@@ -13,7 +13,7 @@ const SidebarPagination = ({
 
   return (
     <div className='w-full border-t border-gray-200 pt-10'>
-      <div className='flex'>
+      <div className='flex justify-end'>
         <Pagination currentPage={currentPage} isLoading={isLoading} totalPages={totalPages} onPageChange={onPageChange}>
           <span className='mr-8 hidden text-md text-gray-400 pc:block'>{`${currentPage} / ${totalPages}`}</span>
         </Pagination>

@@ -7,6 +7,7 @@ import { deleteDashboard, getInviteeList } from '@/apis/dashboard';
 import { getMemberList } from '@/apis/member';
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import ChevronIcon from '@/assets/icons/ChevronIcon';
+import NoInvitation from '@/assets/icons/NoInvitationIcon';
 import ColorSelector from '@/components/colorSelector';
 import Button from '@/components/common/button';
 import Input from '@/components/common/input';
@@ -42,13 +43,13 @@ const DashboardEdit = () => {
   const [memberList, setMemberList] = useState<Member[]>(initialData.memberList.members);
   const [memberPage, setMemberPage] = useState<number>(1);
   const [isMemberLoading, setIsMemberLoading] = useState<boolean>(false);
-  const totalMemberPage = Math.ceil(initialData.memberList.totalCount / 4);
+  const totalMemberPage = Math.ceil(initialData.memberList.totalCount / 4 || 1);
 
   // Invitee state
   const [inviteeList, setInviteeList] = useState<Invitation[]>(initialData.inviteeList.invitations);
   const [inviteePage, setInviteePage] = useState<number>(1);
   const [isInviteeLoading, setIsInviteeLoading] = useState<boolean>(false);
-  const totalInviteePage = Math.ceil(initialData.inviteeList.totalCount / 5);
+  const totalInviteePage = Math.ceil(initialData.inviteeList.totalCount / 5 || 1);
 
   useEffect(() => {
     setInviteePage(1);
@@ -274,17 +275,24 @@ const DashboardEdit = () => {
               <AddBoxIcon className='tablet:size-16' color='var(--color-white)' size={10} /> 초대하기
             </Button>
           </div>
-          <ul>
-            {inviteeList.map((invitee, index) => (
-              <Invitations
-                key={invitee.id}
-                email={invitee.invitee.email}
-                invitationId={invitee.id}
-                isLast={index === inviteeList.length - 1}
-                onDelete={handleDeleteInvitee}
-              />
-            ))}
-          </ul>
+          {initialData.inviteeList.totalCount === 0 ? (
+            <div className='flex flex-col items-center justify-center gap-20 p-80'>
+              <NoInvitation />
+              <span>아직 초대내역이 없습니다.</span>
+            </div>
+          ) : (
+            <ul>
+              {inviteeList.map((invitee, index) => (
+                <Invitations
+                  key={invitee.id}
+                  email={invitee.invitee.email}
+                  invitationId={invitee.id}
+                  isLast={index === inviteeList.length - 1}
+                  onDelete={handleDeleteInvitee}
+                />
+              ))}
+            </ul>
+          )}
         </section>
         <Button
           className='max-w-320 rounded-lg text-gray-700 tablet:h-62'

@@ -15,8 +15,8 @@ const DashboardDetail = () => {
   const [createColumn, setCreateColumn] = useState(false);
 
   return (
-    <div className='mt-60 tablet:mt-70'>
-      <section className='flex w-screen flex-col px-20 pc:flex-row pc:overflow-x-scroll'>
+    <div className='mt-60 w-full bg-gray-100 tablet:mt-70'>
+      <section className='flex w-full flex-col px-20 pc:flex-row pc:overflow-x-scroll'>
         {data.cardList &&
           data.cardList.map((cardItem: GetCardListType, idx: number) => {
             return (
