@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useFetcher } from 'react-router';
 
-import { updateColumn } from '@/apis/column';
 import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Input from '@/components/common/input';
@@ -25,11 +26,13 @@ import { updateColumnSchema } from '@/schemas/column';
  */
 const EditColumn = ({ columnId, initialTitle, isModalOpen, toggleModal, toggleDeleteAlert }: EditColumnProps) => {
   const { showSuccess, showError } = useToast();
+  const fetcher = useFetcher();
+  const isSubmitting = fetcher.state === 'submitting';
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<UpdateColumnInput>({
     resolver: zodResolver(updateColumnSchema),
@@ -38,17 +41,26 @@ const EditColumn = ({ columnId, initialTitle, isModalOpen, toggleModal, toggleDe
     },
   });
 
-  const onSubmit = async (data: UpdateColumnInput) => {
-    try {
-      await updateColumn(columnId, data);
-      toggleModal();
+  const onSubmit = (data: UpdateColumnInput) => {
+    const formData = new FormData();
+    formData.append('intent', 'editColumn');
+    formData.append('title', data.title);
+    formData.append('columnId', String(columnId));
+
+    fetcher.submit(formData, { method: 'post' });
+    toggleModal();
+  };
+
+  useEffect(() => {
+    if (fetcher.data?.success) {
       showSuccess(TOAST_MESSAGES.API.UPDATE_SUCCESS('컬럼'));
       reset();
-    } catch (err) {
-      showError(TOAST_MESSAGES.API.UPDATE_FAILURE('컬럼'));
-      console.error('🩺컬럼 수정 실패:', err);
+      toggleModal();
     }
-  };
+    if (fetcher.data?.error) {
+      showError(fetcher.data.error || TOAST_MESSAGES.API.UPDATE_FAILURE('컬럼'));
+    }
+  }, [fetcher.data]);
 
   return (
     <Dialog.Root

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useFetcher, useLoaderData, useNavigate, useParams, useRevalidator } from 'react-router';
 
@@ -53,6 +53,11 @@ const DashboardEdit = () => {
 
   const { revalidate } = useRevalidator();
 
+  useEffect(() => {
+    setInviteePage(1);
+    setInviteeList(initialData.inviteeList.invitations);
+  }, [initialData]);
+
   const {
     register,
     handleSubmit,
@@ -104,10 +109,14 @@ const DashboardEdit = () => {
       setIsMemberLoading(false);
     }
   };
-
+  const isInitialMemberRender = useRef(true);
   useEffect(() => {
+    if (isInitialMemberRender.current) {
+      isInitialMemberRender.current = false;
+      return;
+    }
     fetchMemberList();
-  }, [memberPage, memberFetcher.state]);
+  }, [memberPage]);
 
   const handleDeleteMember = (id: number) => {
     const formData = new FormData();
@@ -118,8 +127,9 @@ const DashboardEdit = () => {
 
   // Fetch invitee list
   const dashboardFetcher = useFetcher();
-  const fetchInvitation = async () => {
+  const fetchInvitation = useCallback(async () => {
     if (isInviteeLoading) return;
+
     setIsInviteeLoading(true);
     try {
       const rawInviteeList = await getInviteeList({ dashboardId: dashboardIdNumber, size: 5, page: inviteePage });
@@ -131,11 +141,20 @@ const DashboardEdit = () => {
     } finally {
       setIsInviteeLoading(false);
     }
+  }, [dashboardIdNumber, inviteePage, isInviteeLoading, showError]);
+
+  const handleInviteSuccess = () => {
+    fetchInvitation();
   };
+  const isInitialInviteeRender = useRef(true);
 
   useEffect(() => {
+    if (isInitialInviteeRender.current) {
+      isInitialInviteeRender.current = false;
+      return;
+    }
     fetchInvitation();
-  }, [inviteePage, dashboardFetcher.state]);
+  }, [inviteePage]);
 
   const handleDeleteInvitee = (invitationId: number) => {
     const formData = new FormData();
@@ -276,7 +295,12 @@ const DashboardEdit = () => {
       </div>
 
       {isModalOpen && (
-        <InviteMember dashboardId={dashboardIdNumber} isModalOpen={isModalOpen} toggleModal={toggleModal} />
+        <InviteMember
+          dashboardId={dashboardIdNumber}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          onInviteSuccess={handleInviteSuccess}
+        />
       )}
     </div>
   );
