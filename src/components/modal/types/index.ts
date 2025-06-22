@@ -87,6 +87,7 @@ export interface InviteMemberProps {
 
 export interface EditTodoType extends CreateTodoModalType {
   data: CardType;
+  cardId: number;
 }
 
 export interface DeleteCardAlertType {
