@@ -36,7 +36,7 @@ const Root = ({ children, className, isModalOpen, toggleModal }: DialogRootProp)
       <dialog
         open
         className={twMerge(
-          'inset-0 m-auto max-h-[calc(100vh-300px)] overflow-auto overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden',
+          'inset-0 m-auto max-h-[calc(100vh-200px)] overflow-auto overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden',
           className,
         )}
         onClick={(e) => e.stopPropagation()}

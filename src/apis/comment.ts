@@ -12,8 +12,10 @@ import { requestDelete, requestGet, requestPost, requestPut } from './base/reque
 export const createComment = async (data: CreateComment) => {
   return requestPost<CommentType, CreateComment>(`${COMMENT_ENDPOINTS.CREATE}`, data);
 };
-export const getComments = async (cardId: number, size = 5) => {
-  return requestGet<GetCommentsType>(`${COMMENT_ENDPOINTS.LIST}?size=${size}&cardId=${cardId}`);
+export const getComments = async (cardId: number, cursorId: number | null = null, size = 5) => {
+  return requestGet<GetCommentsType>(
+    `${COMMENT_ENDPOINTS.LIST}?size=${size}&${cursorId ? `cursorId=${cursorId}&` : ''}cardId=${cardId}`,
+  );
 };
 
 export const editComment = async (commentId: number, data: EditComment) => {
