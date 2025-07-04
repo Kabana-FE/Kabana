@@ -55,10 +55,7 @@ const Trigger = ({
   return (
     <Component
       ref={triggerRef}
-      className={twMerge(
-        'focus-visible:outline-rounded-md flex cursor-pointer focus-visible:bg-cream focus-visible:outline-capybara',
-        className,
-      )}
+      className={twMerge('focus-visible:outline-rounded-md flex cursor-pointer', className)}
       role={role || (Component === 'button' ? undefined : 'button')}
       tabIndex={tabIndex ?? (Component === 'button' ? undefined : 0)}
       type={Component === 'button' ? 'button' : undefined}
