@@ -6,7 +6,7 @@ import type { LoadingSpinnerProps } from './types';
 
 /**
  * @description 세 개의 점이 순차적으로 튀어 오르는 애니메이션을 보여주는 로딩 스피너입니다.
- * index.css에 정의된 @keyframes를 직접 사용합니다.
+ * index.css에 정의된 @keyframes 를 직접 사용합니다.
  *  `delay`를 주면 해당 시간(ms) 이후에만 나타납니다.
  */
 const LoadingSpinner = ({ appearAfter = 1000 }: LoadingSpinnerProps) => {

@@ -99,8 +99,9 @@ const Sidebar = () => {
         className={`fixed top-0 left-0 flex h-full flex-col items-center border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} tablet:translate-x-0 ${isSidebarOpen ? 'w-70 tablet:w-160 pc:w-300' : 'tablet:w-70'} `}
       >
         <SidebarHeader hideTooltip={hideTooltip} showTooltip={showTooltip} />
+
         {isLoading && (
-          <div className='bg-opacity-70 absolute inset-0 z-10 flex items-center justify-center bg-white'>
+          <div className='absolute inset-0 z-10 flex items-center justify-center'>
             <LoadingSpinner appearAfter={1000} />
           </div>
         )}
