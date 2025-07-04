@@ -13,7 +13,7 @@ import { useKabanaStore } from '@/stores';
 import type { SidebarHeaderProps } from './types';
 
 const SidebarHeader = ({ showTooltip, hideTooltip }: SidebarHeaderProps) => {
-  const { isSidebarOpen } = useKabanaStore();
+  const isSidebarOpen = useKabanaStore((state) => state.isSidebarOpen);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const toggleCreateModal = () => {
     hideTooltip();

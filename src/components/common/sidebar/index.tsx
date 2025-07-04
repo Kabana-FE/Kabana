@@ -16,7 +16,7 @@ import SidebarPagination from './Pagination';
 import SidebarTooltip from './Tooltip';
 
 const Sidebar = () => {
-  const { isSidebarOpen } = useKabanaStore();
+  const isSidebarOpen = useKabanaStore((state) => state.isSidebarOpen);
   const loaderData = useLoaderData() as authGuardLoaderData;
   const PAGE_SIZE = loaderData?.pageSize || 10;
   const { showError } = useToast();

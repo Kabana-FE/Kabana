@@ -160,7 +160,6 @@ Kabana는 바쁜 일정을 관리하면서도 마음의 평화를 유지할 수 
     </tr>
   </tbody>
 </table>
-             |
 
 ---
 
@@ -260,10 +259,10 @@ Kabana/
 
 ### 🪶 프로젝트 문서 & 디자인
 
-🔗 [카바나 디자인(Figma) Kabana](https://www.figma.com/design/O0wvflDySgeIdkzzoEq1qa/Kabana?node-id=0-1&p=f&t=JIlWjJxoneJvCJZb-0)<br>
-🔗 [기반 디자인(Figma) Taskify](https://www.figma.com/design/O0wvflDySgeIdkzzoEq1qa/Kabana?node-id=0-1&p=f&t=FL3yVfKPruMCBwwv-0)<br>
-🔗 [Docs (스타일 가이드, 브랜치 전략 등)](https://github.com/Kabana-FE/Kabana/discussions/categories/docs-convention-r-r-etc)<br>
-🔗 [전체 프로젝트 문서(Notion)](https://brazen-gopher-e81.notion.site/Kabana-1f4692e2f1d0800a979fce7058096a33?source=copy_link)<br>
+- [카바나 디자인(Figma) Kabana](https://www.figma.com/design/O0wvflDySgeIdkzzoEq1qa/Kabana?node-id=0-1&p=f&t=JIlWjJxoneJvCJZb-0)<br>
+- [기반 디자인(Figma) Taskify](https://www.figma.com/design/O0wvflDySgeIdkzzoEq1qa/Kabana?node-id=0-1&p=f&t=FL3yVfKPruMCBwwv-0)<br>
+- [Docs (스타일 가이드, 브랜치 전략 등)](https://github.com/Kabana-FE/Kabana/discussions/categories/docs-convention-r-r-etc)<br>
+- [전체 프로젝트 문서(Notion)](https://brazen-gopher-e81.notion.site/Kabana-1f4692e2f1d0800a979fce7058096a33?source=copy_link)<br>
 
 ---
 
