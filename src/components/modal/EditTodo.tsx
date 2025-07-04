@@ -31,11 +31,13 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
   const columnOptions: DropdownOption[] = loader.columns.data.map((column: Column) => ({
     label: column.title,
     value: column.id,
+    withCheck: true,
   }));
 
   const memberOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.userId,
+    withCheck: true,
   }));
   const result = columnOptions.find((column) => column.value === data.columnId);
   const dropDownContainer = useRef<HTMLDivElement>(null);
