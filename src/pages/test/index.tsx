@@ -130,3 +130,34 @@ const Playground = () => {
 };
 
 export default Playground;
+
+//영상찍을때 App에서 필요한 코드
+// import { useEffect, useState } from 'react';
+// import { Outlet } from 'react-router-dom';
+
+// import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
+
+// const App = () => {
+//   const [showSplash, setShowSplash] = useState(true);
+//   const [isAppReady, setIsAppReady] = useState(false);
+
+//   useEffect(() => {
+//     const splashTimer = setTimeout(() => {
+//       setShowSplash(false);
+//     }, 5000);
+//     const readyTimer = setTimeout(() => {
+//       setIsAppReady(true);
+//     }, 8000);
+
+//     return () => {
+//       clearTimeout(splashTimer);
+//       clearTimeout(readyTimer);
+//     };
+//   }, []);
+
+//   if (showSplash) return <SplashScreen />;
+//   if (!isAppReady) return <PendingUI />;
+//   return <Outlet />;
+// };
+
+// export default App;

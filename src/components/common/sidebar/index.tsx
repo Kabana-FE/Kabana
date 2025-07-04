@@ -73,7 +73,7 @@ const Sidebar = () => {
     if (isLoading || page < 1 || page > totalPages) return;
     setIsLoading(true);
     try {
-      // ***** 영상용: 2초 지연 로딩스피너 *****
+      // 영상용: 2초 지연 로딩스피너
       // await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const newDashboardData = await getDashboardList({
@@ -101,7 +101,7 @@ const Sidebar = () => {
         <SidebarHeader hideTooltip={hideTooltip} showTooltip={showTooltip} />
         {isLoading && (
           <div className='bg-opacity-70 absolute inset-0 z-10 flex items-center justify-center bg-white'>
-            <LoadingSpinner />
+            <LoadingSpinner appearAfter={1000} />
           </div>
         )}
 

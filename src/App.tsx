@@ -71,34 +71,3 @@ const App = () => {
   );
 };
 export default App;
-
-//영상찍을때 잠깐 필요.나중에 코드는 playground에 옮길예정
-// import { useEffect, useState } from 'react';
-// import { Outlet } from 'react-router-dom';
-
-// import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
-
-// const App = () => {
-//   const [showSplash, setShowSplash] = useState(true);
-//   const [isAppReady, setIsAppReady] = useState(false);
-
-//   useEffect(() => {
-//     const splashTimer = setTimeout(() => {
-//       setShowSplash(false);
-//     }, 5000);
-//     const readyTimer = setTimeout(() => {
-//       setIsAppReady(true);
-//     }, 8000);
-
-//     return () => {
-//       clearTimeout(splashTimer);
-//       clearTimeout(readyTimer);
-//     };
-//   }, []);
-
-//   if (showSplash) return <SplashScreen />;
-//   if (!isAppReady) return <PendingUI />;
-//   return <Outlet />;
-// };
-
-// export default App;
