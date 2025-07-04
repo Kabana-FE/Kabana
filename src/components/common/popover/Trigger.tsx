@@ -33,7 +33,25 @@ import type { PopoverTriggerProps } from './types';
  * </Popover.Trigger>
  * ```
  */
-const Trigger = ({ children, onToggle, triggerRef, as: Component = 'button', className }: PopoverTriggerProps) => {
+const Trigger = ({
+  children,
+  onToggle,
+  triggerRef,
+  as: Component = 'button',
+  className,
+  onKeyDown,
+  role,
+  tabIndex,
+  ...props
+}: PopoverTriggerProps) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      onToggle?.();
+    }
+    onKeyDown?.(e);
+  };
+
   return (
     <Component
       ref={triggerRef}
@@ -41,7 +59,12 @@ const Trigger = ({ children, onToggle, triggerRef, as: Component = 'button', cla
         'focus-visible:outline-rounded-md flex cursor-pointer focus-visible:bg-cream focus-visible:outline-capybara',
         className,
       )}
+      role={role || (Component === 'button' ? undefined : 'button')}
+      tabIndex={tabIndex ?? (Component === 'button' ? undefined : 0)}
+      type={Component === 'button' ? 'button' : undefined}
       onClick={onToggle}
+      onKeyDown={handleKeyDown}
+      {...props}
     >
       {children}
     </Component>

@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigation } from 'react-router';
-
-import { PendingUI, SplashScreen } from './components/common/loadingStatus';
 /**
  * App 컴포넌트
  *
@@ -26,48 +23,72 @@ import { PendingUI, SplashScreen } from './components/common/loadingStatus';
  *
  * @returns {React.ReactElement} 앱의 루트 레이아웃 및 로딩 UI를 포함한 JSX 요소
  */
+// const App = () => {
+//   const navigation = useNavigation();
+//   const isNavigating = navigation.state !== 'idle';
+//   const [isInitialLoading, setIsInitialLoading] = useState(true);
+//   const [shouldShowSplash, setShouldShowSplash] = useState(false);
+//   const [showPendingUI, setShowPendingUI] = useState(false);
+//   useEffect(() => {
+//     if (!isInitialLoading) return;
+//     const timer = setTimeout(() => {
+//       setShouldShowSplash(true);
+//     }, 1000);
+//     if (!isNavigating) {
+//       clearTimeout(timer);
+//       setIsInitialLoading(false);
+//     }
+//     return () => clearTimeout(timer);
+//   }, [isInitialLoading, isNavigating]);
+//   useEffect(() => {
+//     if (isInitialLoading) return;
+//     let timer: ReturnType<typeof setTimeout>;
+//     if (isNavigating) {
+//       timer = setTimeout(() => {
+//         if (isNavigating) {
+//           setShowPendingUI(true);
+//         }
+//       }, 1000);
+//     } else {
+//       setShowPendingUI(false);
+//     }
+//     return () => clearTimeout(timer);
+//   }, [isNavigating, isInitialLoading]);
+//   if (isInitialLoading && shouldShowSplash) return <SplashScreen />;
+//   if (isInitialLoading) return null;
+//   return (
+//     <div className='flex min-h-screen flex-col'>
+//       {showPendingUI && <PendingUI />}
+//       <Outlet />
+//     </div>
+//   );
+// };
+// export default App;
+import { Outlet } from 'react-router';
+
+import { PendingUI, SplashScreen } from './components/common/loadingStatus';
+
 const App = () => {
-  const navigation = useNavigation();
-  const isNavigating = navigation.state !== 'idle';
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [shouldShowSplash, setShouldShowSplash] = useState(false);
-  const [showPendingUI, setShowPendingUI] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
-    if (!isInitialLoading) return;
-    const timer = setTimeout(() => {
-      setShouldShowSplash(true);
-    }, 1000);
-    if (!isNavigating) {
-      clearTimeout(timer);
-      setIsInitialLoading(false);
-    }
-    return () => clearTimeout(timer);
-  }, [isInitialLoading, isNavigating]);
+    const splashTimer = setTimeout(() => {
+      setShowSplash(false);
+    }, 5000);
+    const readyTimer = setTimeout(() => {
+      setIsAppReady(true);
+    }, 8000);
 
-  useEffect(() => {
-    if (isInitialLoading) return;
-    let timer: ReturnType<typeof setTimeout>;
-    if (isNavigating) {
-      timer = setTimeout(() => {
-        if (isNavigating) {
-          setShowPendingUI(true);
-        }
-      }, 1000);
-    } else {
-      setShowPendingUI(false);
-    }
-    return () => clearTimeout(timer);
-  }, [isNavigating, isInitialLoading]);
+    return () => {
+      clearTimeout(splashTimer);
+      clearTimeout(readyTimer);
+    };
+  }, []);
 
-  if (isInitialLoading && shouldShowSplash) return <SplashScreen />;
-  if (isInitialLoading) return null;
-
-  return (
-    <div className='flex min-h-screen flex-col'>
-      {showPendingUI && <PendingUI />}
-      <Outlet />
-    </div>
-  );
+  if (showSplash) return <SplashScreen />;
+  if (!isAppReady) return <PendingUI />;
+  return <Outlet />;
 };
+
 export default App;
