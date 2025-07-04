@@ -13,7 +13,7 @@ import type { InviteMemberInput } from '@/schemas/invitation';
 import { inviteMemberSchema } from '@/schemas/invitation';
 
 const InviteMember = ({ dashboardId, isModalOpen, toggleModal, onInviteSuccess }: InviteMemberProps) => {
-  const { showSuccess, showError } = useToast();
+  const { showSuccess } = useToast();
   const fetcher = useFetcher();
 
   const {
@@ -33,7 +33,7 @@ const InviteMember = ({ dashboardId, isModalOpen, toggleModal, onInviteSuccess }
     const formData = new FormData();
     formData.append('intent', 'inviteMember');
     formData.append('email', data.email);
-    fetcher.submit(formData, { method: 'post' });
+    fetcher.submit(formData, { method: 'post', action: `/dashboard/${dashboardId}/edit` });
     toggleModal();
   };
 

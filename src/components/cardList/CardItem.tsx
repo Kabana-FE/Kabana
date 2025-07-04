@@ -10,7 +10,7 @@ import Tag from '@/components/tag';
 
 import type { CardItemType } from './types';
 
-const CardItem = ({ card }: CardItemType) => {
+const CardItem = ({ card, title }: CardItemType) => {
   const [cardDetail, setCardDetail] = useState(false);
   const [editTodo, setEditTodo] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
@@ -49,6 +49,7 @@ const CardItem = ({ card }: CardItemType) => {
         <CardDetail
           data={card}
           isModalOpen={cardDetail}
+          title={title}
           toggleDeleteAlert={() => setDeleteAlert(!deleteAlert)}
           toggleEditTodo={() => setEditTodo(!editTodo)}
           toggleModal={() => setCardDetail(!cardDetail)}

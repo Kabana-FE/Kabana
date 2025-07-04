@@ -68,7 +68,7 @@ const CardList = ({ data, title, columnId, dashboardId }: CardListType) => {
       </Button>
       <div className='flex max-h-323 flex-col gap-16 overflow-auto tablet:max-h-250 pc:max-h-870'>
         {cardList?.map((card) => {
-          return <CardItem key={card.id} card={card} />;
+          return <CardItem key={card.id} card={card} title={title} />;
         })}
         {isCardLoading && <CardSkeleton />}
         <div ref={ref} />

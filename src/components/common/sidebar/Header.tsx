@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import AddBoxIcon from '@/assets/icons/AddBoxIcon';
 import HorizontalLogo from '@/assets/images/HorizontalLogo';
@@ -15,13 +15,22 @@ import type { SidebarHeaderProps } from './types';
 const SidebarHeader = ({ showTooltip, hideTooltip }: SidebarHeaderProps) => {
   const { isSidebarOpen } = useKabanaStore();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const toggleCreateModal = () => setIsCreateModalOpen((prev) => !prev);
+  const toggleCreateModal = () => {
+    hideTooltip();
+    setIsCreateModalOpen((prev) => !prev);
+  };
 
   const addDashboardButtonRef = useRef<HTMLButtonElement>(null);
-
+  const location = useLocation();
   return (
     <>
-      <Link className='flex h-60 items-center tablet:h-70' to={ROUTES.DASHBOARD_LIST}>
+      <Link
+        className='flex h-60 items-center tablet:h-70'
+        to={ROUTES.DASHBOARD_LIST}
+        onClick={() => {
+          if (location.pathname === '/dashboards') window.location.reload();
+        }}
+      >
         {isSidebarOpen ? (
           <>
             <LogoImage className='tablet:hidden' size={40} />

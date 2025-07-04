@@ -11,7 +11,9 @@ const Comment = ({ data, onEdit, onDelete }: CommentPropsType) => {
           <h3 className='text-xs font-semibold text-gray-700 tablet:text-md/24'>{data.author.nickname}</h3>
           <span className='text-[10px] text-gray-400'>{data.createdAt}</span>
         </div>
-        <div className='text-xs/18 tablet:text-md/24'>{data.content}</div>
+        <div className='w-200 text-xs/18 break-all whitespace-pre-wrap tablet:w-350 tablet:text-md/24'>
+          {data.content}
+        </div>
         <div className='flex gap-8'>
           <span
             className='cursor-pointer text-[10px] text-gray-400 underline tablet:text-xs'

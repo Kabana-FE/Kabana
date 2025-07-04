@@ -163,12 +163,14 @@ const DashboardEdit = () => {
     dashboardFetcher.submit(formData, { method: 'post' });
   };
 
+  const revalidator = useRevalidator();
   const handleDelete = async (dashboardId: number) => {
     try {
       await deleteDashboard(dashboardId);
       showSuccess(TOAST_MESSAGES.API.DELETE_SUCCESS('대시보드'));
-      revalidate();
+
       navigate(ROUTES.DASHBOARD_LIST);
+      revalidator.revalidate();
     } catch (error) {
       showError(TOAST_MESSAGES.API.DELETE_FAILURE('대시보드'));
       console.error('🩺대시보드 삭제 실패:', error);

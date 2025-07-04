@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import { LoadingSpinner } from '@/components/common/loadingStatus';
 import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { useToast } from '@/hooks/useToast';
 import type { authGuardLoaderData } from '@/loaders/types';
@@ -9,7 +10,6 @@ import type { Dashboard } from '@/schemas/dashboard';
 import { dashboardListResponseSchema } from '@/schemas/dashboard';
 import { useKabanaStore } from '@/stores';
 
-import { LoadingSpinner } from '../loadingStatus';
 import SidebarHeader from './Header';
 import SidebarNavItem from './NavItem';
 import SidebarPagination from './Pagination';
