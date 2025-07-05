@@ -1,0 +1,62 @@
+name: push into private repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ruby curl
+          sudo gem install mustache
+
+      - name: Run build script
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+
+      - name: Create Kabana directory and move output contents
+        run: |
+          mkdir -p kabana
+          mv output/* kabana/
+          rm -rf output
+
+      - name: Move all remaining project files
+        run: |
+          shopt -s extglob
+          rsync -av --progress ./* kabana/ --exclude kabana --exclude .git --exclude .github
+
+      - name: Verify kabana directory
+        run: |
+          echo "Contents of kabana directory:"
+          ls -la kabana
+
+      - name: Clean up root directory
+        run: |
+          shopt -s extglob
+          rm -rf !(kabana|.git|.github)
+
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+        with:
+          source-directory: 'kabana'
+          destination-github-username: 'sgoldenbird'
+          destination-repository-name: 'open-team-deploy'
+          user-email: sgoldenbird@gmail.com
+          commit-message: 'Deploy Kabana'
+          target-branch: main
+          target-directory: 'kabana'
+
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
