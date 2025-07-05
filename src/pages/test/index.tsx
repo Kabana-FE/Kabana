@@ -1,13 +1,8 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { twMerge } from 'tailwind-merge';
 
-import MoreVertIcon from '@/assets/icons/MoreVertIcon';
-import TriangleIcon from '@/assets/icons/TriangleIcon';
 import Button from '@/components/common/button';
-import Dropdown from '@/components/common/dropdown';
 import type { DropdownOption } from '@/components/common/dropdown/types';
-import { LoadingSpinner } from '@/components/common/loadingStatus';
 import { ROUTES } from '@/constants/paths';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/useToast';
@@ -75,10 +70,10 @@ const Playground = () => {
   return (
     <div className='p-10'>
       <h1 className='mb-4 text-xl font-bold'>🧪 Playground</h1>
-      <div className='my-8 h-100 rounded-lg border p-4'>
+      {/* <div className='my-8 h-100 rounded-lg border p-4'>
         <h2 className='mb-4 text-lg font-semibold'>LoadingSpinner 테스트</h2>
         <LoadingSpinner />
-      </div>
+      </div> */}
 
       <Button onClick={() => showSuccess('작업이 성공적으로 완료되었습니다!')}>성공 토스트</Button>
       <Button onClick={() => showError('오류가 발생했습니다. 다시 시도해주세요.')}>에러 토스트</Button>
@@ -86,7 +81,7 @@ const Playground = () => {
       <Button onClick={() => showWarning('주의! 민감한 작업입니다.')}>경고 토스트</Button>
 
       {/* <DropdownTest /> */}
-      <div ref={dropdownContainerRef1} className='flex w-fit items-center rounded border border-gray-300 p-4'>
+      {/* <div ref={dropdownContainerRef1} className='flex w-fit items-center rounded border border-gray-300 p-4'>
         <div className='text-gray-400'>여기에 placeholder 쓰고 이런식으로 사용하면 될거같아요</div>
         <Dropdown
           align='end'
@@ -124,14 +119,14 @@ const Playground = () => {
           trigger={<TriangleIcon aria-label='OOO 옵션' size={12} />}
           onSelect={handleOptionSelect2}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
 
 export default Playground;
 
-//영상찍을때 App에서 필요한 코드
+// * 영상찍을때 App에서 필요한 코드
 // import { useEffect, useState } from 'react';
 // import { Outlet } from 'react-router-dom';
 
@@ -161,3 +156,59 @@ export default Playground;
 // };
 
 // export default App;
+
+// * requestAnimationFrame대신 setTimeout을 사용한 토스트 예시
+// const ToastTimer = ({ duration, isVisible, color }: ToastTimerProps) => {
+//   const [progress, setProgress] = useState(100);
+//   const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+//   const startTimeRef = useRef<number>(0);
+
+//   useEffect(() => {
+//     const clear = () => {
+//       if (timeoutIdRef.current) {
+//         clearTimeout(timeoutIdRef.current);
+//         timeoutIdRef.current = null;
+//       }
+//     };
+
+//     if (isVisible) {
+//       startTimeRef.current = Date.now();
+//       setProgress(100);
+
+//       const tick = () => {
+//         const now = Date.now();
+//         const elapsed = now - startTimeRef.current;
+//         const remaining = Math.max(0, duration - elapsed);
+//         const newProgress = (remaining / duration) * 100;
+
+//         // 콘솔 로그로 진행 상황 확인
+//         console.log('⏱️ Tick at', elapsed, 'ms → progress:', newProgress.toFixed(2), '%');
+
+//         if (newProgress > 0) {
+//           setProgress(newProgress);
+//           timeoutIdRef.current = setTimeout(tick, 10); // 약 100fps
+//         } else {
+//           setProgress(0);
+//           clear();
+//         }
+//       };
+
+//       tick(); // 시작
+//     } else {
+//       clear(); // 숨겨질 때 중단
+//     }
+
+//     return clear; // 언마운트 시 정리
+//   }, [duration, isVisible]);
+
+//   return (
+//     <div className='absolute bottom-0 left-0 h-3 w-full bg-gray-300'>
+//       <div
+//         className={twMerge('linear h-full transition-[width] duration-[10ms]', color)}
+//         style={{ width: `${progress}%` }}
+//       />
+//     </div>
+//   );
+// };
+
+// export default ToastTimer;

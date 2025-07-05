@@ -31,11 +31,11 @@ Kabana는 바쁜 일정을 관리하면서도 마음의 평화를 유지할 수 
   </tr>
   <tr>
     <th>R&R</th>
-    <td>이태식</td>
-    <td>송시은</td>
-    <td>손수진</td>
-    <td>박지섭</td>
-    <td>김지현</td>
+    <td><a href="https://github.com/leeetaesik" >이태식</a></td>
+    <td><a href="https://github.com/sgoldenbird" >송시은</a></td>
+    <td><a href="https://github.com/pappaya109" >손수진</a></td>
+    <td><a href="https://github.com/HarrySeop" >박지섭</a></td>
+    <td><a href="https://github.com/kjhyun0830" >김지현</a></td>
   </tr>
   <tr>
     <td><strong>페이지</strong></td>
@@ -48,7 +48,7 @@ Kabana는 바쁜 일정을 관리하면서도 마음의 평화를 유지할 수 
     <td><strong>공통 컴포넌트, <br> 공통 로직</strong></td>
     <td>- Button<br>- Header<br>- SkeletonU<br>- 무한스크롤</td>
     <td>- Sidebar<br>- Popover<br>- Dropdown<br>- Toaster<br>- Tooltip<br>- Splash Screen<br>- PendingUI<br>- Loading Spinner</td>
-    <td>- Template Modal<br>- 할일 생성 Modal<br>- 할일 수정 Modal<br>- 할일 카드 Modal(댓글)</td>
+    <td>- Template Modal<br>- 할일 생성 Modal<br>- 할일 수정 Modal<br>- 할일 카드 Modal</td>
     <td>- Input<br>- SVG</td>
     <td>- Pagination<br>- Footer<br>- 대시보드 생성 Modal<br>- 컬럼 생성 Modal<br>- 컬럼 수정 Modal <br>- 초대하기 Modal</td>
   </tr>
@@ -90,9 +90,46 @@ Kabana는 바쁜 일정을 관리하면서도 마음의 평화를 유지할 수 
 
 ## <img src="https://github.com/user-attachments/assets/61948087-7b4b-4c9c-905a-fec9b11d9620" alt="깃털" width="30"/> Engineering Breakdown
 
-> ▶ [엔지니어링 breakdown](https://github.com/Kabana-FE/Kabana/discussions/categories/engineering-breakdown)<br>
+> ▶ [더 많은 설계 및 구현 문서를 보고싶다면 이곳을 클릭해 확인하세요.](https://github.com/Kabana-FE/Kabana/discussions/categories/engineering-breakdown)<br>
 
-- ***
+<table>
+  <thead>
+    <tr>
+      <th>주제</th>
+      <th>요약</th>
+      <th>작성자</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/201">Layout 구조 가이드</a></td>
+      <td>3가지 레이아웃 컴포넌트 분리 및 라우팅 적용 방식 설명</td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/298">CSR을 선택한 이유</a></td>
+      <td>CSR을 선택한 기술적, UX적 근거와 내부 앱에서의 장점 분석</td>
+      <td>송시은, 김지현, 이태식, 박지섭, 손수진</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/70">데이터 흐름 다이어그램 (Sequence Diagram)</a></td>
+      <td>loader와 action을 중심으로 한 데이터 요청/응답 흐름 시각화</td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/130">에러 처리 흐름</a></td>
+      <td>Axios → Response 변환 → ErrorBoundary까지의 전체 에러 처리 구조</td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/112">에러 바운더리</a></td>
+      <td>Global, API, RenderErrorBoundary 설계, 역할 및 책임 분리</td>
+      <td>송시은</td>
+    </tr>
+  </tbody>
+</table>
+
+---
 
 ## <img src="https://github.com/user-attachments/assets/61948087-7b4b-4c9c-905a-fec9b11d9620" alt="깃털" width="30"/> 트러블슈팅
 
@@ -108,27 +145,75 @@ Kabana는 바쁜 일정을 관리하면서도 마음의 평화를 유지할 수 
   </thead>
   <tbody>
     <tr>
-      <td><a href="https://github.com/StarSync-FE/StarSync/discussions/67">Axios 요청 실패 시 재시도 처리</a></td>
-      <td>Axios Interceptor로 30초 동안 자동 재시도</td>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/144">Toast Timer Animation: requestAnimationFrame vs setTimeout</a></td>
+      <td>requestAnimationFrame으로 프레임 동기화 + 리소스 절약</td>
       <td>송시은</td>
     </tr>
     <tr>
-      <td><a href="https://github.com/StarSync-FE/StarSync/discussions/138">로딩 상태 관리 - Splash Screen 이슈</a></td>
-      <td>Splash Screen 종료 타이밍을 navigation state 기반으로 제어</td>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/198">useLayoutEffect로 좌표 기반 UI의 깜빡임 문제 해결</a></td>
+      <td>useLayoutEffect로 초기 위치 계산 시점 제어</td>
       <td>송시은</td>
     </tr>
     <tr>
-      <td><a href="https://github.com/StarSync-FE/StarSync/discussions/134">스타일 린트 설정 문제</a></td>
-      <td>lefthook 코드 품질 관리 자동화 시도</td>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/96">반복되는 try-catch를 없애기 위한 에러 처리 구조 개선기</a></td>
+      <td>Axios 인터셉터로 전역 에러 처리 및 SoC 분리</td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/Kabana-FE/Kabana/discussions/115">병렬 API 호출에서 디버깅과 성능을 모두 잡는 방법: Promise.allSettled 적용</a></td>
+      <td>Promise.allSettled로 개별 실패 허용 + 디버깅 개선</td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/StarSync-FE/StarSync/discussions/134">React Hook Form의 isSubmitting 이슈</a></td>
+      <td>React Hook Form의 isSubmitting 이슈</td>
       <td>박지섭</td>
-    </tr>
-    <tr>
-      <td><a href="https://github.com/StarSync-FE/StarSync/discussions/300">에러 바운더리 적용 범위 설정</a></td>
-      <td>Global / API / Render 에러 바운더리를 명확히 분리 적용</td>
-      <td>송시은</td>
     </tr>
   </tbody>
 </table>
+
+---
+
+## <img src="https://github.com/user-attachments/assets/61948087-7b4b-4c9c-905a-fec9b11d9620" alt="깃털" width="30"/> UX 개선 사항
+
+> ▶ [더 많은 UX에 대한 고민을 보고 싶다면 이곳을 클릭해 확인하세요.](https://github.com/Kabana-FE/Kabana/discussions/categories/ux-improvement)
+
+<table>
+  <thead>
+    <tr>
+      <th>제목</th>
+      <th>작성자</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="https://github.com/Kabana-FE/Kabana/discussions/300">
+          사이드바 토글 상태 로컬 저장
+        </a>
+      </td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/Kabana-FE/Kabana/discussions/299">
+          빠른 네트워크 사용자를 위한 로딩 화면 최적화 전략
+        </a>
+      </td>
+      <td>송시은</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="https://github.com/Kabana-FE/Kabana/discussions/293">
+          모달 구성
+        </a>
+      </td>
+      <td>김지현</td>
+    </tr>
+  </tbody>
+</table>
+
+---
 
 ## <img src="https://github.com/user-attachments/assets/61948087-7b4b-4c9c-905a-fec9b11d9620" alt="깃털" width="30"/> TIL
 
@@ -144,29 +229,14 @@ Kabana는 바쁜 일정을 관리하면서도 마음의 평화를 유지할 수 
   <tbody>
     <tr>
       <td>
-        <a href="https://github.com/StarSync-FE/StarSync/discussions/60">
-          폴더 배럴 패턴을 적용하며 구조적 설계의 중요성 이해
+        <a href="https://github.com/Kabana-FE/Kabana/discussions/301">
+          로딩 최적화와 Skeleton UI 사용 이유
         </a>
       </td>
       <td>송시은</td>
     </tr>
-    <tr>
-      <td>
-        <a href="https://github.com/StarSync-FE/StarSync/discussions/68">
-          극단의 칼라 사용 지양 및 색상 조화 고려
-        </a>
-      </td>
-      <td>송시은, 박지섭</td>
-    </tr>
   </tbody>
 </table>
-
----
-
-## <img src="https://github.com/user-attachments/assets/61948087-7b4b-4c9c-905a-fec9b11d9620" alt="깃털" width="30"/> UX 개선 사항
-
-- 사이드바 토글 여부 저장
-- 빠른 네트워크에서 로딩 상태UI 표시
 
 ---
 
