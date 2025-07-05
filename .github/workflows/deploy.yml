@@ -1,62 +1,32 @@
-name: push into private repo
-
+name: Synchronize to forked repo
 on:
   push:
     branches:
       - main
 
 jobs:
-  build:
+  sync:
+    name: Sync forked repo
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby curl
-          sudo gem install mustache
-
-      - name: Run build script
-        run: |
-          chmod +x ./build.sh
-          ./build.sh
-
-      - name: Create Kabana directory and move output contents
-        run: |
-          mkdir -p kabana
-          mv output/* kabana/
-          rm -rf output
-
-      - name: Move all remaining project files
-        run: |
-          shopt -s extglob
-          rsync -av --progress ./* kabana/ --exclude kabana --exclude .git --exclude .github
-
-      - name: Verify kabana directory
-        run: |
-          echo "Contents of kabana directory:"
-          ls -la kabana
-
-      - name: Clean up root directory
-        run: |
-          shopt -s extglob
-          rm -rf !(kabana|.git|.github)
-
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+      - name: Checkout main
+        uses: actions/checkout@v4
         with:
-          source-directory: 'kabana'
-          destination-github-username: 'sgoldenbird'
-          destination-repository-name: 'open-team-deploy'
-          user-email: sgoldenbird@gmail.com
-          commit-message: 'Deploy Kabana'
-          target-branch: main
-          target-directory: 'kabana'
+          token: ${{ secrets.AUTO_ACTIONS }}
+          fetch-depth: 0
+          ref: main
 
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
+      - name: Add remote-url
+        run: |
+          git remote add forked-repo https://leeetaesik:${{ secrets.AUTO_ACTIONS }}@github.com/leeetaesik/Kabana
+          git config user.name leeetaesik
+          git config user.email ${{ secrets.EMAIL }}
+
+      - name: Push changes to forked-repo
+        run: |
+          git push -f forked-repo main
+
+      - name: Clean up
+        run: |
+          git remote remove forked-repo
