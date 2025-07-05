@@ -11,7 +11,7 @@ import type { SidebarNavItemProps } from './types';
 const SidebarNavItem = forwardRef<HTMLLIElement, SidebarNavItemProps>(
   ({ dashboard, isSidebarOpen, onHover, onHoverOut, onTouchStart, onTouchEnd }, ref) => {
     const baseLinkClasses =
-      'flex w-full items-center gap-4 rounded-lg p-3 text-lg text-gray-500 transition-colors hover:bg-cream p-10';
+      'flex w-full items-center gap-4 rounded-lg p-3 text-lg text-gray-500 transition-colors hover:bg-cream p-10 focus-visible:outline-none focus-visible:bg-cream';
     const activeLinkClasses = 'bg-cream font-bold text-capybara';
 
     return (

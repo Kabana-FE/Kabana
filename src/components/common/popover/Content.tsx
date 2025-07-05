@@ -47,7 +47,10 @@ const Content = ({ children, className, close, contentRef }: PopoverContentProps
   const content = typeof children === 'function' ? children({ close: close || (() => {}) }) : children;
 
   return (
-    <div ref={contentRef} className={twMerge('min-w-100 rounded-md border border-gray-300 bg-white p-6', className)}>
+    <div
+      ref={contentRef}
+      className={twMerge('rounded-md border border-gray-300 bg-white p-6 tablet:min-w-100', className)}
+    >
       {content}
     </div>
   );

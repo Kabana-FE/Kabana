@@ -92,6 +92,9 @@ export interface PopoverOptions {
  * @property {React.RefObject<HTMLElement>} [triggerRef] - 트리거 DOM 요소에 대한 참조입니다. 자동 주입됩니다.
  * @property {React.ElementType} [as='span'] - 트리거로 사용할 HTML 태그 또는 React 컴포넌트입니다. 기본값은 `'span'`입니다.
  * @property {string} [className] - Tailwind CSS 등 유틸리티 클래스를 적용하기 위한 사용자 정의 클래스입니다.
+ * @property {React.KeyboardEventHandler<HTMLElement>} [onKeyDown] - 키보드 이벤트 핸들러입니다.
+ * @property {string} [role] - ARIA role을 지정합니다. (예: 'button')
+ * @property {number} [tabIndex] - 요소의 탭 순서를 지정합니다.
  */
 export interface PopoverTriggerProps {
   /** 트리거 내부에 표시될 콘텐츠(아이콘, 텍스트, 버튼 등)입니다. */
@@ -110,6 +113,12 @@ export interface PopoverTriggerProps {
   as?: React.ElementType;
   /**  트리거 요소에 추가할 사용자 정의 CSS 클래스입니다. (Tailwind 등 유틸리티 클래스 적용 시 사용) */
   className?: string;
+  /** 키보드 이벤트 핸들러로, 외부에서 전달된 경우 사용됩니다. */
+  onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+  /** 트리거 요소의 ARIA 역할을 지정합니다. 기본값은 'button'입니다. */
+  role?: string;
+  /** 트리거 요소의 탭 인덱스입니다. 기본값은 `0`입니다. */
+  tabIndex?: number;
 }
 
 /**

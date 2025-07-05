@@ -132,7 +132,7 @@ const DashboardHeader = () => {
               positionRef={dropdownRef}
               trigger={
                 <div ref={dropdownRef} className='flex w-full items-center gap-12'>
-                  <Avatar nickname={userName || ''} src={profileImageUrl ?? undefined} />
+                  <Avatar nickname={userName || '?'} src={profileImageUrl ?? undefined} />
                   <span className='hidden text-lg font-medium text-gray-700 tablet:block'>{userName}</span>
                 </div>
               }

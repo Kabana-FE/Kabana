@@ -130,3 +130,90 @@ const Playground = () => {
 };
 
 export default Playground;
+
+// * 영상찍을때 App에서 필요한 코드
+// import { useEffect, useState } from 'react';
+// import { Outlet } from 'react-router-dom';
+
+// import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
+
+// const App = () => {
+//   const [showSplash, setShowSplash] = useState(true);
+//   const [isAppReady, setIsAppReady] = useState(false);
+
+//   useEffect(() => {
+//     const splashTimer = setTimeout(() => {
+//       setShowSplash(false);
+//     }, 5000);
+//     const readyTimer = setTimeout(() => {
+//       setIsAppReady(true);
+//     }, 8000);
+
+//     return () => {
+//       clearTimeout(splashTimer);
+//       clearTimeout(readyTimer);
+//     };
+//   }, []);
+
+//   if (showSplash) return <SplashScreen />;
+//   if (!isAppReady) return <PendingUI />;
+//   return <Outlet />;
+// };
+
+// export default App;
+
+// * requestAnimationFrame대신 setTimeout을 사용한 토스트 예시
+// const ToastTimer = ({ duration, isVisible, color }: ToastTimerProps) => {
+//   const [progress, setProgress] = useState(100);
+//   const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+//   const startTimeRef = useRef<number>(0);
+
+//   useEffect(() => {
+//     const clear = () => {
+//       if (timeoutIdRef.current) {
+//         clearTimeout(timeoutIdRef.current);
+//         timeoutIdRef.current = null;
+//       }
+//     };
+
+//     if (isVisible) {
+//       startTimeRef.current = Date.now();
+//       setProgress(100);
+
+//       const tick = () => {
+//         const now = Date.now();
+//         const elapsed = now - startTimeRef.current;
+//         const remaining = Math.max(0, duration - elapsed);
+//         const newProgress = (remaining / duration) * 100;
+
+//         // 콘솔 로그로 진행 상황 확인
+//         console.log('⏱️ Tick at', elapsed, 'ms → progress:', newProgress.toFixed(2), '%');
+
+//         if (newProgress > 0) {
+//           setProgress(newProgress);
+//           timeoutIdRef.current = setTimeout(tick, 10); // 약 100fps
+//         } else {
+//           setProgress(0);
+//           clear();
+//         }
+//       };
+
+//       tick(); // 시작
+//     } else {
+//       clear(); // 숨겨질 때 중단
+//     }
+
+//     return clear; // 언마운트 시 정리
+//   }, [duration, isVisible]);
+
+//   return (
+//     <div className='absolute bottom-0 left-0 h-3 w-full bg-gray-300'>
+//       <div
+//         className={twMerge('linear h-full transition-[width] duration-[10ms]', color)}
+//         style={{ width: `${progress}%` }}
+//       />
+//     </div>
+//   );
+// };
+
+// export default ToastTimer;

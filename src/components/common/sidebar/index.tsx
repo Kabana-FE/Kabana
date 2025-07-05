@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import { getDashboardList } from '@/apis/dashboard';
+import { LoadingSpinner } from '@/components/common/loadingStatus';
 import TOAST_MESSAGES from '@/constants/messages/toastMessages';
 import { useToast } from '@/hooks/useToast';
 import type { authGuardLoaderData } from '@/loaders/types';
@@ -15,7 +16,7 @@ import SidebarPagination from './Pagination';
 import SidebarTooltip from './Tooltip';
 
 const Sidebar = () => {
-  const { isSidebarOpen } = useKabanaStore();
+  const isSidebarOpen = useKabanaStore((state) => state.isSidebarOpen);
   const loaderData = useLoaderData() as authGuardLoaderData;
   const PAGE_SIZE = loaderData?.pageSize || 10;
   const { showError } = useToast();
@@ -72,7 +73,7 @@ const Sidebar = () => {
     if (isLoading || page < 1 || page > totalPages) return;
     setIsLoading(true);
     try {
-      // ***** 영상용: 2초 지연 로딩스피너 *****
+      // 영상용: 2초 지연 로딩스피너
       // await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const newDashboardData = await getDashboardList({
@@ -98,11 +99,12 @@ const Sidebar = () => {
         className={`fixed top-0 left-0 flex h-full flex-col items-center border-r border-gray-200 bg-white px-8 py-5 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} tablet:translate-x-0 ${isSidebarOpen ? 'w-70 tablet:w-160 pc:w-300' : 'tablet:w-70'} `}
       >
         <SidebarHeader hideTooltip={hideTooltip} showTooltip={showTooltip} />
-        {/* {isLoading && (
-          <div className='bg-opacity-70 absolute inset-0 z-10 flex items-center justify-center bg-white'>
-            <LoadingSpinner />
+
+        {isLoading && (
+          <div className='absolute inset-0 z-10 flex items-center justify-center'>
+            <LoadingSpinner appearAfter={1000} />
           </div>
-        )} */}
+        )}
 
         <nav className='min-h-0 w-full flex-1 overflow-y-auto'>
           <ul className='flex w-full flex-col items-center justify-center'>

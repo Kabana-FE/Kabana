@@ -38,6 +38,9 @@ const ToastTimer = ({ duration, isVisible, color }: ToastTimerProps) => {
       const remaining = Math.max(0, duration - elapsed);
       const nextProgress = (remaining / duration) * 100;
 
+      // 프레임 호출 주기 확인
+      // console.log('⏱️ Tick at', elapsed, 'ms → progress:', nextProgress.toFixed(2), '%');
+
       setProgress(nextProgress);
 
       if (remaining > 0) {

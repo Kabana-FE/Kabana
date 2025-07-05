@@ -32,7 +32,6 @@ const App = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [shouldShowSplash, setShouldShowSplash] = useState(false);
   const [showPendingUI, setShowPendingUI] = useState(false);
-
   useEffect(() => {
     if (!isInitialLoading) return;
     const timer = setTimeout(() => {
@@ -44,7 +43,6 @@ const App = () => {
     }
     return () => clearTimeout(timer);
   }, [isInitialLoading, isNavigating]);
-
   useEffect(() => {
     if (isInitialLoading) return;
     let timer: ReturnType<typeof setTimeout>;
@@ -59,10 +57,8 @@ const App = () => {
     }
     return () => clearTimeout(timer);
   }, [isNavigating, isInitialLoading]);
-
   if (isInitialLoading && shouldShowSplash) return <SplashScreen />;
   if (isInitialLoading) return null;
-
   return (
     <div className='flex min-h-screen flex-col'>
       {showPendingUI && <PendingUI />}
@@ -71,34 +67,3 @@ const App = () => {
   );
 };
 export default App;
-
-//영상찍을때 잠깐 필요.나중에 코드는 playground에 옮길예정
-// import { useEffect, useState } from 'react';
-// import { Outlet } from 'react-router-dom';
-
-// import { PendingUI, SplashScreen } from '@/components/common/loadingStatus';
-
-// const App = () => {
-//   const [showSplash, setShowSplash] = useState(true);
-//   const [isAppReady, setIsAppReady] = useState(false);
-
-//   useEffect(() => {
-//     const splashTimer = setTimeout(() => {
-//       setShowSplash(false);
-//     }, 5000);
-//     const readyTimer = setTimeout(() => {
-//       setIsAppReady(true);
-//     }, 8000);
-
-//     return () => {
-//       clearTimeout(splashTimer);
-//       clearTimeout(readyTimer);
-//     };
-//   }, []);
-
-//   if (showSplash) return <SplashScreen />;
-//   if (!isAppReady) return <PendingUI />;
-//   return <Outlet />;
-// };
-
-// export default App;

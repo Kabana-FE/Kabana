@@ -32,11 +32,13 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
   const columnOptions: DropdownOption[] = loader.columns.data.map((column: Column) => ({
     label: column.title,
     value: column.id,
+    withCheck: true,
   }));
 
   const memberOptions: DropdownOption[] = memberList.map((member) => ({
     label: member.nickname,
     value: member.userId,
+    withCheck: true,
   }));
   const result = columnOptions.find((column) => column.value === data.columnId);
 
@@ -173,7 +175,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
             <label>상태</label>
             <Dropdown
               align='start'
-              contentClassName='tablet:w-273'
+              contentClassName='w-145 tablet:w-273'
               optionAlign='start'
               optionClassName='h-40'
               options={columnOptions}
@@ -194,7 +196,7 @@ const EditTodo = ({ isModalOpen, toggleModal, dashboardId, columnId, data, cardI
             <label>담당자</label>
             <Dropdown
               align='end'
-              contentClassName='tablet:w-273'
+              contentClassName='w-145 tablet:w-273'
               optionAlign='start'
               optionClassName='h-40'
               options={memberOptions}

@@ -187,7 +187,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
               })}
             >
               <Input.Root>
-                <Input.Label htmlFor='comment'>댓글</Input.Label>
+                <Input.Label htmlFor='content'>댓글</Input.Label>
                 <Input.Field {...register('content')} id='content' placeholder='댓글 작성하기' type='textarea' />
               </Input.Root>
               {selectedComment ? (
@@ -223,7 +223,7 @@ const CardDetail = ({ data, isModalOpen, toggleModal, toggleEditTodo, title }: D
                   />
                 );
               })}
-            {isCommentLoading && [1, 2, 3].map(() => <SkeletonComment />)}
+            {isCommentLoading && [1, 2, 3].map((id) => <SkeletonComment key={id} />)}
             <div ref={ref} className='h-1' />
           </div>
         </section>

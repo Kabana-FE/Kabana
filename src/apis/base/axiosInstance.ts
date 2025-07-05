@@ -88,8 +88,6 @@ axiosInstance.interceptors.response.use(
 
     if (error.request) {
       console.error('🩺 Network Error:요청은 보냈으나 응답을 받지 못함', error.request);
-      // 네트워크 에러: 실제 HTTP 응답이 없으므로, 503 상태 코드와 함께(에러바운더리에서는 상태코드 기반 UI처리)
-      // 에러 메시지와 커스텀 코드(NETWORK_ERROR)를 포함하여 Response 객체 생성
       throw new Response(
         JSON.stringify({
           message: '네트워크 연결을 확인해주세요. 서버로부터 응답을 받지 못했습니다.',
